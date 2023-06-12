@@ -1,0 +1,32 @@
+## USAGE
+## conda update --all                           ## UPDATE ALL base PACKAGES
+## conda list -n *VE # show list of installed packages
+## conda env create -f *ve.yml   		    ## INSTALL
+## conda env update --file *ve.yml --prune  	## UPDATE
+## conda activate *VE   			            ## ACTIVATE
+## conda remove -n *VE --all			        ## REMOVE
+
+## QUICK TEST OF THE AVAILABILITY OF CUDA
+## conda activate *VE
+## python
+## import torch
+## torch.cuda.is_available()
+
+name: aisurgskillsVE
+channels:
+  - conda-forge # notebook; jupyter_contrib_nbextensions; tqdm; monai; nibabel; gdown; imgaug; ipywidgets; PyAV
+dependencies:
+  - pytorch #=1.10.* #for aarch54  #=1.11.* for?
+  - python=3.10.* #3.10 to align with the compilation of openzen
+  - cudatoolkit #=11.*.*   #=11.*.*
+  - pip
+  - pip:
+     - opencv-python
+     - matplotlib
+     - numpy
+     - jupyter
+     - pandas
+     - seaborn
+     - scikit-image
+     - notebook
+     - thread6 #from threading import Thread

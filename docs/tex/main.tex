@@ -1,0 +1,148 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+\usepackage{graphicx}
+\usepackage{enumitem} % \description 
+%\usepackage{hyperref} %for \url
+\graphicspath{{../figures/}} 
+
+\title{
+%AI-based Assessment of Laparoscopic Surgical Psychomotor Skills with Scikit-Surgery 
+%Open Source DevKit for AI-based surgical training simulators %Sat  7 Jan 15:28:08 GMT 2023
+AI-based evaluation of surgical skills%Mon  9 Jan 14:16:35 GMT 2023
+}
+\author{
+In2research project\\ 
+Participant: Sujon Hekim\\
+Supervisor(s): Miguel Xochicale (m.xochicale@ucl.ac.uk), \\
+Co-supervisor(s): {Stephen Thompson and Evangelos Masomenos}
+}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty} %No number
+
+%\begin{abstract}
+%This is the paper's abstract \ldots
+%\end{abstract}
+
+\section{Background}
+Assessment of skills learning has been studied extensively in sport science, movement science and surgical engineering \cite{XochicalePhDThesis2019}.
+In the last decade, acquiring laparoscopy psychomotor skills in non-clinical settings has been become essential for the train curriculum of surgeons \cite{OVERTOOM2019242}.
+However, realistic training and teaching require access to the operation room which usually is time consuming, costly and risky for patients \cite{vanGinkel2020}.
+There is a current trend that realistic non-clinical training systems require to have good range of training tasks, well designed visualisation interface and similar instrument interfaces \cite{Hong2021}.
+%Visualisation interfaces (physical, virtual and augmente reality)
+%haptic feedback, performance evalution and guidance methods 
+For instance, training and evaluation of basic task (transferring and pattern cutting) using AI-tools has been successful \cite{alsonso-silverio2018}.
+New training curriculums have been proposed to evaluate advanced bimanual laparoscopic skills (sort the rights, stretch and transfer, ring and rope and puzzle) \cite{vanGinkel2020}.
+However, there is little evidence on how training and evaluation simulate clinical reality \cite{ziane-casenave2022} and how simulators for training and assessment of tools are validated \cite{Toale2022-sep}. 
+Hence, we hypothesise that AI-based tools can be integrated with more realistic training tasks and better visualisation interfaces to have a more realistic and automatically assessment of laparoscopy psychomotor skills (Fig. \ref{fig:main}).
+
+%%---------------------------------(FIGURE)-------------------------------------
+\begin{figure}[h]
+\centering
+\includegraphics[width=1.0\textwidth]{main/outputs/drawing-v00}
+    \caption{
+        \textbf{(a)} 
+	Laparoscope trainer box 
+	\textbf{(b)} 
+	Graphical User Interfaces to train tasks from Simendo simulator and automatic skills assessment Laparo Analytic
+	%https://www.youtube.com/watch?v=dGGjAPAzN48
+	%TOCITE https://www.3bscientific.com/us/laparo-analytic-laparoscopic-surgical-skill-trainer-with-full-training-analysis-1021836,p_1456_30510.html#options
+	\textbf{(c)} 
+	ML/AI pipeline for skills assessment \cite{alsonso-silverio2018}
+       } 
+\label{fig:main}
+\end{figure}
+%%---------------------------------(FIGURE)------------------------------------
+
+\section{Aims}
+The aim of this project is to create a proof-of-concept for AI-based evaluation of surgical skills.
+
+\subsection{General aims}
+The project will consider the following phases: 
+(a) literature review,
+(b) integration of hardware and software tools using SciKit-Surgery library (Fig~\ref{fig:main}a,b), 
+(c) implementation of motion and imaging data acquisition and prototype and implementation of ML/AI pipelines (Fig~\ref{fig:main}c), and 
+(d) validation of proof-of-concept with the help of surgeons.
+
+
+\section{Roadmap}
+The roadmap is for 10 weeks between June 12th to August 17th for 320 hours.
+The following are weekly aims might vary and will be flexible on the progress of the project.
+\begin{description}[align=left]
+\item [Week 01]: Introduction to the project, SciKit-Surgery tools and literature review.
+\item [Week 02]: Literature review and GitHub workflow using SciKit-Surgery tutorials
+\item [Week 03]: Setting up scikit-surgery-evaluation \cite{Thompson2022}
+\item [Week 04]: Integration of aruco markers in scikit-surgery-evaluation
+\item [Week 05]: Prototype proof-of-concept
+\item [Week 06]: Testing proof-of-concept
+\item [Week 07]: Testing and evaluate proof-of-concept
+\item [Week 08]: Evaluate proof-of-concept
+\item [Week 09]: Wrapping up with preparation of abstract and poster
+\item [Week 10]: Submission and presentation of abstract and poster
+\end{description}
+
+
+\section{Gaining skills for students}
+The student(s) will gain skills in software and hardware engineering in the context of MedTech and SurgTech.
+Additionally, the student(s) will contribute to proof-of-concept experiments for future grant applications and patents that will lead to the creation of new lines of research and spark collaboration between academia and both MedTech and SurgTech industries.
+
+\section{Outcomes}
+The expected outcomes will be: 
+(a) develop a proof-of-concept for AI-based evaluation of surgical skills, and 
+(b) create AI/ML pipelines for automatic evaluation of surgical skills. 
+The results of this project are likely to be presented and published in a scientific conference.
+
+\section{Risk assessment of the project}
+The following points present three scenarios for risk assessment of this project, combining risk type (conceptual or operational) vs feasibility of scientific risk (capacity, expertise and preliminary findings)~\cite{Bar-Zeev_ERC-risk}.
+%Following the risk evaluation of European Research Council projects  \cite{}, 
+
+\begin{description}[align=left]
+\item [Low-risk]: Project will be ready with a proof-of-concept demo and working AI/ML pipeline.
+\item [Mid-risk]: To prototype, implement and evaluate GUIs for skills assessments and evaluation of different surgical tasks. 
+\item [High-risk]: Implement state-of-the-art computer vision methods for real-time tracking and assessment of surgical skills.
+\end{description}
+
+\newpage
+\section*{Appendices}
+\subsection*{Sensor fusion data collection}
+Fig.~\ref{fig:experiment00} illustrates path trajectory.
+%%---------------------------------(FIGURE)-------------------------------------
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{experiment00/outputs/drawing-v00}
+    \caption{
+        USB endocsope camera with LPMSB2 IMU sensor and trajectory.
+	    }
+\label{fig:experiment00}
+\end{figure}
+%%---------------------------------(FIGURE)-------------------------------------
+
+
+\subsection*{Sensor fusion data analysis}
+Fig~\ref{fig:data-analysis} illustrates sensor fusion data analysis.
+
+%%---------------------------------(FIGURE)-------------------------------------
+\begin{figure}[h]
+\centering
+\includegraphics[width=1.0\textwidth]{preliminary-data-analysis/outputs/drawing-v00}
+    \caption{
+        \textbf{(a)}
+	    Image frames and histograms
+	\textbf{(b)}
+    	Gray level co-occurrence texture image analysis
+	\textbf{(c)}
+	    Euler and quaternions  time series
+	    }
+\label{fig:data-analysis}
+\end{figure}
+%%---------------------------------(FIGURE)-------------------------------------
+
+
+\newpage
+\bibliographystyle{apalike}
+\bibliography{../references/references}
+
+\end{document}

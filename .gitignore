@@ -1,0 +1,30 @@
+## pycharm project path
+**.idea
+
+## temporal md files or others
+**/*.md.swp
+**/*.swp
+
+## temporal data files
+**/testNN.avi
+**/testNN.avi.csv
+
+## temporal TeX files
+**/*.aux
+**/*.bbl
+**/*.bcf
+**/*.blg
+**/*.fdb_latexmk
+**/*.fls
+**/*.log
+**/*.nav
+**/*.run.xml
+**/*.snm
+**/*.synctex.gz
+**/*.toc
+**/*.vrb
+**/*.out
+**/main.pdf
+
+## others
+*.ipynb_checkpoints
