@@ -32,6 +32,9 @@ Task require hand-eye coordination and spatial perception.
 Authors use LAparoscopia software by Bruno-Sanchez et al [29]
 https://github.com/brunosanz/Tareas-Lapascopia
 
+Neural network > https://github.com/brunosanz/laparos/blob/master/redlaparoscopia.py
+
+
 VIDEO
 https://goo.gl/RzdhWG
 
