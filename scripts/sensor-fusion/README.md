@@ -2,9 +2,9 @@
 
 ## Setting up paths and VE env
 ```
-cd $HOME/repositories/mxochicale/ai-based-evaluation-of-surgical-skills/scripts/sensor-fusion
+cd $HOME/repositories/in2research2023/scripts/sensor-fusion
 export PYTHONPATH=$HOME/repositories/openzen/build
-conda activate aisurgskillsVE
+conda activate ai-surg-skills-VE
 ```
 
 ## Collecting data
@@ -24,7 +24,7 @@ Scanning ...
 1.3 Test data streaming 
 
 ```
-cd $HOME/repositories/mxochicale/ai-based-evaluation-of-surgical-skills/dependencies/openzen
+cd $HOME/repositories/in2research2023/dependencies/openzen
 python hello-sensor.py
 ```
 
@@ -32,7 +32,8 @@ python hello-sensor.py
 Connect USB endoscope camera
 2.1 Test camera
 ```
-cd $HOME/repositories/mxochicale/ai-based-evaluation-of-surgical-skills/scripts/usb-endoscope
+cd $HOME/repositories/in2research2023/scripts/usb-endoscope
+
 python capturing_video.py --idFG 4 --fW 320 --fH 240 --FPS 15 --buffer_size 1
 #Press Q to exit(quit)
 ```
@@ -47,6 +48,7 @@ Scanning ...
 3.2 Connect usb endoscope camera
 3.3 Run command with the desired image resoltion and press Q to quick script
 ```
+cd $HOME/repositories/in2research2023/scripts/sensor-fusion
 python video-usb-imu-bluetooth.py --idFG 4 --fps 30 --fW 160 --fH 120 --vfn testNN.avi
 python video-usb-imu-bluetooth.py --idFG 4 --fps 30 --fW 320 --fH 240 --vfn testNN.avi
 ```
