@@ -1,11 +1,11 @@
 # Setting up conda env 
 
-## Conda
+## 1. Conda
 Install [conda](https://github.com/mxochicale/code/tree/main/conda) and create [...VE](ve.yml).
 
-## Dependencies
+## 2. Installl dependencies
 
-* Python package versions
+* Python package versions (log for machine with CUDA GPU)
 ```
 $ conda activate *VE
 $ python package_versions.py 

@@ -1,10 +1,10 @@
 ## USAGE
-## conda update --all                           ## UPDATE ALL base PACKAGES
-## conda list -n *VE # show list of installed packages
-## conda env create -f *ve.yml   		    ## INSTALL
-## conda env update --file *ve.yml --prune  	## UPDATE
-## conda activate *VE   			            ## ACTIVATE
-## conda remove -n *VE --all			        ## REMOVE
+## mamba update --all                           ## UPDATE ALL base PACKAGES
+## mamba list -n *VE # show list of installed packages
+## mamba env create -f *ve.yml   		    ## INSTALL
+## mamba env update -f *ve.yml --prune  	## UPDATE
+## mamba activate *VE   			            ## ACTIVATE
+## mamba remove -n *VE --all			        ## REMOVE
 
 ## QUICK TEST OF THE AVAILABILITY OF CUDA
 ## conda activate *VE
@@ -17,8 +17,8 @@ channels:
   - conda-forge # notebook; jupyter_contrib_nbextensions; tqdm; monai; nibabel; gdown; imgaug; ipywidgets; PyAV
 dependencies:
   - pytorch #=1.10.* #for aarch54  #=1.11.* for?
-  - python=3.10.* #python version should align with the compilation of openzen > `Found Python3`
-  - cudatoolkit #=11.*.*   #=11.*.*
+  - python=3.8.* #python version should align with the compilation of openzen > `Found Python3`
+  #- cudatoolkit #=11.*.*   #=11.*.*
   - pip
   - pip:
      - opencv-python

@@ -94,7 +94,6 @@ class VideoStreamWidget(object):
             cv2.destroyAllWindows()
             self.videowriter.release()
 
-            # Recording streamed sensor values in *.csv file
             with open(self.video_filename + '.csv', 'w', newline='', encoding='utf-8') as csvfile:
                 fieldnames = ['Sample number',
                               'epoch machine time (ns)',
@@ -110,7 +109,7 @@ class VideoStreamWidget(object):
                     writer.writerow([
                         idx,  # 'Sample number',
                         streamed_values[idx][0],  # time.time_ns(), 'epoch machine time (ns)',
-                        streamed_values_video_timestamp[idx],  # 'Timestamp for frame capture.read  (ns)',
+                        streamed_values_video_timestamp[idx], #'Timestamp for frame capture.read  (ns)',
                         streamed_values[idx][1],  # str(imu_data.timestamp), 'Timestamp LPMSB2 (s)',
                         streamed_values[idx][2],  # str(imu_data.q), 'Quaternions [q0, q1, q2, q3] LPMS-B2',
                         streamed_values[idx][3]  # str(imu_data.r), 'Euler [Roll, Pitch, Yaw] LPMSB2'
@@ -164,14 +163,12 @@ def plot_histogram_initialisation():
 
 
 #####################################################
-### START OF Setting up LPMS-B2
+### Setting up LPMS-B2
 start = timer()
-
 openzen.set_log_level(openzen.ZenLogLevel.Warning)
-
 error, client = openzen.make_client()
 if not error == openzen.ZenError.NoError:
-    print("Error while initializinng OpenZen library")
+    print("Error while initializing OpenZen library")
     sys.exit(1)
 
 error = client.list_sensors_async()
@@ -198,11 +195,8 @@ if sensor_desc_connect is None:
     print("No sensors found")
     sys.exit(1)
 
-# connect to the first sensor found
-# error, sensor = client.obtain_sensor(sensor_desc_connect)
-
-# or connect to a sensor by name
-# error, sensor = client.obtain_sensor_by_name("LinuxDevice", "LPMSCU2000003")
+# error, sensor = client.obtain_sensor_by_name("Bluetooth", "00:04:3E:6F:37:7E", 921600)  # or 115200
+# error, sensor = client.obtain_sensor_by_name("Bluetooth", "00:04:3E:53:ED:58", 921600)  # or 115200
 error, sensor = client.obtain_sensor_by_name("Bluetooth", "00:04:3E:53:ED:5B", 921600)
 
 if not error == openzen.ZenSensorInitError.NoError:
@@ -222,27 +216,14 @@ if not error == openzen.ZenError.NoError:
     print("Can't load streaming settings")
     sys.exit(1)
 
-print("Sensor is streaming data: {}".format(is_streaming))
-print("\n>> Set and get IMU settings")
-
-imu = sensor.get_any_component_of_type(openzen.component_type_imu)
-if imu is None:
-    print("No IMU found")
-    sys.exit(1)
-
-## read bool property
-error, is_streaming = imu.get_bool_property(openzen.ZenImuProperty.StreamData)
-if not error == openzen.ZenError.NoError:
-    print("Can't load streaming settings")
-    sys.exit(1)
+end = timer()
+print("\nSetting Sensor Time Interval: {} s".format(end - start))
 
 # set and read SamplingRate (Available sample rate of the IMU: 5, 10, 25, 50, 100, 200, 400)
 error = imu.set_int32_property(openzen.ZenImuProperty.SamplingRate, 200)
 error, freq = imu.get_int32_property(openzen.ZenImuProperty.SamplingRate)
 print(f'Sampling rate: {freq}')
-
-end = timer()
-print("\nSetting Sensor Time Interval: {} s".format(end - start))
+print("Sensor is streaming data: {}".format(is_streaming))
 
 ### END OF Setting up LPMS-B2
 #####################################################
@@ -259,8 +240,8 @@ if __name__ == '__main__':
 
     video_stream_widget = VideoStreamWidget(id_framegrabber=args.idFG,
                                             frames_per_second=args.fps,
-                                            frame_width=args.fW,
-                                            frame_height=args.fH,
+                                            # frame_width=args.fW,
+                                            # frame_height=args.fH,
                                             video_filename=args.vfn
                                             )
     video_stream_widget.get_settings()
@@ -276,6 +257,7 @@ if __name__ == '__main__':
 
     while True:
         t1 = time.time_ns()
+
         zenEvent = client.wait_for_next_event()
         # check if its an IMU sample event and if it
         # comes from our IMU and sensor component
@@ -283,10 +265,10 @@ if __name__ == '__main__':
                 zenEvent.sensor == imu.sensor and \
                 zenEvent.component.handle == imu.component.handle:
             imu_data = zenEvent.data.imu_data
-            # machine_timestamp_0 = timer()
+            #machine_timestamp_0 = timer()
             machine_timestamp_after_imu_data = time.time_ns()
-            # time.time() Return the time in seconds since the epoch as a floating point number.
-            # Similar to time() but returns time as an integer number of nanoseconds since the epoch.
+                # time.time() Return the time in seconds since the epoch as a floating point number.
+                # Similar to time() but returns time as an integer number of nanoseconds since the epoch.
 
             # print(f'     Timestamp for zenEvent.data.imu_data {machine_timestamp_after_imu_data}')
 
@@ -314,16 +296,15 @@ if __name__ == '__main__':
             sample_number += 1  # sample_number + 1
 
             try:
-                histogram_frame = video_stream_widget.show_frame(
-                    win_name=WINDOW_TITLE, \
-                    display_text=None, \
-                    stream_vals=[
-                        machine_timestamp_after_imu_data,
-                        str(imu_data.timestamp),
-                        str(imu_data.q),
-                        str(imu_data.r)
-                    ]
-                )
+                histogram_frame = video_stream_widget.show_frame(win_name=WINDOW_TITLE, \
+                                                                 display_text=None, \
+                                                                 stream_vals=[
+                                                                                machine_timestamp_after_imu_data,
+                                                                                str(imu_data.timestamp),
+                                                                                str(imu_data.q),
+                                                                                str(imu_data.r)
+                                                                              ]
+                                                                 )
                 # TODO: Debug the following 4 lines
                 # video_stream_widget.record_data(timestamps)
                 # video_stream_widget.record_data(imu_data.timestamp)
@@ -332,10 +313,10 @@ if __name__ == '__main__':
             except AttributeError:
                 pass
 
-    # # TODO: ERRORS
-    # #     except KeyboardInterrupt: #AttributeError: 'VideoStreamWidget' object has no attribute 'frame'
-    # #         pass
-    #
-    # # print("\nRun Time: {} s".format(end - start))
-    # # print(start)
-    # # print(end)
+    # TODO: ERRORS
+    #     except KeyboardInterrupt: #AttributeError: 'VideoStreamWidget' object has no attribute 'frame'
+    #         pass
+
+    # print("\nRun Time: {} s".format(end - start))
+    # print(start)
+    # print(end)

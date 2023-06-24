@@ -5,23 +5,24 @@
 ### Resolution tests
 * change path and activate VE
 ```
-cd $HOME/repositories/mxochicale/ai-based-evaluation-of-surgical-skills/scripts/usb-endoscope
+cd $HOME/repositories/in2research2023/scripts/usb-endoscope
 ```
 
 * load conda env and run script  
 ```
 conda activate *VE
 ### Testing diffrent Frame Rates per Second
-python capturing_video.py --idFG 4 --fW 480 --fH 640 --FPS 15 --buffer_size 1
-python capturing_video.py --idFG 4 --fW 480 --fH 640 --FPS 30 --buffer_size 1
+python capturing_video.py --vfn testvideo.mp4 --idFG 4 --fW 480 --fH 640 --FPS 15 --buffer_size 1
+python capturing_video.py --vfn testvideo.mp4 --idFG 4 --fW 480 --fH 640 --FPS 30 --buffer_size 1
 ### Testing diffrent Resolutions
-python capturing_video.py --idFG 4 --fW 160 --fH 120 --FPS 15 --buffer_size 1
-python capturing_video.py --idFG 4 --fW 320 --fH 240 --FPS 15 --buffer_size 1
-python capturing_video.py --idFG 4 --fW 480 --fH 640 --FPS 15 --buffer_size 1
+python capturing_video.py --vfn testvideo.mp4 --idFG 4 --fW 160 --fH 120 --FPS 15 --buffer_size 1
+python capturing_video.py --vfn testvideo.mp4 --idFG 4 --fW 320 --fH 240 --FPS 15 --buffer_size 1
+python capturing_video.py --vfn testvideo.mp4 --idFG 4 --fW 480 --fH 640 --FPS 15 --buffer_size 1
+#Press Q to exit(quit)
 ```
 * Terminal logs 
 ```
-# python capturing_video.py --idFG 4 --fW 480 --fH 640 --FPS 60 --buffer_size 1
+# python capturing_video.py --vfn testvideo.mp4  --idFG 4 --fW 480 --fH 640 --FPS 60 --buffer_size 1
 fps: 15.0
 resolution: 640.0x480.0
 mode: YUYV
@@ -29,6 +30,11 @@ Buffer size: 1.0
 ```
 
 See [Display_resolution](https://en.wikipedia.org/wiki/Display_resolution#) to test other resolutions.
+
+### Simple video recording 
+```
+python simple-record-video.py --idFG 2
+```
 
 ### $ sudo dmesg
 ```
