@@ -8,6 +8,7 @@
 ## temporal data files
 **/testNN.avi
 **/testNN.avi.csv
+**/testvideo*
 
 ## temporal TeX files
 **/*.aux

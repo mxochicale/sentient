@@ -29,14 +29,7 @@ python hello-sensor.py
 ```
 
 2. Setting up usb-endoscope camera  
-Connect USB endoscope camera
-2.1 Test camera
-```
-cd $HOME/repositories/in2research2023/scripts/usb-endoscope
-
-python capturing_video.py --idFG 4 --fW 320 --fH 240 --FPS 15 --buffer_size 1
-#Press Q to exit(quit)
-```
+Connect USB endoscope camera, you can test camera with scripts in [usb-endoscope](../usb-endoscope)
 
 3. Recording data
 3.1 Switch on sensor and scan ports
