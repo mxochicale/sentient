@@ -1,7 +1,7 @@
 # OpenZen under GNU/Linux Ubuntu
 
 1. Check OS distribution, kernel and arquitecture
-* OS
+* OS: Ubuntu 22.04.1 LTS              
 ```
 $ hostnamectl
 
@@ -15,6 +15,20 @@ Operating System: Ubuntu 22.04.1 LTS
     Architecture: x86-64
  Hardware Vendor: --
 ```
+
+* OS: Ubuntu 20.04.1 LTS
+```
+$ hostnamectl
+
+   Static hostname: ---
+         Icon name: computer-laptop
+           Chassis: laptop
+        Machine ID: ---
+           Boot ID: ---
+  Operating System: Ubuntu 20.04.1 LTS
+            Kernel: Linux 5.15.0-73-generic
+```
+
 
 * Python package versions
 ```
