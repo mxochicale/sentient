@@ -29,9 +29,12 @@ mode: YUYV
 Buffer size: 1.0
 ```
 
-
-
 See [Display_resolution](https://en.wikipedia.org/wiki/Display_resolution#) to test other resolutions.
+
+### Simple video recording 
+```
+python simple-record-video.py --idFG 2
+```
 
 ### $ sudo dmesg
 ```

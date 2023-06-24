@@ -1,12 +1,13 @@
 #https://www.learningaboutelectronics.com/Articles/How-to-record-video-Python-OpenCV.php
+import argparse
 import cv2
 
 def decode_fourcc(cc):
     return "".join([chr((int(cc) >> 8 * i) & 0xFF) for i in range(4)])
 
 
-def main():
-    cap= cv2.VideoCapture(0)
+def main(idFG):
+    cap= cv2.VideoCapture(idFG)
     width= int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height= int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
@@ -39,4 +40,10 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--idFG', required=True, help='Specify ID for framegrabber', type=int)
+    args = parser.parse_args()
+
+    main(args.idFG)
+
+
