@@ -66,7 +66,7 @@ git clone --recurse-submodules https://bitbucket.org/lpresearch/openzen.git
 cd openzen 
 ```
 
-    3.1 You might like to edit `CMakeLists.txt` but also do `cmake -DZEN_PYTHON=ON ..`
+3.1 You might like to edit `CMakeLists.txt` but also do `cmake -DZEN_PYTHON=ON ..`
     ```
     vim CMakeLists.txt
     option(ZEN_PYTHON "Compile Python bindings for OpenZen" ON) #LINE72
@@ -115,17 +115,19 @@ Note that the default connection baud rate is 921600, which is not the case for 
 More details in the comment of this program.
 ```
 
-7. `ExamplePython.py`
+7. Run python `ExamplePython.py`
 Open a new terminal (or tab)
 ``` 
-cd /openzen
+cd $HOME/repositories/in2research2023/dependencies/openzen
 conda activate *VE 
 export PYTHONPATH=$HOME/repositories/openzen/build
 python hello-sensor.py
 ```
+NB. You might need to keep your sensor disconnected from the bluetooth settings.
 
 
 ## References 
-https://bitbucket.org/lpresearch/openzen/src/master/   
-https://github.com/xfetus/pe/tree/main/hardware/sensors/imus-LPMS-B2/adquistion-software/ros/openzen  
-https://lpresearch.bitbucket.io/openzen/latest/setup.html
+* https://bitbucket.org/lpresearch/openzen/src/master/   
+* https://github.com/xfetus/pe/tree/main/hardware/sensors/imus-LPMS-B2/adquistion-software/ros/openzen  
+* https://lpresearch.bitbucket.io/openzen/latest/setup.html
+* For windows: https://lpresearch.bitbucket.io/openzen/latest/setup.html 

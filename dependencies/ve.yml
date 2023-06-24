@@ -17,7 +17,7 @@ channels:
   - conda-forge # notebook; jupyter_contrib_nbextensions; tqdm; monai; nibabel; gdown; imgaug; ipywidgets; PyAV
 dependencies:
   - pytorch #=1.10.* #for aarch54  #=1.11.* for?
-  - python=3.10.* #3.10 to align with the compilation of openzen
+  - python=3.10.* #python version should align with the compilation of openzen > `Found Python3`
   - cudatoolkit #=11.*.*   #=11.*.*
   - pip
   - pip:
