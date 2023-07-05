@@ -1,4 +1,7 @@
-# OpenZen under GNU/Linux Ubuntu
+# OpenZen 
+> The LP-RESEARCH Motion Sensor (LPMS) is a miniature, multi-purpose inertial measurement unit.
+
+## GNU/Linux Ubuntu
 
 1. Check OS distribution, kernel and arquitecture
 * OS: Ubuntu 22.04.1 LTS              
@@ -125,9 +128,27 @@ python hello-sensor.py
 ```
 NB. You might need to keep your sensor disconnected from the bluetooth settings.
 
+## Windows OS
+
+### Requirements
+Pre-compiled bynaries for Windows x64-bit (supporting CSharp, Python and Bluetooth):
+* openzen.pyd
+* SiUSBXp.dll #not needed if Bluetooth connection
+
+Make sure the `openzen.pyd` and `SiUSBXp.dll` are in the same folder as this hello-sensor.py file.
+You might need to download compressed files from latest version in https://bitbucket.org/lpresearch/openzen/downloads/?tab=downloads 
+
+### Streaming motion data
+To run scripts activate your conda environment and run hello-sensor.py and press Ctrl+C to stop the program.
+``` 
+cd $HOME/repositories/in2research2023/dependencies/openzen
+conda activate *VE 
+python hello-sensor.py
+```
 
 ## References 
 * https://bitbucket.org/lpresearch/openzen/src/master/   
 * https://github.com/xfetus/pe/tree/main/hardware/sensors/imus-LPMS-B2/adquistion-software/ros/openzen  
 * https://lpresearch.bitbucket.io/openzen/latest/setup.html
+* https://lp-research.atlassian.net/wiki/spaces/LKB/pages/1100611599/LPMS+User+Manual
 * For windows: https://lpresearch.bitbucket.io/openzen/latest/setup.html 

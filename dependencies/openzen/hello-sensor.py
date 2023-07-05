@@ -11,11 +11,14 @@
 # https://bitbucket.org/lpresearch/openzen/src/master/examples/ExamplePython.py
 ###########################################################################
 
-# set PYTHONPATH to find OpenZen python module
+### FOR GNU/LINUX OS
+## set PYTHONPATH to find OpenZen python module
 ## export PYTHONPATH=$HOME/repositories/openzen/build
 import sys
 import openzen
 #from libOpenZen import openzen
+### FOR WINDOWS OS
+## sys.path.append("C:/Users/$MACHINE/$USERNAME/$PATH_OF_THE_REPO/$PATH_OF_THE_SCRIPT")
 
 openzen.set_log_level(openzen.ZenLogLevel.Warning)
 
