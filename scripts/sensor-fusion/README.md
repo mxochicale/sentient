@@ -4,7 +4,7 @@
 ```
 cd $HOME/repositories/in2research2023/scripts/sensor-fusion
 export PYTHONPATH=$HOME/repositories/openzen/build
-conda activate ai-surg-skills-VE
+mamba activate ai-surg-skills-VE
 ```
 
 ## Collecting data
