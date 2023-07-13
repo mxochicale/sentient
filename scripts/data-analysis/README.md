@@ -2,7 +2,7 @@
 
 1. Running notebooks
 ```
-conda activate aisurgskillsVE
+mamba activate aisurgskillsVE
 jupyter notebook --browser=firefox
 ```
 
