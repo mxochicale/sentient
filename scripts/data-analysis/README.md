@@ -2,7 +2,8 @@
 
 1. Running notebooks
 ```
-conda activate aisurgskillsVE
+cd $HOME/repositories/in2research2023/scripts/data-analysis
+mamba activate aisurgskillsVE
 jupyter notebook --browser=firefox
 ```
 

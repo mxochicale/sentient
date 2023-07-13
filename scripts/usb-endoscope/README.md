@@ -8,16 +8,16 @@
 cd $HOME/repositories/in2research2023/scripts/usb-endoscope
 ```
 
-* load conda env and run script  
+* load mamba env and run script  
 ```
-conda activate *VE
+mamba activate ai-surg-skills-VE
 ### Testing diffrent Frame Rates per Second
 python capturing_video.py --vfn testvideo.mp4 --idFG 4 --fW 480 --fH 640 --FPS 15 --buffer_size 1
 python capturing_video.py --vfn testvideo.mp4 --idFG 4 --fW 480 --fH 640 --FPS 30 --buffer_size 1
 ### Testing diffrent Resolutions
 python capturing_video.py --vfn testvideo.mp4 --idFG 4 --fW 160 --fH 120 --FPS 15 --buffer_size 1
 python capturing_video.py --vfn testvideo.mp4 --idFG 4 --fW 320 --fH 240 --FPS 15 --buffer_size 1
-python capturing_video.py --vfn testvideo.mp4 --idFG 4 --fW 480 --fH 640 --FPS 15 --buffer_size 1
+python capturing_video.py --vfn testvideo.mp4 --idFG 2 --fW 480 --fH 640 --FPS 15 --buffer_size 1
 #Press Q to exit(quit)
 ```
 * Terminal logs 

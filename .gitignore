@@ -6,8 +6,8 @@
 **/*.swp
 
 ## temporal data files
-**/testNN.avi
-**/testNN.avi.csv
+**/test**.avi
+**/test**.avi.csv
 **/testvideo*
 **/basicvideo.*
 

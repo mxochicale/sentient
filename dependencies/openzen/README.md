@@ -35,7 +35,7 @@ $ hostnamectl
 
 * Python package versions
 ```
-$ conda activate *VE
+$ mamba activate ai-surg-skills-VE
 $ python package_versions.py 
 
 python: 3.8.16 | packaged by conda-forge | (default, Feb  1 2023, 16:01:55) 
@@ -77,7 +77,7 @@ cd openzen
 
 4. build and make
 ```
-conda activate *VE
+mamba activate ai-surg-skills-VE
 cd $HOME/repositories/openzen && rm -rf build && mkdir build && cd build
 cmake -DZEN_PYTHON=ON ..
 make -j4
@@ -122,7 +122,7 @@ More details in the comment of this program.
 Open a new terminal (or tab)
 ``` 
 cd $HOME/repositories/in2research2023/dependencies/openzen
-conda activate *VE 
+mamba activate ai-surg-skills-VE
 export PYTHONPATH=$HOME/repositories/openzen/build
 python hello-sensor.py
 ```
@@ -142,7 +142,7 @@ You might need to download compressed files from latest version in https://bitbu
 To run scripts activate your conda environment and run hello-sensor.py and press Ctrl+C to stop the program.
 ``` 
 cd $HOME/repositories/in2research2023/dependencies/openzen
-conda activate *VE 
+mamba activate ai-surg-skills-VE
 python hello-sensor.py
 ```
 

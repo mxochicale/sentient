@@ -7,7 +7,7 @@ Install [conda](https://github.com/mxochicale/code/tree/main/conda) and create [
 
 * Python package versions (log for machine with CUDA GPU)
 ```
-$ conda activate *VE
+$ mamba activate ai-surg-skills-VE
 $ python package_versions.py 
 
 
