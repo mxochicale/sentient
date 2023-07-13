@@ -43,7 +43,7 @@ Scanning ...
 ```
 cd $HOME/repositories/in2research2023/scripts/sensor-fusion
 python video-usb-imu-bluetooth.py --idFG 2 --fps 30 --fW 160 --fH 120 --vfn testNN.avi
-python video-usb-imu-bluetooth.py --idFG 4 --fps 30 --fW 320 --fH 240 --vfn testNN.avi
+python video-usb-imu-bluetooth.py --idFG 2 --fps 30 --fW 320 --fH 240 --vfn testNN.avi
 ```
 3.4 Swith off IMU sensor and disconnect camera!
 
