@@ -19,6 +19,7 @@ dependencies:
   - pytorch #=1.10.* #for aarch54  #=1.11.* for?
   - python=3.10.* #python version should align with the compilation of openzen > `Found Python3`
   - cudatoolkit #=11.*.*   #=11.*.*
+  - tensorflow
   - pip
   - pip:
      - opencv-python
