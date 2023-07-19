@@ -9,6 +9,7 @@ import torch
 #import plotly
 import PIL
 #import pandas
+import tensorflow as tf
 
 print(f'python: {sys.version}')
 print(f'opencv: {cv2.__version__}')
@@ -22,3 +23,4 @@ print(f'torch cuda.device_count  {torch.cuda.device_count()}')
 #print(f'plotly version: {plotly.__version__}')
 print(f'PIL version: {PIL.__version__}')
 #print(f'pandas version: {pandas.__version__}')
+print(f'Tensorflow version: {tf.__version__}')

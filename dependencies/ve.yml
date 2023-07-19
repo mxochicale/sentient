@@ -1,13 +1,13 @@
 ## USAGE
-## conda update --all                           ## UPDATE ALL base PACKAGES
-## conda list -n *VE # show list of installed packages
-## conda env create -f *ve.yml   		    ## INSTALL
-## conda env update --file *ve.yml --prune  	## UPDATE
-## conda activate *VE   			            ## ACTIVATE
-## conda remove -n *VE --all			        ## REMOVE
+## mamba update --all                           ## UPDATE ALL base PACKAGES
+## mamba list -n *VE # show list of installed packages
+## mamba env create -f *ve.yml   		    ## INSTALL
+## mamba env update --file *ve.yml --prune  	## UPDATE
+## mamba activate *VE   			            ## ACTIVATE
+## mamba remove -n *VE --all			        ## REMOVE
 
 ## QUICK TEST OF THE AVAILABILITY OF CUDA
-## conda activate *VE
+## mamba activate ai-surg-skills-VE
 ## python
 ## import torch
 ## torch.cuda.is_available()
@@ -31,3 +31,4 @@ dependencies:
      - scikit-image
      - notebook
      - thread6 #from threading import Thread
+     - pydot

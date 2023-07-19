@@ -11,14 +11,17 @@ $ mamba activate ai-surg-skills-VE
 $ python package_versions.py 
 
 
-python: 3.8.16 | packaged by conda-forge | (default, Feb  1 2023, 16:01:55) 
-[GCC 11.3.0]
-opencv: 4.7.0
+2023-07-19 01:32:02.612388: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  SSE4.1 SSE4.2 AVX AVX2 AVX_VNNI FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-07-19 01:32:02.772598: I tensorflow/core/util/port.cc:104] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+python: 3.10.12 | packaged by conda-forge | (main, Jun 23 2023, 22:40:32) [GCC 12.3.0]
+opencv: 4.8.0
 torch: 2.0.0.post200
 torch cuda_is_available: True
 torch cuda version: 11.2
 torch cuda.device_count  1
-PIL version: 9.5.0
+PIL version: 10.0.0
+Tensorflow version: 2.11.1
 
 ```
 
