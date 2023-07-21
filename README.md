@@ -4,8 +4,8 @@ AI-based evaluation of surgical skills using trasnformer model
 <div align="center">
 
 Participant: Sujon Hekim   
-Author: Miguel Xochicale     
 Contributor: Stephen Thompson       
+Author: Miguel Xochicale     
 </div>
 
 ## Abstract
