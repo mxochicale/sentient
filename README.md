@@ -1,5 +1,5 @@
 <h1 align="center">
-AI-based evaluation of surgical skills using trasnformer model
+Towards AI-based evaluation of surgical skills using Transformer model
 </h1>
 <div align="center">
 
@@ -66,4 +66,4 @@ Thanks goes to all these people ([emoji key](https://allcontributors.org/docs/en
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This work follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification.  
-ontributions of any kind welcome!
+Contributions of any kind welcome!
