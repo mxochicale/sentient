@@ -3,9 +3,9 @@ AI-based evaluation of surgical skills
 </h1>
 <div align="center">
 
-Participant: Sujon Hekim
-Author(s): Miguel Xochicale    
-Contributor(s): Stephen Thompson and Evangelos Masomenos    
+Participant: Sujon Hekim   
+Author: Miguel Xochicale     
+Contributor: Stephen Thompson       
 </div>
 
 ## Abstract
@@ -36,6 +36,17 @@ Thanks goes to all these people ([emoji key](https://allcontributors.org/docs/en
 		<br />
 			<!-- ADD GITHUB REPOSITORY AND PROJECT, TITLE AND EMOJIS -->
 			<a href="https://github.com/$PROJECTNAME/$REPOSITORY_NAME/commits?author=" title="Research">  🔬 🤔  </a>
+	</td>
+	<!-- CONTRIBUTOR -->
+	<td align="center">
+		<!-- ADD GITHUB USERNAME AND HASH FOR GITHUB PHOTO -->
+		<a href="https://github.com/AbuAbdul1ah"><img src="https://avatars1.githubusercontent.com/u/131908567v=4?s=100" width="100px;" alt=""/>
+		<br />
+			<sub> <b>Sujon Hekim</b> </sub>        
+		</a>
+		<br />
+			<!-- ADD GITHUB REPOSITORY AND PROJECT, TITLE AND EMOJIS -->
+			<a href="https://github.com/mxochicale/in2research2023/commits?author=AbuAbdul1ah" title="Research">  🔬 🤔  </a>
 	</td>
 	<!-- CONTRIBUTOR -->
 	<td align="center">
