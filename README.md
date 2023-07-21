@@ -40,7 +40,7 @@ Thanks goes to all these people ([emoji key](https://allcontributors.org/docs/en
 	<!-- CONTRIBUTOR -->
 	<td align="center">
 		<!-- ADD GITHUB USERNAME AND HASH FOR GITHUB PHOTO -->
-		<a href="https://github.com/AbuAbdul1ah"><img src="https://avatars1.githubusercontent.com/u/131908567v=4?s=100" width="100px;" alt=""/>
+		<a href="https://github.com/AbuAbdul1ah"><img src="https://avatars1.githubusercontent.com/u/131908567?v=4?s=100" width="100px;" alt=""/>
 		<br />
 			<sub> <b>Sujon Hekim</b> </sub>        
 		</a>
