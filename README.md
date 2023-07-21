@@ -1,5 +1,5 @@
-<h1 align="center">:page_facing_up: 
-AI-based evaluation of surgical skills
+<h1 align="center">
+AI-based evaluation of surgical skills using trasnformer model
 </h1>
 <div align="center">
 
