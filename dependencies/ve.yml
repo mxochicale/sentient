@@ -32,3 +32,4 @@ dependencies:
      - notebook
      - thread6 #from threading import Thread
      - pydot
+     - scikit-learn
