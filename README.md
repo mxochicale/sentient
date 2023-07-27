@@ -1,11 +1,11 @@
 <h1 align="center">
-Towards AI-based evaluation of surgical skills using Transformer model
+Towards Multi-modal Transformer-based models for Surgical Skills Assessment 
 </h1>
 <div align="center">
 
-Participant: Sujon Hekim   
-Contributor: Stephen Thompson       
-Author: Miguel Xochicale     
+Participant(s): Sujon Hekim   
+Contributor(s): Stephen Thompson       
+Author(s): Miguel Xochicale     
 </div>
 
 ## Abstract
