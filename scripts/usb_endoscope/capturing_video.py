@@ -42,7 +42,7 @@ def CaptureVideoTest(video_filename, id_framegrabber, frame_width, frame_height,
     while (True):
         ret, frame = cap.read()
         out_video.write(frame)
-        # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     
         if frame is not None:
             cv2.imshow('frame', frame)
@@ -56,6 +56,8 @@ def CaptureVideoTest(video_filename, id_framegrabber, frame_width, frame_height,
     out_video.release()
 
     cv2.destroyAllWindows()
+
+    return frame
 
 def main():
     parser = argparse.ArgumentParser()

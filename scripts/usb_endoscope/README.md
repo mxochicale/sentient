@@ -18,6 +18,7 @@ python capturing_video.py --vfn testvideo.mp4 --idFG 4 --fW 480 --fH 640 --FPS 3
 python capturing_video.py --vfn testvideo.mp4 --idFG 4 --fW 160 --fH 120 --FPS 15 --buffer_size 1
 python capturing_video.py --vfn testvideo.mp4 --idFG 4 --fW 320 --fH 240 --FPS 15 --buffer_size 1
 python capturing_video.py --vfn testvideo.mp4 --idFG 2 --fW 480 --fH 640 --FPS 15 --buffer_size 1
+python capturing_video.py --vfn testvideo.mp4 --idFG 4 --fW 480 --fH 640 --FPS 120 --buffer_size 1
 #Press Q to exit(quit)
 ```
 * Terminal logs 
@@ -33,7 +34,7 @@ See [Display_resolution](https://en.wikipedia.org/wiki/Display_resolution#) to t
 
 ### Simple video recording 
 ```
-python simple-record-video.py --idFG 2
+python simple_record_video.py --vfn 'simpleCapturedVideo.mp4' --idFG 2
 ```
 
 ### $ sudo dmesg
