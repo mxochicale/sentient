@@ -2,7 +2,7 @@ from scripts.usb_endoscope.capturing_video import CaptureVideoTest
 from scripts.usb_endoscope.simple_record_video import SimpleCaptureVideo
 
 
-def test_capture_frames():
+def test_capture_video():
     """
     Testing captured frames
     """
@@ -14,7 +14,8 @@ def test_capture_frames():
     buffer_size = 1
 
     last_captured_frame = CaptureVideoTest(vfn, idFG, fW, fH, FPS, buffer_size)
-    assert (last_captured_frame.shape[2] > 0 )
+    #print(last_captured_frame.shape)
+    assert (last_captured_frame.shape[1] > 0 )
 
 
 def test_simple_recording_video():

@@ -2,7 +2,7 @@
 
 ## Setting up paths and VE env
 ```
-cd $HOME/repositories/in2research2023/scripts/sensor-fusion
+cd $HOME/repositories/in2research2023/scripts/sensor_fusion
 export PYTHONPATH=$HOME/repositories/openzen/build
 mamba activate ai-surg-skills-VE
 ```
@@ -29,7 +29,7 @@ python hello-sensor.py
 ```
 
 2. Setting up usb-endoscope camera  
-Connect USB endoscope camera, you can test camera with scripts in [usb-endoscope](../usb-endoscope)
+Connect USB endoscope camera, you can test camera with scripts in [usb_endoscope](../usb_endoscope)
 
 3. Recording data
 3.1 Switch on sensor and scan ports
@@ -39,12 +39,12 @@ Scanning ...
 	00:04:3E:53:ED:58	LPMSB2-53ED58
 ```
 3.2 Connect usb endoscope camera
-3.3 Run command with the desired image resoltion and press Q to quick script
+3.3 Run command with the desired image resolution and press Q to quick script
 ```
 cd $HOME/repositories/in2research2023/scripts/sensor-fusion
-python video-usb-imu-bluetooth.py --idFG 2 --fps 30 --fW 160 --fH 120 --vfn testNN.avi
-python video-usb-imu-bluetooth.py --idFG 2 --fps 30 --fW 320 --fH 240 --vfn testNN.avi
+python video_usb_imu_bluetooth.py --idFG 4 --fps 120 --fW 160 --fH 120 --vfn testNN.avi
+python video_usb_imu_bluetooth.py --idFG 4 --fps 120 --fW 320 --fH 240 --vfn testNN.avi
 ```
-3.4 Swith off IMU sensor and disconnect camera!
+3.4 Swich off IMU sensor and disconnect camera!
 
 
