@@ -15,7 +15,7 @@ def SimpleCaptureVideo(video_filename, idFG):
     # fourcc = cv2.VideoWriter_fourcc(*'DIVX')
     # fourcc = cv2.VideoWriter_fourcc(*'MJPG')
     # fourcc = cv2.VideoWriter_fourcc(*'YUYV')
-
+    print(cap.get)
     getting_fcc = int(cap.get(cv2.CAP_PROP_FOURCC))
     print(f'getting_fcc: {getting_fcc}')
     print(f'decode_fourcc: {decode_fourcc(getting_fcc)}')
@@ -24,6 +24,13 @@ def SimpleCaptureVideo(video_filename, idFG):
 
     while True:
         ret, frame = cap.read()
+
+        frame = cv2.cvtColor(frame, cv2.COLOR_RGBA2RGB)
+        # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        # frame = cv2.cvtColor(frame, cv2.COLOR_YUV2RGB)
+        # frame = cv2.cvtColor(frame, cv2.COLOR_YUV2RGB_NV12) # Invalid number of channels in input image:
+        # frame = cv2.cvtColor(frame, cv2.COLOR_YUV2RGB_UYVY) # Invalid number of channels in input image:
+
         out_video.write(frame)
 
         if frame is not None:

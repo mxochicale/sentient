@@ -52,7 +52,8 @@ class VideoStreamWidget(object):
             if self.capture.isOpened():
                 self.status, self.frame = self.capture.read()
                 # self.frame = cv2.cvtColor(self.frame, cv2.COLOR_BGR2GRAY)
-                self.frame = cv2.cvtColor(self.frame, cv2.COLOR_BGR2RGB)
+                # self.frame = cv2.cvtColor(self.frame, cv2.COLOR_BGR2RGB)
+                self.frame = cv2.cvtColor(self.frame, cv2.COLOR_RGBA2RGB)
                 self.timestamp_update = time.time_ns()
                 # print(f'   #UPDATE() timestamp for frame capture.read() {self.timestamp_update}')
             time.sleep(.1)

@@ -13,11 +13,13 @@ Author(s): Miguel Xochicale
 
 ## Usage
 
-### Testing capture pf data 
+### Testing sensor data  
 ```
 mamba activate ai-surg-skills-VE
 export PYTHONPATH=$HOME/repositories/in2research2023
 python -m pytest -v -s tests/
+python -m pytest -v -s tests/test_video_capture.py::test_simple_recording_video
+python -m pytest -v -s tests/test_video_capture.py::test_capture_video
 ```
 
 ## Clone repository
