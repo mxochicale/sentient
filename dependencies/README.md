@@ -1,9 +1,9 @@
 # Setting up conda env 
 
-## 1. Conda
-Install [conda](https://github.com/mxochicale/code/tree/main/conda) and create [...VE](ve.yml).
+## 1. Monda
+Install [mamba](https://github.com/mxochicale/code/tree/main/mamba) and create [...VE](ve.yml).
 
-## 2. Installl dependencies
+## 2. Installing dependencies
 
 * Python package versions (log for machine with CUDA GPU)
 ```

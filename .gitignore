@@ -12,6 +12,8 @@
 **/basicvideo.*
 **/raw.githubusercontent.com
 **/model.png
+**/video_capturevideotest.mp4
+**/video_simpleCaptured.mp4
 
 ## temporal TeX files
 **/*.aux
@@ -36,3 +38,4 @@
 
 ## others
 *.ipynb_checkpoints
+**/__pycache__

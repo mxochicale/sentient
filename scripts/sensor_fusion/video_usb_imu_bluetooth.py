@@ -8,15 +8,20 @@ from timeit import default_timer as timer
 import cv2
 import numpy as np
 import openzen
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
+
 
 class VideoStreamWidget(object):
     """
-    # Class for VideoStreamWidget
-    https://stackoverflow.com/questions/55099413
+    Class for VideoStreamWidget
+    Reference: https://stackoverflow.com/questions/55099413
     """
 
-    def __init__(self, id_framegrabber=0, frames_per_second=60, frame_width=640, frame_height=480, video_filename=None):
+    def __init__(self, id_framegrabber=0,
+                 frames_per_second=60,
+                 frame_width=640,
+                 frame_height=480,
+                 video_filename=None):
         self.id_framegrabber = id_framegrabber
         self.capture = cv2.VideoCapture(self.id_framegrabber, cv2.CAP_V4L2)
         self.buffer_size = 1
@@ -30,8 +35,12 @@ class VideoStreamWidget(object):
         self.capture.set(cv2.CAP_PROP_FPS, self.frames_per_second)
         self.capture.set(cv2.CAP_PROP_FRAME_WIDTH, self.frame_width)
         self.capture.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)
-        self.videowriter = cv2.VideoWriter(self.video_filename, self.fourcc, self.frames_per_second,
-                                           (self.frame_width, self.frame_height), 0)
+
+        self.videowriter = cv2.VideoWriter(self.video_filename,
+                                           self.fourcc,
+                                           self.frames_per_second,
+                                           (self.frame_width, self.frame_height))
+
         # Start the thread to read frames from the video stream
         self.thread = Thread(target=self.update, args=())
         self.thread.daemon = True
@@ -41,19 +50,21 @@ class VideoStreamWidget(object):
         # Read the next frame from the stream in a different thread
         while True:
             if self.capture.isOpened():
-                (self.status, self.frame) = self.capture.read()
-                self.frame = cv2.cvtColor(self.frame, cv2.COLOR_BGR2GRAY)
+                self.status, self.frame = self.capture.read()
+                # self.frame = cv2.cvtColor(self.frame, cv2.COLOR_BGR2GRAY)
+                # self.frame = cv2.cvtColor(self.frame, cv2.COLOR_BGR2RGB)
+                self.frame = cv2.cvtColor(self.frame, cv2.COLOR_RGBA2RGB)
                 self.timestamp_update = time.time_ns()
                 # print(f'   #UPDATE() timestamp for frame capture.read() {self.timestamp_update}')
             time.sleep(.1)
 
     def show_frame(self, win_name='frame_1', display_text=None, stream_vals=None):
-        '''
+        """
         Display frames in the main window
         :param win_name: Window name title
         :param display_text: Display text
         :return: self.histogram
-        '''
+        """
         self.display_text = display_text
         self.font_face = cv2.FONT_HERSHEY_SIMPLEX  # cv2.FONT_HERSHEY_TRIPLEX # FONT_HERSHEY_SCRIPT_SIMPLEX #FONT_HERSHEY_COMPLEX
         self.text_origin = (50, 450)  # (X,Y)
@@ -80,13 +91,13 @@ class VideoStreamWidget(object):
         # b0 = 300+int(100*self.histogram[0])
         # cv2.line(self.frame, (50, 300), (50, b0), (255, 0, 0), self.line_thickness)
 
-        cv2.imshow(win_name, self.frame)
         self.videowriter.write(self.frame)
-        # print(self.stream_vals[0], self.stream_vals[1], self.stream_vals[2])
         streamed_values.append(self.stream_vals)
         streamed_values_video_timestamp.append(self.timestamp_update)
         # print(f'   ##SHOW_FRAME() timestamp for frame capture.read() {self.timestamp_update}')
+        cv2.imshow(win_name, self.frame)
 
+        ## Quit script and capture data
         key = cv2.waitKey(1)
         if key == ord('q'):
             print('[Q]uit capture data')
@@ -105,11 +116,10 @@ class VideoStreamWidget(object):
                 writer = csv.writer(csvfile)
                 writer.writerow(fieldnames)
                 for idx in range(len(streamed_values)):
-                    # print(i, streamed_values[i][0])
                     writer.writerow([
                         idx,  # 'Sample number',
                         streamed_values[idx][0],  # time.time_ns(), 'epoch machine time (ns)',
-                        streamed_values_video_timestamp[idx], #'Timestamp for frame capture.read  (ns)',
+                        streamed_values_video_timestamp[idx],  # 'Timestamp for frame capture.read  (ns)',
                         streamed_values[idx][1],  # str(imu_data.timestamp), 'Timestamp LPMSB2 (s)',
                         streamed_values[idx][2],  # str(imu_data.q), 'Quaternions [q0, q1, q2, q3] LPMS-B2',
                         streamed_values[idx][3]  # str(imu_data.r), 'Euler [Roll, Pitch, Yaw] LPMSB2'
@@ -265,10 +275,10 @@ if __name__ == '__main__':
                 zenEvent.sensor == imu.sensor and \
                 zenEvent.component.handle == imu.component.handle:
             imu_data = zenEvent.data.imu_data
-            #machine_timestamp_0 = timer()
+            # machine_timestamp_0 = timer()
             machine_timestamp_after_imu_data = time.time_ns()
-                # time.time() Return the time in seconds since the epoch as a floating point number.
-                # Similar to time() but returns time as an integer number of nanoseconds since the epoch.
+            # time.time() Return the time in seconds since the epoch as a floating point number.
+            # Similar to time() but returns time as an integer number of nanoseconds since the epoch.
 
             # print(f'     Timestamp for zenEvent.data.imu_data {machine_timestamp_after_imu_data}')
 
@@ -290,7 +300,7 @@ if __name__ == '__main__':
                            '  B:' + str(round(imu_data.r[1], 2)) + \
                            '  G:' + str(round(imu_data.r[2], 2))
 
-            print(f'.')
+            # print(f'.')
             # print(f'{sample_number}')
             # print(f'IMU sample_number: {sample_number}')
             sample_number += 1  # sample_number + 1
@@ -299,24 +309,20 @@ if __name__ == '__main__':
                 histogram_frame = video_stream_widget.show_frame(win_name=WINDOW_TITLE, \
                                                                  display_text=None, \
                                                                  stream_vals=[
-                                                                                machine_timestamp_after_imu_data,
-                                                                                str(imu_data.timestamp),
-                                                                                str(imu_data.q),
-                                                                                str(imu_data.r)
-                                                                              ]
+                                                                     machine_timestamp_after_imu_data,
+                                                                     str(imu_data.timestamp),
+                                                                     str(imu_data.q),
+                                                                     str(imu_data.r)
+                                                                 ]
                                                                  )
                 # TODO: Debug the following 4 lines
-                # video_stream_widget.record_data(timestamps)
-                # video_stream_widget.record_data(imu_data.timestamp)
                 # lineGray.set_ydata(histogram_frame)
                 # fig.canvas.draw()
+
             except AttributeError:
                 pass
 
-    # TODO: ERRORS
-    #     except KeyboardInterrupt: #AttributeError: 'VideoStreamWidget' object has no attribute 'frame'
-    #         pass
-
+    # TODO:
     # print("\nRun Time: {} s".format(end - start))
     # print(start)
     # print(end)

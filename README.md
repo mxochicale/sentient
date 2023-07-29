@@ -11,6 +11,17 @@ Author(s): Miguel Xochicale
 ## Abstract
 
 
+## Usage
+
+### Testing sensor data  
+```
+mamba activate ai-surg-skills-VE
+export PYTHONPATH=$HOME/repositories/in2research2023
+python -m pytest -v -s tests/
+python -m pytest -v -s tests/test_video_capture.py::test_simple_recording_video
+python -m pytest -v -s tests/test_video_capture.py::test_capture_video
+```
+
 ## Clone repository
 * Generate your SSH keys as suggested [here](https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) (or [here](https://github.com/mxochicale/tools/blob/main/github/SSH.md))
 * Clone the repository by typing (or copying) the following line in a terminal at your selected path in your machine:
