@@ -10,7 +10,7 @@ mamba activate ai-surg-skills-VE
 ## Collecting data
 1. Setting up IMU  
 1.1 Either plugin bluetooth dongle or activate bluetooth
-1.2. Run commands to know mac addresses 
+1.2. (Optional)  Run commands to know mac addresses 
 ```
 hcitool dev
 Devices:
@@ -21,7 +21,7 @@ Scanning ...
 	00:04:3E:6F:37:7E	LPMSB2-6F377E
 	00:04:3E:53:ED:58	LPMSB2-53ED58
 ```
-1.3 Test data streaming 
+1.3 (Optional) Test data streaming 
 
 ```
 cd $HOME/repositories/in2research2023/dependencies/openzen
@@ -41,7 +41,7 @@ Scanning ...
 3.2 Connect usb endoscope camera
 3.3 Run command with the desired image resolution and press Q to quick script
 ```
-cd $HOME/repositories/in2research2023/scripts/sensor-fusion
+cd $HOME/repositories/in2research2023/scripts/sensor_fusion
 python video_usb_imu_bluetooth.py --idFG 4 --fps 120 --fW 160 --fH 120 --vfn testNN.avi
 python video_usb_imu_bluetooth.py --idFG 4 --fps 120 --fW 320 --fH 240 --vfn testNN.avi
 ```

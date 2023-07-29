@@ -331,6 +331,44 @@ Device Descriptor:
 
 ``` 
 
+### v4l2-ctl --list-devices
+```
+USB2.0 PC CAMERA: USB2.0 PC CAM (usb-0000:00:14.0-1):
+	/dev/video4
+	/dev/video5
+	/dev/media2
+
+Integrated_Webcam_HD: Integrate (usb-0000:00:14.0-6):
+	/dev/video0
+	/dev/video1
+	/dev/video2
+	/dev/video3
+	/dev/media0
+	/dev/media1
+```
+
+### $ v4l2-ctl -d /dev/video4 --list-formats-ext
+```
+ioctl: VIDIOC_ENUM_FMT
+	Type: Video Capture
+
+	[0]: 'YUYV' (YUYV 4:2:2)
+		Size: Discrete 640x480
+			Interval: Discrete 0.033s (30.000 fps)
+			Interval: Discrete 0.067s (15.000 fps)
+		Size: Discrete 352x288
+			Interval: Discrete 0.033s (30.000 fps)
+			Interval: Discrete 0.067s (15.000 fps)
+		Size: Discrete 320x240
+			Interval: Discrete 0.033s (30.000 fps)
+			Interval: Discrete 0.067s (15.000 fps)
+		Size: Discrete 176x144
+			Interval: Discrete 0.033s (30.000 fps)
+			Interval: Discrete 0.067s (15.000 fps)
+		Size: Discrete 160x120
+			Interval: Discrete 0.033s (30.000 fps)
+			Interval: Discrete 0.067s (15.000 fps)
+```
 
 ### v4l2-ctl -d /dev/video4 --all
 ``` 
