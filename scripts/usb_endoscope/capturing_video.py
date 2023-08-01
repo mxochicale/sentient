@@ -41,7 +41,8 @@ def CaptureVideoTest(video_filename, id_framegrabber, frame_width, frame_height,
 
     while (True):
         ret, frame = cap.read()
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        frame = cv2.cvtColor(frame, cv2.COLOR_RGBA2RGB)
+        # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         out_video.write(frame)
     

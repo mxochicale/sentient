@@ -84,23 +84,26 @@ make -j4
 ```
 
 * To test: `-DPython3_EXECUTABLE:PATH=${PYTHON_EXECUTABLE}` [:link:](https://github.com/Slicer/Slicer/issues/5498)
- 
-5. Switching on IMU and test connection
 
+
+5. Setup bluetooth devices and test connection.
+* Setting up LPSENSOR device 
+	* Go to bluetooth settings
+	* Select device LPMSB2-??? (which will display `Not Set Up`)
+	* Confirm Bluetooth PIN (press green confirm button)
+
+* Then you can check dev and scanned devices 
 ```
-$ hcitool dev
+hcitool dev
 Devices:
 	hci0	00:30:91:10:00:26
 
-$ hcitool scan
+hcitool scan
 Scanning ...
+	00:04:3E:6F:37:95	LPMSB2-6F3795
 	00:04:3E:53:ED:5B	LPMSB2-53ED5B
 ```
 
-5.1 Setting up LPSENSOR device 
-	* Go to bluetooth settings
-	* Select device LPMSB2-???
-	* Confirm Bluetooth PIN 
 
 6. Now you can run the OpenZenExample:
 ```
@@ -125,6 +128,7 @@ cd $HOME/repositories/in2research2023/dependencies/openzen
 mamba activate ai-surg-skills-VE
 export PYTHONPATH=$HOME/repositories/openzen/build
 python hello-sensor.py
+python hello-multi-sensor.py
 ```
 NB. You might need to keep your sensor disconnected from the bluetooth settings.
 

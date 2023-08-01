@@ -8,12 +8,14 @@ Contributor(s): Stephen Thompson
 Author(s): Miguel Xochicale     
 </div>
 
-## Abstract
-
+## Abstract 
+This is project is a prototype of multi-modal transformer-based models for surgical skills assessment.
+It contains dependencies, sample-data, scripts, unit tests, and few docs and references. 
 
 ## Usage
 
-### Testing sensor data  
+### Testing sensor data
+Just test default local camera id 0.   
 ```
 mamba activate ai-surg-skills-VE
 export PYTHONPATH=$HOME/repositories/in2research2023

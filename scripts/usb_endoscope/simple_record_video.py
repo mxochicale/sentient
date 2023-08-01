@@ -15,7 +15,7 @@ def SimpleCaptureVideo(video_filename, idFG):
     # fourcc = cv2.VideoWriter_fourcc(*'DIVX')
     # fourcc = cv2.VideoWriter_fourcc(*'MJPG')
     # fourcc = cv2.VideoWriter_fourcc(*'YUYV')
-    print(cap.get)
+    print(f'\ncap.get: {cap.get}')
     getting_fcc = int(cap.get(cv2.CAP_PROP_FOURCC))
     print(f'getting_fcc: {getting_fcc}')
     print(f'decode_fourcc: {decode_fourcc(getting_fcc)}')
