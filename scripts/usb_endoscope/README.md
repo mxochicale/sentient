@@ -5,7 +5,7 @@
 ### Resolution tests
 * change path and activate VE
 ```
-cd $HOME/repositories/in2research2023/scripts/usb-endoscope
+cd $HOME/repositories/in2research2023/scripts/usb_endoscope
 ```
 
 * load mamba env and run script  
