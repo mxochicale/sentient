@@ -1,4 +1,6 @@
-![logo](docs/figures/logo.png)
+<p float="left">
+   <img src="docs/figures/logo.png" alt="rtt4ssa" width="500"/>
+</p>
 
 We are interested in prototyping real-time transformer-based models for surgical skills assessment (rtt4ssa).
 This repository hence contains rtt4ssa's related material with dependencies, sample-data, scripts, unit tests, and few docs and references. 
@@ -6,7 +8,10 @@ This repository hence contains rtt4ssa's related material with dependencies, sam
 Please refer to [discussion](https://github.com/mxochicale/rtt4ssa/discussions/landing) for questions, ideas, polls, etc.
 Feel free to open [issues](https://github.com/mxochicale/rtt4ssa/issues) instead.
 
-## Usage
+## Getting started
+You can run [notebooks](rtt4ssa/data_analysis) for data analysis.
+See [models](rtt4ssa/models) for transformer-based models (which is WIP). 
+If interested in cada collection, please see [sensor fusion](rtt4ssa/sensor_fusion) and [usb video camera capture](rtt4ssa/usb_endoscope).   
 
 ### Testing sensor data
 Just test default local camera id 0.   
