@@ -1,23 +1,17 @@
-<h1 align="center">
-Towards Multi-modal Transformer-based models for Surgical Skills Assessment 
-</h1>
-<div align="center">
+![logo](docs/figures/logo.png)
 
-Participant(s): Sujon Hekim   
-Contributor(s): Stephen Thompson       
-Author(s): Miguel Xochicale     
-</div>
+We are interested in prototyping real-time transformer-based models for surgical skills assessment (rtt4ssa).
+This repository hence contains rtt4ssa's related material with dependencies, sample-data, scripts, unit tests, and few docs and references. 
 
-## Abstract 
-This is project is a prototype of multi-modal transformer-based models for surgical skills assessment.
-It contains dependencies, sample-data, scripts, unit tests, and few docs and references. 
+Please refer to [discussion](https://github.com/mxochicale/rtt4ssa/discussions/landing) for questions, ideas, polls, etc.
+Feel free to open [issues](https://github.com/mxochicale/rtt4ssa/issues) instead.
 
 ## Usage
 
 ### Testing sensor data
 Just test default local camera id 0.   
 ```
-mamba activate ai-surg-skills-VE
+mamba activate rtt4ssa
 export PYTHONPATH=$HOME/repositories/in2research2023
 python -m pytest -v -s tests/
 python -m pytest -v -s tests/test_video_capture.py::test_simple_recording_video
@@ -29,7 +23,7 @@ python -m pytest -v -s tests/test_video_capture.py::test_capture_video
 * Clone the repository by typing (or copying) the following line in a terminal at your selected path in your machine:
 ```
 cd && mkdir -p $HOME/repositories && cd  $HOME/repositories
-git clone git@github.com:mxochicale/in2research2023.git
+git clone git@github.com:mxochicale/rtt4ssa.git
 ```
 
 ## Contributors

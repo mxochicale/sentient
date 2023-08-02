@@ -2,9 +2,9 @@
 
 ## Setting up paths and VE env
 ```
-cd $HOME/repositories/in2research2023/scripts/sensor_fusion
+cd $HOME/repositories/in2research2023/rtt4ssa/sensor_fusion
 export PYTHONPATH=$HOME/repositories/openzen/build
-mamba activate ai-surg-skills-VE
+mamba activate rtt4ssaVE
 ```
 
 ## Collecting data
@@ -41,7 +41,7 @@ Scanning ...
 3.2 Connect usb endoscope camera
 3.3 Run command with the desired image resolution and press Q to quick script
 ```
-cd $HOME/repositories/in2research2023/scripts/sensor_fusion
+cd $HOME/repositories/in2research2023/rtt4ssa/sensor_fusion
 python video_usb_imu_bluetooth.py --idFG 4 --fps 120 --fW 160 --fH 120 --vfn testNN.avi
 python video_usb_imu_bluetooth.py --idFG 4 --fps 120 --fW 320 --fH 240 --vfn testNN.avi
 ```
