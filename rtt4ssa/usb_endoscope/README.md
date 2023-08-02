@@ -5,12 +5,12 @@
 ### Resolution tests
 * change path and activate VE
 ```
-cd $HOME/repositories/in2research2023/scripts/usb-endoscope
+cd $HOME/repositories/in2research2023/rtt4ssa/usb_endoscope
 ```
 
 * load mamba env and run script  
 ```
-mamba activate ai-surg-skills-VE
+mamba activate rtt4ssaVE
 ### Testing diffrent Frame Rates per Second
 python capturing_video.py --vfn testvideo.mp4 --idFG 4 --fW 480 --fH 640 --FPS 15 --buffer_size 1
 python capturing_video.py --vfn testvideo.mp4 --idFG 4 --fW 480 --fH 640 --FPS 30 --buffer_size 1

@@ -1,24 +1,25 @@
-<h1 align="center">
-Towards Multi-modal Transformer-based models for Surgical Skills Assessment 
-</h1>
-<div align="center">
+<p float="left">
+   <img src="docs/figures/logo.png" alt="rtt4ssa" width="500"/>
+</p>
 
-Participant(s): Sujon Hekim   
-Contributor(s): Stephen Thompson       
-Author(s): Miguel Xochicale     
-</div>
+[![GitHub Discussions](https://img.shields.io/github/discussions/mxochicale/rtt4ssa)](https://github.com/mxochicale/rtt4ssa/discussions)
 
-## Abstract 
-This is project is a prototype of multi-modal transformer-based models for surgical skills assessment.
-It contains dependencies, sample-data, scripts, unit tests, and few docs and references. 
+We are interested in real-time transformer-based models for surgical skills assessment (rtt4ssa).
+This repository hence contains rtt4ssa's related material with dependencies, sample-data, scripts, unit tests, and few docs and references. 
 
-## Usage
+Please refer to [discussion](https://github.com/mxochicale/rtt4ssa/discussions/landing) for questions, ideas, polls, etc.
+Feel free to open [issues](https://github.com/mxochicale/rtt4ssa/issues) instead.
+
+## Getting started
+You can run [notebooks](rtt4ssa/data_analysis) for data analysis.
+See [models](rtt4ssa/models) for transformer-based models (which is WIP). 
+If interested in cada collection, please see [sensor fusion](rtt4ssa/sensor_fusion) and [usb video camera capture](rtt4ssa/usb_endoscope).   
 
 ### Testing sensor data
 Just test default local camera id 0.   
 ```
-mamba activate ai-surg-skills-VE
-export PYTHONPATH=$HOME/repositories/in2research2023
+mamba activate rtt4ssaVE
+export PYTHONPATH=$HOME/repositories/rtt4ssa
 python -m pytest -v -s tests/
 python -m pytest -v -s tests/test_video_capture.py::test_simple_recording_video
 python -m pytest -v -s tests/test_video_capture.py::test_capture_video
@@ -29,7 +30,7 @@ python -m pytest -v -s tests/test_video_capture.py::test_capture_video
 * Clone the repository by typing (or copying) the following line in a terminal at your selected path in your machine:
 ```
 cd && mkdir -p $HOME/repositories && cd  $HOME/repositories
-git clone git@github.com:mxochicale/in2research2023.git
+git clone git@github.com:mxochicale/rtt4ssa.git
 ```
 
 ## Contributors
