@@ -4,7 +4,7 @@
 
 [![GitHub Discussions](https://img.shields.io/github/discussions/mxochicale/rtt4ssa)](https://github.com/mxochicale/rtt4ssa/discussions)
 
-We are interested in prototyping real-time transformer-based models for surgical skills assessment (rtt4ssa).
+We are interested in real-time transformer-based models for surgical skills assessment (rtt4ssa).
 This repository hence contains rtt4ssa's related material with dependencies, sample-data, scripts, unit tests, and few docs and references. 
 
 Please refer to [discussion](https://github.com/mxochicale/rtt4ssa/discussions/landing) for questions, ideas, polls, etc.
