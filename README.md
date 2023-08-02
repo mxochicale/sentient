@@ -11,8 +11,8 @@ Feel free to open [issues](https://github.com/mxochicale/rtt4ssa/issues) instead
 ### Testing sensor data
 Just test default local camera id 0.   
 ```
-mamba activate rtt4ssa
-export PYTHONPATH=$HOME/repositories/in2research2023
+mamba activate rtt4ssaVE
+export PYTHONPATH=$HOME/repositories/rtt4ssa
 python -m pytest -v -s tests/
 python -m pytest -v -s tests/test_video_capture.py::test_simple_recording_video
 python -m pytest -v -s tests/test_video_capture.py::test_capture_video

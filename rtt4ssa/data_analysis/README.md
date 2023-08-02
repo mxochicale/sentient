@@ -2,7 +2,7 @@
 
 1. Running notebooks
 ```
-cd $HOME/repositories/in2research2023/rtt4ssa/data_analysis
-export PYTHONPATH="${PYTHONPATH}:$HOME/repositories/in2research2023"
+cd $HOME/repositories/rtt4ssa/rtt4ssa/data_analysis
+export PYTHONPATH="${PYTHONPATH}:$HOME/repositories/rtt4ssa"
 mamba activate rtt4ssa && jupyter notebook --browser=firefox
 ```
