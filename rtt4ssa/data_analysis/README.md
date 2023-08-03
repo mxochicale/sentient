@@ -4,5 +4,5 @@
 ```
 cd $HOME/repositories/rtt4ssa/rtt4ssa/data_analysis
 export PYTHONPATH="${PYTHONPATH}:$HOME/repositories/rtt4ssa"
-mamba activate rtt4ssa && jupyter notebook --browser=firefox
+mamba activate rtt4ssaVE && jupyter notebook --browser=firefox
 ```
