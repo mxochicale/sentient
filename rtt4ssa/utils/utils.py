@@ -274,9 +274,9 @@ def data_frame_of_texture_analysis(texture_analysis_array, start_frame_number, e
     return df_texture_analysis
 
 
-def get_and_plot_imu_data_analysis(FULL_PATH_AND_CSV_FILE):
+def get_and_plot_imu_data_analysis(FULL_PATH_AND_CSV_FILE, start_frame_number, end_frame_number):
     df = pd.read_csv(FULL_PATH_AND_CSV_FILE)
-    # print(df)
+    df = df[start_frame_number:end_frame_number]
 
     # # df = df.rename(columns={'Euler_computed [Roll, Pitch, Yaw]': 'Euler_computed'})
     df = df.rename(columns={'Sample number': 'Sample_number'})
