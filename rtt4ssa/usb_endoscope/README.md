@@ -5,7 +5,7 @@
 ### Resolution tests
 * change path and activate VE
 ```
-cd $HOME/repositories/in2research2023/rtt4ssa/usb_endoscope
+cd $HOME/repositories/rtt4ssa/rtt4ssa/usb_endoscope
 ```
 
 * load mamba env and run script  
