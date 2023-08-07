@@ -2,7 +2,7 @@
 
 ## Setting up paths and VE env
 ```
-cd $HOME/repositories/in2research2023/rtt4ssa/sensor_fusion
+cd $HOME/repositories/rtt4ssa/rtt4ssa/sensor_fusion
 export PYTHONPATH=$HOME/repositories/openzen/build
 mamba activate rtt4ssaVE
 ```
@@ -24,7 +24,7 @@ Scanning ...
 1.3 (Optional) Test data streaming 
 
 ```
-cd $HOME/repositories/in2research2023/dependencies/openzen
+cd $HOME/repositories/rtt4ssa/dependencies/openzen
 python hello-sensor.py
 ```
 
@@ -38,13 +38,30 @@ hcitool scan
 Scanning ...
 	00:04:3E:53:ED:58	LPMSB2-53ED58
 ```
-3.2 Connect usb endoscope camera
+3.2 Connect usb endoscope camera and quickly test port id
+```
+cd $HOME/repositories/rtt4ssa/rtt4ssa/usb_endoscope
+python simple_record_video.py --vfn 'simpleCapturedVideo.mp4' --idFG 4
+vlc simpleCapturedVideo.mp4
+```
+
 3.3 Run command with the desired image resolution and press Q to quick script
 ```
-cd $HOME/repositories/in2research2023/rtt4ssa/sensor_fusion
+cd $HOME/repositories/rtt4ssa/rtt4ssa/sensor_fusion
 python video_usb_imu_bluetooth.py --idFG 4 --fps 120 --fW 160 --fH 120 --vfn testNN.avi
 python video_usb_imu_bluetooth.py --idFG 4 --fps 120 --fW 320 --fH 240 --vfn testNN.avi
+vlc testNN.avi
 ```
-3.4 Swich off IMU sensor and disconnect camera!
 
+3.4 For two sensors 
+``` 
+cd $HOME/repositories/rtt4ssa/rtt4ssa/sensor_fusion
+python video_usb_2imus_bluetooth.py --idFG 4 --fps 120 --fW 160 --fH 120 --vfn test2imus_NN.avi
+vlc test2imus_NN.avi
+```
+You might need to kill the process 
+```
+ps -ef | grep "python video_usb_2imus_bluetooth.py" | awk '{print $2}' | xargs kill
+```
 
+3.5 Switch off IMU sensors and disconnect camera!

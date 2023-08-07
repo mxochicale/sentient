@@ -33,6 +33,24 @@ cd && mkdir -p $HOME/repositories && cd  $HOME/repositories
 git clone git@github.com:mxochicale/rtt4ssa.git
 ```
 
+## Publications
+```
+@misc{leung-xochicale-rami-icra2023,
+      author={
+            Tsz Yan Leung and 
+            Miguel Xochicale},
+      title={
+            Towards a Simple Framework of Skill Transfer Learning for 
+            Robotic Ultrasound-guidance Procedures}, 
+      year={2023},
+      eprint={2305.04004},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      howpublished = "\url{https://arxiv.org/abs/2305.04004}"},
+      url = {https://github.com/mxochicale/rami-icra2023}
+}
+``` 
+
 ## Contributors
 Thanks goes to all these people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):  
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->

@@ -45,6 +45,18 @@ if not error == openzen.ZenError.NoError:
 imu_s5b = sensor_s5b.get_any_component_of_type(openzen.component_type_imu)
 print(f'Sensors connected')
 
+
+# Set stream frequency
+streamFreq = 100 # Hz
+error = imu_s5b.set_int32_property(openzen.ZenImuProperty.SamplingRate, streamFreq)
+error, freq = imu_s5b.get_int32_property(openzen.ZenImuProperty.SamplingRate)
+print("Sampling rate imu_s5b: {}".format(freq))
+
+error = imu_s95.set_int32_property(openzen.ZenImuProperty.SamplingRate, streamFreq)
+error, freq = imu_s95.get_int32_property(openzen.ZenImuProperty.SamplingRate)
+print("Sampling rate imu_s95: {}".format(freq))
+
+
 ##############################################################
 print(f"-----------------------")
 print(f'Sensor sync')
@@ -54,41 +66,47 @@ imu_s5b.execute_property(openzen.ZenImuProperty.StartSensorSync)
 ## wait for 3 seconds for the syn commands to arrive
 time.sleep(3)
 
+# Clear existing imu data in event queue
+while client.poll_next_event():
+    pass
+
+
 print(f"-----------------------")
 # set both sensors back to normal mode
 imu_s95.execute_property(openzen.ZenImuProperty.StopSensorSync)
 imu_s5b.execute_property(openzen.ZenImuProperty.StopSensorSync)
 print(f'Sensor sync completed ')
 
-##############################################################
-print(f"-----------------------")
-print(f'Streaming data....')
-runSome = 0
-total_number_of_samples = 50
+
+total_number_of_samples = streamFreq * 10 # Collect 10 seconds of data
+imu_s5b_data_count = 0
+imu_s95_data_count = 0
 
 while True:
     zenEvent = client.wait_for_next_event()
 
-    print('printing imu data from imu_s5b')
+    print('\n  --------------------   \n ')
+
+    print('printing imu data from imu_s5b > ')
     if zenEvent.event_type == openzen.ZenEventType.ImuData and \
             zenEvent.sensor == imu_s5b.sensor and \
             zenEvent.component.handle == imu_s5b.component.handle:
         imu_data = zenEvent.data.imu_data
-        print(f'        imu_s5b')
-        print(f'        Timestamp [s]: {imu_data.timestamp}')
-        print(f'        Quaternion [no unit]: {imu_data.q}')
 
-    print('printing imu data from imu_s95')
+        imu_s5b_data_count = imu_s5b_data_count + 1
+        print(f'imu_s5b {imu_s5b_data_count}, {imu_data.timestamp}, {imu_data.q}')
+
+    print('printing imu data from imu_s95 > ')
     if zenEvent.event_type == openzen.ZenEventType.ImuData and \
             zenEvent.sensor == imu_s95.sensor and \
             zenEvent.component.handle == imu_s95.component.handle:
         imu_data = zenEvent.data.imu_data
-        print(f'        imu_s95')
-        print(f'        Timestamp [s]: {imu_data.timestamp}')
-        print(f'        Quaternion [no unit]: {imu_data.q}')
 
-    runSome = runSome + 1
-    if runSome > total_number_of_samples:
+        imu_s95_data_count = imu_s95_data_count + 1
+        print(f'imu_s95 {imu_s95_data_count}, {imu_data.timestamp}, {imu_data.q}')
+
+    # Check data count of 1 sensor as loop termination condition for easier comparison
+    if imu_s5b_data_count >= total_number_of_samples:
         break
 
 print("Streaming of sensor data complete")
