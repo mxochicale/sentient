@@ -1,6 +1,6 @@
 # Setting up conda env 
 
-## 1. Monda
+## 1. Mamba
 Install [mamba](https://github.com/mxochicale/code/tree/main/mamba) and create [...VE](ve.yml).
 
 ## 2. Installing dependencies

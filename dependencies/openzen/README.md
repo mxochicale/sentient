@@ -162,6 +162,7 @@ following:
 • X positive when pointing to the magnetic north
 • Y positive when pointing to the magnetic west
 • Z positive when pointing up (gravity points vertically down with -1g)
+See further details: [LpmsB2HardwareManual.pdf](https://lp-research.com/wp-content/uploads/2020/03/20200310LpmsB2HardwareManual.pdf).
  
 ![fig](lpms-b2-coordinates.png)
 
