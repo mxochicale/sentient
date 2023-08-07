@@ -52,4 +52,16 @@ python video_usb_imu_bluetooth.py --idFG 4 --fps 120 --fW 160 --fH 120 --vfn tes
 python video_usb_imu_bluetooth.py --idFG 4 --fps 120 --fW 320 --fH 240 --vfn testNN.avi
 vlc testNN.avi
 ```
-3.4 Swich off IMU sensor and disconnect camera!
+
+3.4 For two sensors 
+``` 
+cd $HOME/repositories/rtt4ssa/rtt4ssa/sensor_fusion
+python video_usb_2imus_bluetooth.py --idFG 4 --fps 120 --fW 160 --fH 120 --vfn test2imus_NN.avi
+vlc test2imus_NN.avi
+```
+You might need to kill the process 
+```
+ps -ef | grep "python video_usb_2imus_bluetooth.py" | awk '{print $2}' | xargs kill
+```
+
+3.5 Switch off IMU sensors and disconnect camera!
