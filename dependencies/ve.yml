@@ -7,18 +7,18 @@
 ## mamba remove -n *VE --all			        ## REMOVE
 
 ## QUICK TEST OF THE AVAILABILITY OF CUDA
-## mamba activate ai-surg-skills-VE
+## mamba activate rtt4ssaVE
 ## python
 ## import torch
 ## torch.cuda.is_available()
 
 name: rtt4ssaVE
 channels:
-  - conda-forge # notebook; jupyter_contrib_nbextensions; tqdm; monai; nibabel; gdown; imgaug; ipywidgets; PyAV
+  - conda-forge 
 dependencies:
-  - pytorch #=1.10.* #for aarch54  #=1.11.* for?
-  - python=3.10.* #python version should align with the compilation of openzen > `Found Python3`
-  - cudatoolkit #=11.*.*   #=11.*.*
+  - pytorch 
+  - python=3.10.* 
+  - cudatoolkit
   - tensorflow
   - pip
   - pip:
@@ -30,7 +30,7 @@ dependencies:
      - seaborn
      - scikit-image
      - notebook
-     - thread6 #from threading import Thread
+     - thread6 
      - pydot
      - scikit-learn
      - pytest
