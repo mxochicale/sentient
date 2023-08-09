@@ -240,15 +240,14 @@ def compute_texture_array_and_plot(video, frames_timestam, display_interval):
     return texture_analysis_array
 
 
-def get_and_plot_data_frame_of_texture_analysis(texture_analysis_array, total_number_of_frames):
+def data_frame_of_texture_analysis(texture_analysis_array, start_frame_number, end_frame_number):
     texture_analysis_np_array = np.stack(texture_analysis_array, axis=0)
     texture_analysis_np_array = texture_analysis_np_array.transpose()
     texture_analysis_np_array = texture_analysis_np_array.squeeze()
-    # print(texture_analysis_np_array.shape)
 
     df_texture_analysis = pd.DataFrame(
         {
-            'frame_i': np.arange(0, total_number_of_frames - 1),
+	    'frame_i': np.arange(start_frame_number, end_frame_number - 1),
             'Contrast': texture_analysis_np_array[0],
             'Correlation': texture_analysis_np_array[1],
             'Dissimilarity': texture_analysis_np_array[2],
@@ -257,31 +256,6 @@ def get_and_plot_data_frame_of_texture_analysis(texture_analysis_array, total_nu
             'ASM': texture_analysis_np_array[5]
         }
     )
-
-    ax = plt.gca()
-    ## Comment/uncomment any of the following lines to show however axis you would like to see in the plot
-    df_texture_analysis.plot(x='frame_i', y='Contrast', ax=ax)
-    plt.grid()
-    plt.show()
-
-    ax = plt.gca()
-    df_texture_analysis.plot(x='frame_i', y='Dissimilarity', ax=ax)
-    plt.grid()
-    plt.show()
-
-    ax = plt.gca()
-    df_texture_analysis.plot(x='frame_i', y='Correlation', ax=ax)
-    plt.grid()
-    plt.show()
-
-    ax = plt.gca()
-    df_texture_analysis.plot(x='frame_i', y='Energy', ax=ax)
-    df_texture_analysis.plot(x='frame_i', y='Homogeneity', ax=ax)
-    df_texture_analysis.plot(x='frame_i', y='ASM', ax=ax)
-    plt.grid()
-    plt.show()
-
-    # #TODO: https://seaborn.pydata.org/generated/seaborn.lineplot.html
 
     return df_texture_analysis
 

@@ -7,7 +7,7 @@ Install [mamba](https://github.com/mxochicale/code/tree/main/mamba) and create [
 
 * Python package versions (log for machine with CUDA GPU)
 ```
-$ mamba activate ai-surg-skills-VE
+$ mamba activate rtt4ssaVE
 $ python package_versions.py 
 
 
