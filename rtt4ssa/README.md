@@ -2,7 +2,7 @@
 
 ## Running notebooks
 ```
-cd $HOME/repositories/in2research2023/rtt4ssa
-export PYTHONPATH="${PYTHONPATH}:$HOME/repositories/in2research2023"
-mamba rtt4ssaVE && jupyter notebook --browser=firefox
+cd $HOME/repositories/rtt4ssa/rtt4ssa
+export PYTHONPATH="${PYTHONPATH}:$HOME/repositories/rtt4ssa"
+mamba activate rtt4ssaVE && jupyter notebook --browser=firefox
 ```
