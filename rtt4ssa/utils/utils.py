@@ -257,6 +257,20 @@ def data_frame_of_texture_analysis(texture_analysis_array, start_frame_number, e
         }
     )
 
+    # Mean normalisation
+    df_texture_analysis["Contrast_normalised"] = \
+        (df_texture_analysis["Contrast"] - df_texture_analysis["Contrast"].mean()) / df_texture_analysis["Contrast"].std()
+    df_texture_analysis["Correlation_normalised"] = \
+        (df_texture_analysis["Correlation"] - df_texture_analysis["Correlation"].mean()) / df_texture_analysis["Correlation"].std()
+    df_texture_analysis["Dissimilarity_normalised"] = \
+        (df_texture_analysis["Dissimilarity"] - df_texture_analysis["Dissimilarity"].mean()) / df_texture_analysis["Dissimilarity"].std()
+    df_texture_analysis["Energy_normalised"] = \
+        (df_texture_analysis["Energy"] - df_texture_analysis["Energy"].mean()) / df_texture_analysis["Energy"].std()
+    df_texture_analysis["Homogeneity_normalised"] = \
+        (df_texture_analysis["Homogeneity"] - df_texture_analysis["Homogeneity"].mean()) / df_texture_analysis["Homogeneity"].std()
+    df_texture_analysis["ASM_normalised"] = \
+        (df_texture_analysis["ASM"] - df_texture_analysis["ASM"].mean()) / df_texture_analysis["ASM"].std()
+
     return df_texture_analysis
 
 
