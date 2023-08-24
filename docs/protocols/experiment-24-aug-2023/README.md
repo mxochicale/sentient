@@ -1,22 +1,22 @@
 # Experiment protocol for demo-data collection 24-Aug-2023
 
 ## Setting up computer
-1.1 Defining the parameters for the data collection
-1.2 Calibrate the data where necessary to add value
+1.1 Defining the parameters for the data collection   
+1.2 Calibrate the data where necessary to add value   
 
 ## Setting training box
-2.1 Training box needs to be placed in a suitable surface
-2.2 It needs to be well out of sight 
+2.1 Training box needs to be placed in a suitable surface  
+2.2 It needs to be well out of sight   
 
 ## Setting up sensors
-3.1 Pairing the sensor with computer
-3.2 Testing the sensor to see if it corresponds with the computer by collecting data
-3.3 Attaching the sensor on to the static grasper (check orientation)
-3.4 Positioning the camera in a suitable place and fixing it on to the training box
-3.5 Checking and confirming the display screen  
+3.1 Pairing the sensor with computer  
+3.2 Testing the sensor to see if it corresponds with the computer by collecting data  
+3.3 Attaching the sensor on to the static grasper (check orientation)  
+3.4 Positioning the camera in a suitable place and fixing it on to the training box  
+3.5 Checking and confirming the display screen    
 
 ## Pre demo-data collection  
-4.1 Collect data with 2 light conditions  
+4.1 Collect data with 2 light conditions    
     Five repetitions of 60 seconds with light condition 1   
     Five repetitions of 60 seconds with light condition 2 
 
@@ -28,10 +28,10 @@
 ## Demo-data collection with Peg Transfer Exercise
 Task: 10 beads are transferred from the floor using left grasper to lift with a mid-air transfer to the contralateral grasper that put beads in the top of the pilar.
 
-5.1 Practice round. 10 pegs transfer for 300 seconds (5 minutes) 
-5.2 Three Test (forward alignment) (15 minutes)
-5.3 Three Test (side alignment) (15 minutes)
-5.4 Three Test (reverse alignment) (15 minutes)
+5.1 Practice round. 10 pegs transfer for 300 seconds (5 minutes)   
+5.2 Three Test (forward alignment) (15 minutes)   
+5.3 Three Test (side alignment) (15 minutes)   
+5.4 Three Test (reverse alignment) (15 minutes)   
 
 
 ## References
