@@ -28,11 +28,12 @@
 ## Demo-data collection with Peg Transfer Exercise
 Task: 10 beads are transferred from the floor using left grasper to lift with a mid-air transfer to the contralateral grasper that put beads in the top of the pilar.
 
-5.1 Practice round. 10 pegs transfer for 300 seconds (5 minutes)   
+5.1 Practice round. 10 pegs transfer for 300 seconds (5 minutes) with (forward alignment)  
 5.2 Three Test (forward alignment) (15 minutes)   
 5.3 Three Test (side alignment) (15 minutes)   
 5.4 Three Test (reverse alignment) (15 minutes)   
-
+![fig](../../figures/experiment-24-aug-2023-configurations.png)
+Experiment configurations from Miura et al. 2019. 
 
 ## References
 > Lam, Kyle, Junhong Chen, Zeyu Wang, Fahad M. Iqbal, Ara Darzi, Benny Lo, Sanjay Purkayastha, and James M. Kinross. 
