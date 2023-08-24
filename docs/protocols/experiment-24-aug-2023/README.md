@@ -32,8 +32,9 @@ Task: 10 beads are transferred from the floor using left grasper to lift with a 
 5.2 Three Test (forward alignment) (15 minutes)   
 5.3 Three Test (side alignment) (15 minutes)   
 5.4 Three Test (reverse alignment) (15 minutes)   
-![fig](../../figures/experiment-24-aug-2023-configurations.png)
-Experiment configurations from Miura et al. 2019. 
+
+![fig](../../figures/experiment-24-aug-2023-configurations.png)      
+Figure. Experiment configurations from Miura et al. 2019. 
 
 ## References
 > Lam, Kyle, Junhong Chen, Zeyu Wang, Fahad M. Iqbal, Ara Darzi, Benny Lo, Sanjay Purkayastha, and James M. Kinross. 
