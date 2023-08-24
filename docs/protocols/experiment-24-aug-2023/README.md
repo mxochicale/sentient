@@ -26,12 +26,15 @@
 4.3 Collect data with different sphere colours
 
 ## Demo-data collection with Peg Transfer Exercise
-Task: 10 beads are transferred from the floor using left grasper to lift with a mid-air transfer to the contralateral grasper that put beads in the top of the pilar.
+Practice task: 10 beads are transferred from the floor using left grasper to lift with a mid-air transfer to the contralateral grasper that put beads in the top of the pillar.
+Experiment task: 10 beads are transferred using one grasper and put them in the top of the pillars.
 
-5.1 Practice round. 10 pegs transfer for 300 seconds (5 minutes) with (forward alignment)  
-5.2 Three Test (forward alignment) (15 minutes)   
-5.3 Three Test (side alignment) (15 minutes)   
-5.4 Three Test (reverse alignment) (15 minutes)   
+5.1 Practice round 01 - 2 grasper. 10 beads for pegs transfer for 300 seconds (5 minutes) with (forward alignment)  
+5.1 Practice round 02 - 1 grasper. 10 beads for putting beads into the pillars. 300 seconds (5 minutes) with (forward alignment)  
+5.4 Test-01 - 2 repetitions (reverse alignment) (10 minutes)   
+5.3 Test-02 - 2 repetitions (side alignment) (10 minutes)   
+5.2 Test-03 - 2 repetitions (forward alignment) (15 minutes)   
+
 
 ![fig](../../figures/experiment-24-aug-2023-configurations.png)      
 Figure. Experiment configurations from Miura et al. 2019. 
