@@ -15,13 +15,13 @@
 3.4 Positioning the camera in a suitable place and fixing it on to the training box  
 3.5 Checking and confirming the display screen    
 
-## Pre demo-data collection  
+## Pre demo-data collection (optional)
 4.1 Collect data with 2 light conditions    
-    Five repetitions of 60 seconds with light condition 1   
-    Five repetitions of 60 seconds with light condition 2 
+  Five repetitions of 60 seconds with light condition 1     
+  Five repetitions of 60 seconds with light condition 2  
 
-4.2 Collect data with static grasper  
-    Five repetitions of 60 seconds with different poses of grasper 
+4.2 Collect data with static grasper
+  Five repetitions of 60 seconds with different poses of grasper   
 
 4.3 Collect data with different sphere colours
 
@@ -30,14 +30,13 @@ Practice task: 10 beads are transferred from the floor using left grasper to lif
 Experiment task: 10 beads are transferred using one grasper and put them in the top of the pillars.
 
 5.1 Practice round 01 - 2 grasper. 10 beads for pegs transfer for 300 seconds (5 minutes) with (forward alignment)  
-5.1 Practice round 02 - 1 grasper. 10 beads for putting beads into the pillars. 300 seconds (5 minutes) with (forward alignment)  
-5.4 Test-01 - 2 repetitions (reverse alignment) (10 minutes)   
-5.3 Test-02 - 2 repetitions (side alignment) (10 minutes)   
-5.2 Test-03 - 2 repetitions (forward alignment) (15 minutes)   
+5.2 Practice round 02 - 1 grasper. 10 beads for putting beads into the pillars. 300 seconds (5 minutes) with (forward alignment)  
+5.3 Test-01 - 2 repetitions (fordward alignment) (10 minutes)   
+5.4 Test-02 - 2 repetitions (side alignment) (10 minutes)   
+5.5 Test-03 - 2 repetitions (reverse alignment) (10 minutes)   
 
-
-![fig](../../figures/experiment-24-aug-2023-configurations.png)      
-Figure. Experiment configurations from Miura et al. 2019. 
+![fig](../../figures/experiment-protocol-24-aug-2023/outputs/drawing-v00.png)      
+Figure. Experiment configurations where `S` is for student and `M` is for monitor. Figure is adapted from Miura et al. 2019. 
 
 ## References
 > Lam, Kyle, Junhong Chen, Zeyu Wang, Fahad M. Iqbal, Ara Darzi, Benny Lo, Sanjay Purkayastha, and James M. Kinross. 
