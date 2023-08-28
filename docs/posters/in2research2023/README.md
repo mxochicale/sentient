@@ -11,7 +11,8 @@ The participants will be presenting the research that they have participated in 
 
 PS. we will just have the participants' output (e.g. poster) displayed throughout the venue and attendees will be able to circulate these, talking to participants who will be next to their outputs, just as they would at a poster conference. 
 
-## Poster
+## Poster design and edition 
+To desing and edit your poster, you need to use https://inkscape.org/release/ which open-source and works in multiple Operative Systems. 
 
 ### Edition
 * For cropping images: create a rectangue and overlay with your image, you can then make use of "Object>Clip>Set" to crop images.
@@ -41,17 +42,15 @@ https://askubuntu.com/questions/1127260/imagemagick-convert-not-allowed
 
 ## References 
 
-* My poster: 
-PNG: https://github.com/budai4medtech/miua2022/blob/main/poster/resources/versions/drawing-v08.png
-SVG: https://github.com/budai4medtech/miua2022/blob/main/poster/resources/vectors/drawing-v08.svg
-You need to use https://inkscape.org/release/inkscape-1.2.2/
+* Miguel Xochicale's poster: 
+PNG: https://github.com/budai4medtech/miua2022/blob/main/poster/resources/versions/drawing-v08.png   
+SVG: https://github.com/budai4medtech/miua2022/blob/main/poster/resources/vectors/drawing-v08.svg  
 
-* Some references that might help to design a posters
-https://www.behance.net/gallery/30160927/Scientific-Posters
-https://mindthegraph.com/blog/award-winning-scientific-poster/
-https://www.animateyour.science/post/best-examples-of-scientific-posters
-https://peerj.com/blog/post/115284883237/peerj-award-winner-beata-mierzwa-best-scientific-poster-award-at-vizbi-2019/
-and many more https://www.google.co.uk/search?q=Award-winning+scientific+poster+examples&tbm=isch&ved=2ahUKEwjMlovN2vKAAxUUpicCHVWEApwQ2-cCegQIABAA&oq=Award-winning+scientific+poster+examples&gs_lcp=CgNpbWcQAzIHCAAQigUQQ1AAWABgggdoAHAAeACAAUyIAUySAQExmAEAqgELZ3dzLXdpei1pbWfAAQE&sclient=img&ei=l_HlZIzvEZTMnsEP1YiK4Ak&bih=1104&biw=1920
-
+* Some references that might help to design a posters   
+https://www.behance.net/gallery/30160927/Scientific-Posters  
+https://mindthegraph.com/blog/award-winning-scientific-poster/  
+https://www.animateyour.science/post/best-examples-of-scientific-posters  
+https://peerj.com/blog/post/115284883237/peerj-award-winner-beata-mierzwa-best-scientific-poster-award-at-vizbi-2019/  
+and many more https://www.google.co.uk/search?q=Award-winning+scientific+poster+examples&tbm=isch&ved=2ahUKEwjMlovN2vKAAxUUpicCHVWEApwQ2-cCegQIABAA&oq=Award-winning+scientific+poster+examples&gs_lcp=CgNpbWcQAzIHCAAQigUQQ1AAWABgggdoAHAAeACAAUyIAUySAQExmAEAqgELZ3dzLXdpei1pbWfAAQE&sclient=img&ei=l_HlZIzvEZTMnsEP1YiK4Ak&bih=1104&biw=1920   
 
 
