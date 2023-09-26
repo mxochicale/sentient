@@ -31,6 +31,7 @@
 **/*.toc
 **/*.vrb
 **/*.out
+**/slides.pdf
 **/main.pdf
 
 ## temp models
