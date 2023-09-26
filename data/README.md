@@ -1,5 +1,40 @@
 # Data
 
+## Demo data Thu-24-Aug-2023
+Tree of demo dataset. Each pair of video and time-series were recorded for approximately 5 minutes. 
+```
+$ tree -s
+[       4096]  .
+├── [       4096]  participant01
+│   ├── [ 1126670892]  participant01-test01-rep01-1g-5mins.avi
+│   ├── [   10503488]  participant01-test01-rep01-1g-5mins.avi.csv
+│   ├── [ 1093617412]  participant01-test01-rep02-1g-5mins.avi
+│   ├── [   10490777]  participant01-test01-rep02-1g-5mins.avi.csv
+│   ├── [ 1540763444]  participant01-test02-rep01-1g-5mins.avi
+│   ├── [   10083571]  participant01-test02-rep01-1g-5mins.avi.csv
+│   ├── [ 1503624576]  participant01-test02-rep02-1g-5mins.avi
+│   ├── [    9792205]  participant01-test02-rep02-1g-5mins.avi.csv
+│   ├── [ 1289063688]  participant01-test03-rep01-1g-5mins.avi
+│   ├── [    9975193]  participant01-test03-rep01-1g-5mins.avi.csv
+│   ├── [ 1260531560]  participant01-test03-rep02-1g-5mins.avi
+│   └── [   10033743]  participant01-test03-rep02-1g-5mins.avi.csv
+└── [       4096]  participant02
+    ├── [ 1251925628]  participant02-test01-rep01-1g-5mins.avi
+    ├── [   10188391]  participant02-test01-rep01-1g-5mins.avi.csv
+    ├── [ 1241199998]  participant02-test01-rep02-1g-5mins.avi
+    ├── [   10043427]  participant02-test01-rep02-1g-5mins.avi.csv
+    ├── [ 1423517518]  participant02-test02-rep01-1g-5mins.avi
+    ├── [    9913693]  participant02-test02-rep01-1g-5mins.avi.csv
+    ├── [ 1283264068]  participant02-test02-rep02-1g-5mins.avi
+    ├── [   10211794]  participant02-test02-rep02-1g-5mins.avi.csv
+    ├── [ 1315188186]  participant02-test03-rep01-1g-5mins.avi
+    ├── [   10055324]  participant02-test03-rep01-1g-5mins.avi.csv
+    ├── [ 1437222374]  participant02-test03-rep02-1g-5mins.avi
+    └── [    9870705]  participant02-test03-rep02-1g-5mins.avi.csv
+
+2 directories, 24 files
+```
+
 ## Demo dataset Thu-27-Jul-2023/
 Create and go to data demo path
 ```

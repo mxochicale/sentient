@@ -1,0 +1,69 @@
+\documentclass[xcolor={dvipsnames},aspectratio=169,10pt]{beamer}
+\usetheme{mx}
+\usepackage{graphicx}
+\graphicspath{{../../figures}}
+%\input{preamble.tex}
+
+
+\title{  
+Towards lightweight transformer-based models with multimodal data for low-latency surgical applications
+}
+\subtitle{Fast Machine Learning for Science Workshop 2023}
+
+\author{
+Sujon Hekim, Stephen Thompson, and \\
+{\bf Miguel Xochicale, PhD} (\faTwitter @\_mxochicale  \faGithub @mxochicale)
+}
+
+\date{
+September 26, 2023; 17:00 - 17:15
+% \today
+}
+
+\institute{
+	Advanced Research Computing Centre and WEISS \\
+	University College London
+	}
+
+\titlegraphic{
+  \begin{tikzpicture}[overlay, remember picture]
+    \node[%
+      above right=0.35cm and -0.2cm of current page footer area.south west,
+      anchor=south west,
+      inner sep=0pt] {%
+      \usebeamerfont{footline}
+      \begin{tabular}{lm{.8\textwidth}}
+        \href{http://creativecommons.org/licenses/by/4.0/}{\ccby} &
+        This slices is licensed under a
+	\href{http://creativecommons.org/licenses/by/4.0/}
+		{Creative Commons ``Attribution 4.0 International''} license. 
+	\par Get source of this slides and see further references 
+		from \url{https://github.com/mxochicale/rtt4ssa}.
+      \end{tabular}
+    };
+    \node[%
+      above left=0.35cm and 0cm of current page footer area.south east,
+      anchor=south east,
+      inner sep=0pt]{\qrcode[height=1.5cm]{https://github.com/mxochicale/rtt4ssa}};
+  \end{tikzpicture}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}
+\frametitle{Table of Contents}
+    \tableofcontents
+\end{frame}
+
+\input{content-tex/introduction}
+\input{content-tex/lightweight-transformer-based-models}
+\input{content-tex/experiments-demo-datasets}
+\input{content-tex/results}
+\input{content-tex/conclusions-and-future-work}
+
+\maketitle
+
+\end{document}
+
