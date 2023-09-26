@@ -390,21 +390,21 @@
        transform="matrix(0.61211074,0,0,0.61211074,249.65145,452.51581)"><tspan
          x="92.72644"
          y="-457.09592"
-         id="tspan5351"><tspan
+         id="tspan1351"><tspan
            style="line-height:77%;font-family:Kinnari;-inkscape-font-specification:Kinnari"
-           id="tspan5349">
+           id="tspan1349">
 </tspan></tspan><tspan
          x="92.72644"
          y="-448.55239"
-         id="tspan5355"><tspan
+         id="tspan1355"><tspan
            style="line-height:77%;font-family:Kinnari;-inkscape-font-specification:Kinnari"
-           id="tspan5353">Epochs        200
+           id="tspan1353">Epochs        200
 </tspan></tspan><tspan
          x="92.72644"
          y="-440.00888"
-         id="tspan5359"><tspan
+         id="tspan1359"><tspan
            style="line-height:77%;font-family:Kinnari;-inkscape-font-specification:Kinnari"
-           id="tspan5357">Batch           32
+           id="tspan1357">Batch           32
 </tspan></tspan></text><text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:10.5723px;line-height:77%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;white-space:pre;inline-size:112.382;display:inline;mix-blend-mode:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264307px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -414,28 +414,28 @@
        transform="matrix(0.61211074,0,0,0.61211074,338.06524,348.12027)"><tspan
          x="92.72644"
          y="-457.09592"
-         id="tspan5363"><tspan
+         id="tspan1363"><tspan
            style="line-height:77%;font-family:Kinnari;-inkscape-font-specification:Kinnari"
-           id="tspan5361">
+           id="tspan1361">
 </tspan></tspan><tspan
          x="92.72644"
          y="-448.55239"
-         id="tspan5367"><tspan
+         id="tspan1367"><tspan
    style="line-height:77%;font-family:Kinnari;-inkscape-font-specification:Kinnari"
-   id="tspan5365">Training      2200</tspan><tspan
+   id="tspan1365">Training      2200</tspan><tspan
    y="-448.55239"
-   id="tspan5369"> </tspan></tspan><tspan
+   id="tspan1369"> </tspan></tspan><tspan
          x="92.72644"
          y="-440.00888"
-         id="tspan5373"><tspan
+         id="tspan1373"><tspan
            style="line-height:77%;font-family:Kinnari;-inkscape-font-specification:Kinnari"
-           id="tspan5371">Epochs        100
+           id="tspan1371">Epochs        100
 </tspan></tspan><tspan
          x="92.72644"
          y="-431.46536"
-         id="tspan5377"><tspan
+         id="tspan1377"><tspan
            style="line-height:77%;font-family:Kinnari;-inkscape-font-specification:Kinnari"
-           id="tspan5375">Batch           16
+           id="tspan1375">Batch           16
 </tspan></tspan></text><image
        width="121.24641"
        height="46.291485"
@@ -508,7 +508,7 @@
          style="font-size:30.1781px;text-align:justify;text-anchor:start"
          id="flowPara17013">Class-1: participant01</flowPara><flowPara
          style="font-size:30.1781px;text-align:justify;text-anchor:start"
-         id="flowPara17017">Class+2: participant01</flowPara></flowRoot><circle
+         id="flowPara17017">Class+1: participant02</flowPara></flowRoot><circle
        id="path18239"
        style="fill:#000000;stroke:#000000;stroke-width:0.264583"
        cx="150.88017"
@@ -560,15 +560,15 @@
        transform="matrix(0.98534822,0,0,0.98534822,223.7793,564.28893)"><tspan
          x="92.72644"
          y="-457.09592"
-         id="tspan5381"><tspan
+         id="tspan1381"><tspan
            style="line-height:77%;font-family:Kinnari;-inkscape-font-specification:Kinnari"
-           id="tspan5379">
+           id="tspan1379">
 </tspan></tspan><tspan
          x="92.72644"
          y="-448.55239"
-         id="tspan5385"><tspan
+         id="tspan1385"><tspan
            style="line-height:77%;font-family:Kinnari;-inkscape-font-specification:Kinnari"
-           id="tspan5383">Accuracy</tspan></tspan></text><text
+           id="tspan1383">Accuracy</tspan></tspan></text><text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:10.5723px;line-height:77%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;white-space:pre;inline-size:112.382;display:inline;mix-blend-mode:normal;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.264307px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="92.72644"
@@ -577,12 +577,12 @@
        transform="matrix(0.98534822,0,0,0.98534822,221.17372,598.30853)"><tspan
          x="92.72644"
          y="-457.09592"
-         id="tspan5389"><tspan
+         id="tspan1389"><tspan
            style="line-height:77%;font-family:Kinnari;-inkscape-font-specification:Kinnari"
-           id="tspan5387">
+           id="tspan1387">
 </tspan></tspan><tspan
          x="92.72644"
          y="-448.55239"
-         id="tspan5393"><tspan
+         id="tspan1393"><tspan
            style="line-height:77%;font-family:Kinnari;-inkscape-font-specification:Kinnari"
-           id="tspan5391">Loss</tspan></tspan></text></g></svg>
+           id="tspan1391">Loss</tspan></tspan></text></g></svg>
