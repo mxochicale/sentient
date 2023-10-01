@@ -35,24 +35,24 @@ os.makedirs(FULL_REPO_PREPROCESSED_DATA_PATH, exist_ok=True)
 #print(f'skimage Version: {skimage.__version__}')
 
 
-PARTICIPANTNN = 'participant01'
-PARTICIPANTNN_TESTNN = 'participant01-test01-rep01-1g-5mins' #51,328
-# PARTICIPANTNN_TESTNN = 'participant01-test01-rep02-1g-5mins' #51,178
-# PARTICIPANTNN_TESTNN = 'participant01-test02-rep01-1g-5mins' #49,183
-# PARTICIPANTNN_TESTNN = 'participant01-test02-rep02-1g-5mins' #47,577
-# PARTICIPANTNN_TESTNN = 'participant01-test03-rep01-1g-5mins' #48,688
-# PARTICIPANTNN_TESTNN = 'participant01-test03-rep02-1g-5mins'#48,789
+#PARTICIPANTNN = 'participant01'
+#PARTICIPANTNN_TESTNN = 'participant01-test01-rep01-1g-5mins' #51,328
+#PARTICIPANTNN_TESTNN = 'participant01-test01-rep02-1g-5mins' #51,178
+#PARTICIPANTNN_TESTNN = 'participant01-test02-rep01-1g-5mins' #49,183
+#PARTICIPANTNN_TESTNN = 'participant01-test02-rep02-1g-5mins' #47,577
+#PARTICIPANTNN_TESTNN = 'participant01-test03-rep01-1g-5mins' #48,688
+#PARTICIPANTNN_TESTNN = 'participant01-test03-rep02-1g-5mins'#48,789
 
-# PARTICIPANTNN = participant02
-# PARTICIPANTNN_TESTNN = 'participant02-test01-rep01-1g-5mins'#49,490
-# PARTICIPANTNN_TESTNN = 'participant02-test01-rep02-1g-5mins'#49,219
-# PARTICIPANTNN_TESTNN = 'participant02-test02-rep01-1g-5mins'#48,043
-# PARTICIPANTNN_TESTNN = 'participant02-test02-rep02-1g-5mins'#49,606
-# PARTICIPANTNN_TESTNN = 'participant02-test03-rep01-1g-5mins'#48,875
-# PARTICIPANTNN_TESTNN = 'participant02-test03-rep02-1g-5mins'#48,050
+PARTICIPANTNN = 'participant02'
+PARTICIPANTNN_TESTNN = 'participant02-test01-rep01-1g-5mins'#49,490
+#PARTICIPANTNN_TESTNN = 'participant02-test01-rep02-1g-5mins'#49,219
+#PARTICIPANTNN_TESTNN = 'participant02-test02-rep01-1g-5mins'#48,043
+#PARTICIPANTNN_TESTNN = 'participant02-test02-rep02-1g-5mins'#49,606
+#PARTICIPANTNN_TESTNN = 'participant02-test03-rep01-1g-5mins'#48,875
+#PARTICIPANTNN_TESTNN = 'participant02-test03-rep02-1g-5mins'#48,050
 
 start_frame_number = 0
-end_frame_number = 39000 #(resulted samples are end_frame_number-2)
+end_frame_number = 40000 #(resulted samples are end_frame_number-2)
 display_factor_for_texture_analysis_array = 100000
 
 
@@ -78,7 +78,10 @@ texture_analysis_array = compute_texture_array_and_plot(video, frames_timestam, 
 df_texture_analysis = data_frame_of_texture_analysis(texture_analysis_array, start_frame_number, end_frame_number)
 df, ndf, nqdf = get_and_plot_imu_data_analysis(FULL_PATH_AND_CSV_FILE, start_frame_number, end_frame_number, display_figures)
 
-df_a = df_texture_analysis[['frame_i', 'Contrast_normalised', 'Correlation_normalised', 'Dissimilarity_normalised', 'Energy_normalised', 'Homogeneity_normalised', 'ASM_normalised']]
+#df_a = df_texture_analysis[['frame_i', 'Contrast_normalised', 'Correlation_normalised', 'Dissimilarity_normalised', 'Energy_normalised', 'Homogeneity_normalised', 'ASM_normalised']]
+df_a = df_texture_analysis[['frame_i', 'Contrast_normalised', 'Correlation_normalised', 'Dissimilarity_normalised', 'Homogeneity_normalised']]
+
+
 df_b = df[['q0', 'q1', 'q2', 'q3']]
 dff = pd.concat([df_a, df_b], axis=1)
 
