@@ -3,6 +3,7 @@ from rtt4ssa.utils.utils import data_frame_of_texture_analysis
 from rtt4ssa.utils.utils import get_and_plot_imu_data_analysis
 
 import os
+import time
 import pandas as pd
 import numpy as np
 import torch
@@ -44,12 +45,12 @@ os.makedirs(FULL_REPO_PREPROCESSED_DATA_PATH, exist_ok=True)
 #PARTICIPANTNN_TESTNN = 'participant01-test03-rep02-1g-5mins'#48,789
 
 PARTICIPANTNN = 'participant02'
-PARTICIPANTNN_TESTNN = 'participant02-test01-rep01-1g-5mins'#49,490
+#PARTICIPANTNN_TESTNN = 'participant02-test01-rep01-1g-5mins'#49,490
 #PARTICIPANTNN_TESTNN = 'participant02-test01-rep02-1g-5mins'#49,219
 #PARTICIPANTNN_TESTNN = 'participant02-test02-rep01-1g-5mins'#48,043
 #PARTICIPANTNN_TESTNN = 'participant02-test02-rep02-1g-5mins'#49,606
 #PARTICIPANTNN_TESTNN = 'participant02-test03-rep01-1g-5mins'#48,875
-#PARTICIPANTNN_TESTNN = 'participant02-test03-rep02-1g-5mins'#48,050
+PARTICIPANTNN_TESTNN = 'participant02-test03-rep02-1g-5mins'#48,050
 
 start_frame_number = 0
 end_frame_number = 40000 #(resulted samples are end_frame_number-2)
@@ -61,6 +62,10 @@ FULL_PATH_AND_AVI_FILE = os.path.join(FULL_REPO_DATA_PATH, PARTICIPANTNN, PARTIC
 FULL_PATH_AND_CSV_FILE = os.path.join(FULL_REPO_DATA_PATH, PARTICIPANTNN, PARTICIPANTNN_TESTNN+'.avi.csv')
 
 total_number_of_frames = end_frame_number - start_frame_number
+
+
+start_time = time.time()
+
 
 
 video, frames_timestam = video_to_tensor(FULL_PATH_AND_AVI_FILE, start_frame_number, end_frame_number)
@@ -86,4 +91,9 @@ df_b = df[['q0', 'q1', 'q2', 'q3']]
 dff = pd.concat([df_a, df_b], axis=1)
 
 dff.to_csv(FULL_REPO_PREPROCESSED_DATA_PATH+PARTICIPANTNN_TESTNN+'_normalised_quaternions'+'.csv', index=False) 
+
+
+end_time = time.time()
+execution_time = end_time - start_time
+print(f'Execution time: {execution_time/60} minutes')
 

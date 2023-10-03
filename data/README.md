@@ -35,6 +35,28 @@ $ tree -s
 2 directories, 24 files
 ```
 
+### Pre-processed data
+The following files were created by running `python A_preprocessing_data_from_multiple-files.py` each file contains 40K samples and took around 4 minutes for execution time. 
+```
+~/repositories/datasets/in2research2023/Thu-24-Aug-2023-preprocessed$ tree -s
+[       4096]  .
+├── [    6478131]  participant01-test01-rep01-1g-5mins_normalised_quaternions.csv
+├── [    6474319]  participant01-test01-rep02-1g-5mins_normalised_quaternions.csv
+├── [    6467386]  participant01-test02-rep01-1g-5mins_normalised_quaternions.csv
+├── [    6484423]  participant01-test02-rep02-1g-5mins_normalised_quaternions.csv
+├── [    6460637]  participant01-test03-rep01-1g-5mins_normalised_quaternions.csv
+├── [    6494165]  participant01-test03-rep02-1g-5mins_normalised_quaternions.csv
+├── [    6453894]  participant02-test01-rep01-1g-5mins_normalised_quaternions.csv
+├── [    6445032]  participant02-test01-rep02-1g-5mins_normalised_quaternions.csv
+├── [    6517790]  participant02-test02-rep01-1g-5mins_normalised_quaternions.csv
+├── [    6509961]  participant02-test02-rep02-1g-5mins_normalised_quaternions.csv
+├── [    6450256]  participant02-test03-rep01-1g-5mins_normalised_quaternions.csv
+└── [    6439846]  participant02-test03-rep02-1g-5mins_normalised_quaternions.csv
+
+0 directories, 12 files
+```
+
+
 ## Demo dataset Thu-27-Jul-2023/
 Create and go to data demo path
 ```

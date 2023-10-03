@@ -1,15 +1,20 @@
 # Motion-image sensor data analysis
 
-1. Running notebooks
+## Running notebooks
 ```
 cd $HOME/repositories/rtt4ssa/rtt4ssa/data_analysis
 export PYTHONPATH="${PYTHONPATH}:$HOME/repositories/rtt4ssa"
-mamba activate rtt4ssaVE && jupyter notebook --browser=firefox
+mamba activate rtt4ssaVE 
+jupyter notebook --browser=firefox
 ```
 
-2. Notebooks
+## Notebooks
 You might like to run notebooks in the following order: 
-* `analysis_of_video_image_cropping_texture_features.ipynb` as starting point
-* `analysis_of_demo-data_from_multiple-files-p01 /p02 .ipynb` for participants
+* `A_preprocessing_data_from_multiple-files.py` or `A_preprocessing_data_from_multiple-files.ipynb` to create pre-processed data
+* `B_analysis_of_pre-processed_data_from_multiple_files_plotting.ipynb` to analysis preprocessed data
 
+## Notes
+Notebooks might run out of memory to which is recommended to use python scripts [`]
 
+## References 
+[`] https://github.com/tensorflow/tensorflow/issues/9829#issuecomment-300783730 
