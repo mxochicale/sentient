@@ -1,5 +1,9 @@
 # Data
 
+Demo datasets (1.3 GB) can be downloaded from zenodo: https://doi.org/10.5281/zenodo.10775099.
+See further details [here](../docs/protocols/experiment-24-aug-2023/README.md) on its collection.
+Notes. you can host up to 50GB of data in zenodo. 
+
 ## Demo data Thu-24-Aug-2023
 Tree of demo dataset. Each pair of video and time-series were recorded for approximately 5 minutes. 
 ```
@@ -92,3 +96,7 @@ Tree of demo dataset. Each pair of video and time-series were recorded for appro
 
 2 directories, 20 files
 ```
+
+## Citations 
+
+Hekim, Sujon, and Miguel Xochicale. ‘Demo Dataset for Multimodal Real-time Ai V.1.0.0’. Zenodo, 3 March 2024. https://doi.org/10.5281/zenodo.10775099.

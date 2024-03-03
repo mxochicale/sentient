@@ -35,8 +35,8 @@
 **/main.pdf
 
 ## temp models
-**/best_model.h5
-**/best_transforer_model.h5
+**/best_model*.h5
+**/best_transforer_model*.h5
 
 ## others
 *.ipynb_checkpoints
