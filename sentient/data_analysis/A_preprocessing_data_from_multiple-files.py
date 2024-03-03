@@ -1,6 +1,6 @@
-from rtt4ssa.utils.utils import video_to_tensor, compute_texture_array_and_plot
-from rtt4ssa.utils.utils import data_frame_of_texture_analysis
-from rtt4ssa.utils.utils import get_and_plot_imu_data_analysis
+from sentient.utils.utils import video_to_tensor, compute_texture_array_and_plot
+from sentient.utils.utils import data_frame_of_texture_analysis
+from sentient.utils.utils import get_and_plot_imu_data_analysis
 
 import os
 import time
@@ -14,7 +14,7 @@ from typing import Tuple, List
 
 HOME_PATH = os.path.expanduser(f'~')
 USERNAME = os.path.split(HOME_PATH)[1]
-REPOSITORY_PATH='repositories/rtt4ssa'
+REPOSITORY_PATH='repositories/sentient'
 
 ###########################
 ###SETTING DATA_PATHS

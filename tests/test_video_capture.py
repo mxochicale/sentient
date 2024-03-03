@@ -1,5 +1,5 @@
-from rtt4ssa.usb_endoscope.capturing_video import CaptureVideoTest
-from rtt4ssa.usb_endoscope.simple_record_video import SimpleCaptureVideo
+from sentient.video_devices.capturing_video import CaptureVideoTest
+from sentient.video_devices.simple_record_video import SimpleCaptureVideo
 
 import cv2, glob
 

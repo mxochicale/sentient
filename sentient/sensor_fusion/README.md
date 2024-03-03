@@ -2,9 +2,9 @@
 
 ## Setting up paths and VE env
 ```
-cd $HOME/repositories/rtt4ssa/rtt4ssa/sensor_fusion
+cd $HOME/repositories/sentient/sentient/sensor_fusion
 export PYTHONPATH=$HOME/repositories/openzen/build
-mamba activate rtt4ssaVE
+mamba activate sentientVE
 ```
 
 ## Collecting data
@@ -24,7 +24,7 @@ Scanning ...
 1.3 (Optional) Test data streaming 
 
 ```
-cd $HOME/repositories/rtt4ssa/dependencies/openzen
+cd $HOME/repositories/sentient/dependencies/openzen
 python hello-sensor.py
 ```
 
@@ -40,14 +40,14 @@ Scanning ...
 ```
 3.2 Connect usb endoscope camera and quickly test port id
 ```
-cd $HOME/repositories/rtt4ssa/rtt4ssa/usb_endoscope
+cd $HOME/repositories/sentient/sentient/usb_endoscope
 python simple_record_video.py --vfn 'simpleCapturedVideo.mp4' --idFG 4
 vlc simpleCapturedVideo.mp4
 ```
 
 3.3 Run command with the desired image resolution and press Q to quick script
 ```
-cd $HOME/repositories/rtt4ssa/rtt4ssa/sensor_fusion
+cd $HOME/repositories/sentient/sentient/sensor_fusion
 python video_usb_imu_bluetooth.py --idFG 4 --fps 120 --fW 160 --fH 120 --vfn testNN.avi
 python video_usb_imu_bluetooth.py --idFG 4 --fps 120 --fW 320 --fH 240 --vfn testNN.avi
 vlc testNN.avi
@@ -55,7 +55,7 @@ vlc testNN.avi
 
 3.4 For two sensors 
 ``` 
-cd $HOME/repositories/rtt4ssa/rtt4ssa/sensor_fusion
+cd $HOME/repositories/sentient/sentient/sensor_fusion
 python video_usb_2imus_bluetooth.py --idFG 4 --fps 120 --fW 160 --fH 120 --vfn test2imus_NN.avi
 vlc test2imus_NN.avi
 ```
