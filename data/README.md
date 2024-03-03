@@ -1,5 +1,9 @@
 # Data
 
+Demo datasets (1.3 GB) can be downloaded from zenodo: https://doi.org/10.5281/zenodo.10775099.
+See further details [here](../docs/protocols/experiment-24-aug-2023/README.md) on its collection.
+Notes. you can host up to 50GB of data in zenodo. 
+
 ## Demo data Thu-24-Aug-2023
 Tree of demo dataset. Each pair of video and time-series were recorded for approximately 5 minutes. 
 ```
@@ -34,6 +38,28 @@ $ tree -s
 
 2 directories, 24 files
 ```
+
+### Pre-processed data
+The following files were created by running `python A_preprocessing_data_from_multiple-files.py` each file contains 40K samples and took around 4 minutes for execution time. 
+```
+~/repositories/datasets/in2research2023/Thu-24-Aug-2023-preprocessed$ tree -s
+[       4096]  .
+├── [    6478131]  participant01-test01-rep01-1g-5mins_normalised_quaternions.csv
+├── [    6474319]  participant01-test01-rep02-1g-5mins_normalised_quaternions.csv
+├── [    6467386]  participant01-test02-rep01-1g-5mins_normalised_quaternions.csv
+├── [    6484423]  participant01-test02-rep02-1g-5mins_normalised_quaternions.csv
+├── [    6460637]  participant01-test03-rep01-1g-5mins_normalised_quaternions.csv
+├── [    6494165]  participant01-test03-rep02-1g-5mins_normalised_quaternions.csv
+├── [    6453894]  participant02-test01-rep01-1g-5mins_normalised_quaternions.csv
+├── [    6445032]  participant02-test01-rep02-1g-5mins_normalised_quaternions.csv
+├── [    6517790]  participant02-test02-rep01-1g-5mins_normalised_quaternions.csv
+├── [    6509961]  participant02-test02-rep02-1g-5mins_normalised_quaternions.csv
+├── [    6450256]  participant02-test03-rep01-1g-5mins_normalised_quaternions.csv
+└── [    6439846]  participant02-test03-rep02-1g-5mins_normalised_quaternions.csv
+
+0 directories, 12 files
+```
+
 
 ## Demo dataset Thu-27-Jul-2023/
 Create and go to data demo path
@@ -70,3 +96,7 @@ Tree of demo dataset. Each pair of video and time-series were recorded for appro
 
 2 directories, 20 files
 ```
+
+## Citations 
+
+Hekim, Sujon, and Miguel Xochicale. ‘Demo Dataset for Multimodal Real-time Ai V.1.0.0’. Zenodo, 3 March 2024. https://doi.org/10.5281/zenodo.10775099.

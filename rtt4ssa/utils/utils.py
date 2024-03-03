@@ -196,7 +196,7 @@ def display_videoframe_and_hist(im):
     plt.show()
 
 
-def compute_texture_array_and_plot(video, frames_timestam, display_interval):
+def compute_texture_array_and_plot(video, frames_timestam, displayfig, display_interval):
     """
     O'Byrne, Michael, Bidisha Ghosh, Vikram Pakrashi, and Franck Schoefs.
     "Texture analysis based detection and classification of surface features on ageing infrastructure elements."
@@ -231,11 +231,11 @@ def compute_texture_array_and_plot(video, frames_timestam, display_interval):
         texture_analysis_array.append([con, cor, dis, en, homo, asm])
         # print(con,cor,dis,en,homo, asm)
 
-        if frame_i % display_interval == 0:
-            print(f'frame_i: {frame_i}, timestamp {frames_timestam[frame_i]}')
-            display_videoframe_and_hist(image_frame)
-
-        # plt.savefig('filename'+str(frame_i)+'.png', dpi=300)
+        if displayfig==True:
+            if frame_i % display_interval == 0:
+                print(f'frame_i: {frame_i}, timestamp {frames_timestam[frame_i]}')
+                display_videoframe_and_hist(image_frame)
+                # plt.savefig('filename'+str(frame_i)+'.png', dpi=300)
 
     return texture_analysis_array
 
@@ -274,9 +274,9 @@ def data_frame_of_texture_analysis(texture_analysis_array, start_frame_number, e
     return df_texture_analysis
 
 
-def get_and_plot_imu_data_analysis(FULL_PATH_AND_CSV_FILE, start_frame_number, end_frame_number):
+def get_and_plot_imu_data_analysis(FULL_PATH_AND_CSV_FILE, start_frame_number, end_frame_number, displayfig):
     df = pd.read_csv(FULL_PATH_AND_CSV_FILE)
-    df = df[start_frame_number:end_frame_number]
+    df = df[start_frame_number:end_frame_number-1] # -1 to match length of data_frame_of_texture_analysis()
 
     # # df = df.rename(columns={'Euler_computed [Roll, Pitch, Yaw]': 'Euler_computed'})
     df = df.rename(columns={'Sample number': 'Sample_number'})
@@ -316,8 +316,7 @@ def get_and_plot_imu_data_analysis(FULL_PATH_AND_CSV_FILE, start_frame_number, e
     ndf = pd.concat([ndf_a, ndf_b, ndf_c], ignore_index=True)
     # print(ndf)
 
-    sns.lineplot(data=ndf, x='Sample_number', y='Euler_val', hue='Euler_angle', lw=2)
-    plt.show()
+
 
     ## QUATERNIONS
     nqdf_q0 = pd.DataFrame(data=df['Sample_number'])
@@ -339,7 +338,10 @@ def get_and_plot_imu_data_analysis(FULL_PATH_AND_CSV_FILE, start_frame_number, e
     nqdf = pd.concat([nqdf_q0, nqdf_q1, nqdf_q2, nqdf_q3], ignore_index=True)
     # print(nqdf)
 
-    sns.lineplot(data=nqdf, x='Sample_number', y='Q_val', hue='Quaternion', lw=2)
-    plt.show()
+    if displayfig==True:
+        sns.lineplot(data=ndf, x='Sample_number', y='Euler_val', hue='Euler_angle', lw=2)
+        plt.show()
+        sns.lineplot(data=nqdf, x='Sample_number', y='Q_val', hue='Quaternion', lw=2)
+        plt.show()
 
     return df, ndf, nqdf

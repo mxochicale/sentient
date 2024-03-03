@@ -26,10 +26,11 @@ dependencies:
      - matplotlib
      - numpy
      - jupyter
+     #- jupyter_contrib_nbextensions #>>> jupyter nbextensions_configurator enable
+     - notebook
      - pandas
      - seaborn
      - scikit-image
-     - notebook
      - thread6 
      - pydot
      - scikit-learn
