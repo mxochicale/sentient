@@ -13,8 +13,8 @@ Feel free to open [issues](https://github.com/mxochicale/sentient/issues) instea
 
 ## Getting started
 You can run [notebooks](sentient/data_analysis) for data analysis.
-See [models](sentient/models) for transformer-based models (which is WIP). 
-If interested in cada collection, please see [sensor fusion](sentient/sensor_fusion) and [usb video camera capture](sentient/usb_endoscope).   
+See AI-enabled [models](sentient/models) (work in progress). 
+If interested in cada collection, please see [sensor fusion](sentient/sensor_fusion) and [video_devices](sentient/video_devices).   
 
 ### Testing sensor data
 Just test default local camera id 0.   
