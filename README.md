@@ -1,25 +1,26 @@
 <p float="left">
-   <img src="docs/figures/logo.png" alt="rtt4ssa" width="500"/>
+   <img src="docs/figures/logo.png" alt="sentient"/>
 </p>
 
-[![GitHub Discussions](https://img.shields.io/github/discussions/mxochicale/rtt4ssa)](https://github.com/mxochicale/rtt4ssa/discussions)
+[![GitHub Discussions](https://img.shields.io/github/discussions/mxochicale/sentient)](https://github.com/mxochicale/sentient/discussions)
 
-We are interested in real-time transformer-based models for surgical skills assessment (rtt4ssa).
-This repository hence contains rtt4ssa's related material with dependencies, sample-data, scripts, unit tests, and few docs and references. 
+The aim of this repository is to develop S.E.N.T.I.E.N.T. libray (Sensor Enhanced Network Technology Integrating Evolving Neural Tools).
+`sentient` library includes multi-sensor data methods using SOTA (State-Of-The-Art) AI models for skills assessment in surgery, sports, and robotics.
+Hence, this repository contains sentient's related material with dependencies, sample-data, scripts, unit tests, docs and references. 
 
-Please refer to [discussion](https://github.com/mxochicale/rtt4ssa/discussions/landing) for questions, ideas, polls, etc.
-Feel free to open [issues](https://github.com/mxochicale/rtt4ssa/issues) instead.
+Please refer to [discussion](https://github.com/mxochicale/sentient/discussions/landing) for questions, ideas, polls, etc.
+Feel free to open [issues](https://github.com/mxochicale/sentient/issues) instead.
 
 ## Getting started
-You can run [notebooks](rtt4ssa/data_analysis) for data analysis.
-See [models](rtt4ssa/models) for transformer-based models (which is WIP). 
-If interested in cada collection, please see [sensor fusion](rtt4ssa/sensor_fusion) and [usb video camera capture](rtt4ssa/usb_endoscope).   
+You can run [notebooks](sentient/data_analysis) for data analysis.
+See AI-enabled [models](sentient/models) (work in progress). 
+If interested in cada collection, please see [sensor fusion](sentient/sensor_fusion) and [video_devices](sentient/video_devices).   
 
 ### Testing sensor data
 Just test default local camera id 0.   
 ```
-mamba activate rtt4ssaVE
-export PYTHONPATH=$HOME/repositories/rtt4ssa
+mamba activate sentientVE
+export PYTHONPATH=$HOME/repositories/sentient
 python -m pytest -v -s tests/
 python -m pytest -v -s tests/test_video_capture.py::test_simple_recording_video
 python -m pytest -v -s tests/test_video_capture.py::test_capture_video
@@ -30,7 +31,7 @@ python -m pytest -v -s tests/test_video_capture.py::test_capture_video
 * Clone the repository by typing (or copying) the following line in a terminal at your selected path in your machine:
 ```
 cd && mkdir -p $HOME/repositories && cd  $HOME/repositories
-git clone git@github.com:mxochicale/rtt4ssa.git
+git clone git@github.com:mxochicale/sentient.git
 ```
 
 ## Publications

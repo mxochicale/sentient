@@ -1,16 +1,16 @@
-# Hardware test
+# Video devices
 
 ## USB-Endoscope 
 
 ### Resolution tests
 * change path and activate VE
 ```
-cd $HOME/repositories/rtt4ssa/rtt4ssa/usb_endoscope
+cd $HOME/repositories/sentient/sentient/video_devices
 ```
 
 * load mamba env and run script  
 ```
-mamba activate rtt4ssaVE
+mamba activate sentientVE
 ### Testing diffrent Frame Rates per Second
 python capturing_video.py --vfn testvideo.mp4 --idFG 4 --fW 480 --fH 640 --FPS 15 --buffer_size 1
 python capturing_video.py --vfn testvideo.mp4 --idFG 4 --fW 480 --fH 640 --FPS 30 --buffer_size 1
