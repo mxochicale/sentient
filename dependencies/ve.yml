@@ -5,6 +5,7 @@
 ## mamba env update --file *ve.yml --prune  	## UPDATE
 ## mamba activate *VE   			            ## ACTIVATE
 ## mamba remove -n *VE --all			        ## REMOVE
+## mamba env update --prune -n *VE -f *VE.yml
 
 ## QUICK TEST OF THE AVAILABILITY OF CUDA
 ## mamba activate rtt4ssaVE

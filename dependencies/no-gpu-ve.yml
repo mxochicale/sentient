@@ -5,6 +5,7 @@
 ## mamba env update -f *ve.yml --prune  	## UPDATE
 ## mamba activate *VE   			            ## ACTIVATE
 ## mamba remove -n *VE --all			        ## REMOVE
+## mamba env update --prune -n *VE -f *VE.yml
 
 ## QUICK TEST OF THE AVAILABILITY OF CUDA
 ## conda activate *VE
@@ -21,9 +22,10 @@ dependencies:
   #- cudatoolkit #=11.*.*   #=11.*.*
   - pip
   - pip:
+     - pytest
+     - numpy
      - opencv-python
      #- matplotlib
-     - numpy
      #- jupyter
      #- pandas
      #- seaborn

@@ -20,6 +20,7 @@ If interested in cada collection, please see [sensor fusion](sentient/sensor_fus
 Just test default local camera id 0.   
 ```
 mamba activate sentientVE
+mamba activate sentientbasicVE
 export PYTHONPATH=$HOME/repositories/sentient
 python -m pytest -v -s tests/
 python -m pytest -v -s tests/test_video_capture.py::test_capture_video

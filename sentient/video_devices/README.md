@@ -35,6 +35,17 @@ See [Display_resolution](https://en.wikipedia.org/wiki/Display_resolution#) to t
 ### Testing video features
 ```
 ffmpeg -i *.mp4 
+#for instance
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'video_capturevideotest.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2mp41
+    encoder         : Lavf59.27.100
+  Duration: 00:00:02.27, start: 0.000000, bitrate: 3076 kb/s
+    Stream #0:0(und): Video: mpeg4 (Simple Profile) (mp4v / 0x7634706D), yuv420p, 640x480 [SAR 1:1 DAR 4:3], 3072 kb/s, 30 fps, 30 tbr, 15360 tbn, 30 tbc (default)
+    Metadata:
+      handler_name    : VideoHandler
 ```
 
 ### $ sudo dmesg
