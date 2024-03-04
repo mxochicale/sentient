@@ -32,9 +32,9 @@ Buffer size: 1.0
 
 See [Display_resolution](https://en.wikipedia.org/wiki/Display_resolution#) to test other resolutions.
 
-### Simple video recording 
+### Testing video features
 ```
-python simple_record_video.py --vfn 'simpleCapturedVideo.mp4' --idFG 2
+ffmpeg -i *.mp4 
 ```
 
 ### $ sudo dmesg
@@ -445,3 +445,4 @@ User Controls
 ```
 
 ## References
+https://www.learningaboutelectronics.com/Articles/How-to-record-video-Python-OpenCV.php
