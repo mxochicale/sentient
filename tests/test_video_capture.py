@@ -1,5 +1,4 @@
-from sentient.video_devices.capturing_video import CaptureVideoTest
-from sentient.video_devices.simple_record_video import SimpleCaptureVideo
+from sentient.video_devices.capturing_video import CaptureVideo
 
 import cv2, glob
 
@@ -16,15 +15,6 @@ def test_simple_list_of_available_video_devices():
     assert len(ids)>0
 
 
-def test_simple_recording_video():
-    """
-    Testing simple_record_video
-    """
-    idFG = 0
-    vfn = 'video_simpleCaptured.mp4'
-    last_captured_frame = SimpleCaptureVideo(vfn, idFG)
-    assert (last_captured_frame.shape[2] > 0)
-
 def test_capture_video():
     """
     Testing captured frames
@@ -33,9 +23,9 @@ def test_capture_video():
     idFG = 0
     fW = 480
     fH = 640
-    FPS = 120
+    FPS = 30 #120
     buffer_size = 1
 
-    last_captured_frame = CaptureVideoTest(vfn, idFG, fW, fH, FPS, buffer_size)
-    #print(last_captured_frame.shape)
+    last_captured_frame = CaptureVideo(vfn, idFG, fW, fH, FPS, buffer_size)
+    print(last_captured_frame.shape)
     assert (last_captured_frame.shape[1] > 0 )

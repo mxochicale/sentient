@@ -5,6 +5,7 @@
 ## mamba env update -f *ve.yml --prune  	## UPDATE
 ## mamba activate *VE   			            ## ACTIVATE
 ## mamba remove -n *VE --all			        ## REMOVE
+## mamba env update --prune -n *VE -f *VE.yml
 
 ## QUICK TEST OF THE AVAILABILITY OF CUDA
 ## conda activate *VE
@@ -12,21 +13,22 @@
 ## import torch
 ## torch.cuda.is_available()
 
-name: sentientVE
+name: sentientbasicVE
 channels:
   - conda-forge # notebook; jupyter_contrib_nbextensions; tqdm; monai; nibabel; gdown; imgaug; ipywidgets; PyAV
 dependencies:
-  - pytorch #=1.10.* #for aarch54  #=1.11.* for?
+  #- pytorch #=1.10.* #for aarch54  #=1.11.* for?
   - python=3.8.* #python version should align with the compilation of openzen > `Found Python3`
   #- cudatoolkit #=11.*.*   #=11.*.*
   - pip
   - pip:
-     - opencv-python
-     - matplotlib
+     - pytest
      - numpy
-     - jupyter
-     - pandas
-     - seaborn
-     - scikit-image
-     - notebook
-     - thread6 #from threading import Thread
+     - opencv-python
+     #- matplotlib
+     #- jupyter
+     #- pandas
+     #- seaborn
+     #- scikit-image
+     #- notebook
+     #- thread6 #from threading import Thread
