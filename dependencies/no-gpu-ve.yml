@@ -25,10 +25,10 @@ dependencies:
      - pytest
      - numpy
      - opencv-python
+     - thread6 #from threading import Thread
      #- matplotlib
      #- jupyter
      #- pandas
      #- seaborn
      #- scikit-image
      #- notebook
-     #- thread6 #from threading import Thread

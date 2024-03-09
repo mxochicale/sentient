@@ -35,7 +35,8 @@ $ hostnamectl
 
 * Python package versions
 ```
-$ mamba activate ai-surg-skills-VE
+$ mamba activate sentient-VE
+$ mamba activate sentientbasicVE
 $ python package_versions.py 
 
 python: 3.8.16 | packaged by conda-forge | (default, Feb  1 2023, 16:01:55) 
@@ -77,7 +78,8 @@ cd openzen
 
 4. build and make
 ```
-mamba activate ai-surg-skills-VE
+mamba activate sentientVE #or
+mamba activate sentientbasicVE
 cd $HOME/repositories/openzen && rm -rf build && mkdir build && cd build
 cmake -DZEN_PYTHON=ON ..
 make -j4
@@ -97,13 +99,53 @@ make -j4
 hcitool dev
 Devices:
 	hci0	00:30:91:10:00:26
+	hci1	00:1A:7D:DA:71:13
+	hci2	A4:9B:4F:B6:00:29
 
 hcitool scan
 Scanning ...
 	00:04:3E:6F:37:95	LPMSB2-6F3795
 	00:04:3E:53:ED:5B	LPMSB2-53ED5B
+	00:04:3E:6F:37:7E	LPMSB2-6F377E
 ```
 
+```
+bluetoothctl devices
+Device 00:04:3E:53:ED:5B LPMSB2-53ED5B
+Device 00:04:3E:6F:37:95 LPMSB2-6F3795
+Device 00:04:3E:6F:37:7E LPMSB2-6F377E
+```
+* pair
+```
+bluetoothctl pair 00:04:3E:6F:37:95
+Attempting to pair with 00:04:3E:6F:37:95
+[CHG] Device 00:04:3E:6F:37:95 Connected: yes
+[NEW] Primary Service (Handle 0xd461)
+	/org/bluez/hci0/dev_00_04_3E_6F_37_95/service0018
+	26cc3fc0-6241-f5b4-5347-63a3097f6764
+	Vendor specific
+[NEW] Characteristic (Handle 0xd461)
+	/org/bluez/hci0/dev_00_04_3E_6F_37_95/service0018/char0019
+	bf8796f1-64f7-70b5-1e41-09bb46d79100
+	Vendor specific
+[NEW] Characteristic (Handle 0xd461)
+	/org/bluez/hci0/dev_00_04_3E_6F_37_95/service0018/char001b
+	bf8796f1-64f7-70b5-1e41-09bb46d79101
+	Vendor specific
+[NEW] Characteristic (Handle 0xd461)
+	/org/bluez/hci0/dev_00_04_3E_6F_37_95/service0018/char001d
+	bf8796f1-64f7-70b5-1e41-09bb46d79102
+	Vendor specific
+[NEW] Characteristic (Handle 0xd461)
+	/org/bluez/hci0/dev_00_04_3E_6F_37_95/service0018/char001f
+	bf8796f1-64f7-70b5-1e41-09bb46d79103
+	Vendor specific
+[CHG] Device 00:04:3E:6F:37:95 UUIDs: 00001101-0000-1000-8000-00805f9b34fb
+[CHG] Device 00:04:3E:6F:37:95 UUIDs: 00001800-0000-1000-8000-00805f9b34fb
+[CHG] Device 00:04:3E:6F:37:95 UUIDs: 0000180f-0000-1000-8000-00805f9b34fb
+[CHG] Device 00:04:3E:6F:37:95 UUIDs: 26cc3fc0-6241-f5b4-5347-63a3097f6764
+[CHG] Device 00:04:3E:6F:37:95 ServicesResolved: yes
+```
 
 6. Now you can run the OpenZenExample:
 ```
@@ -126,8 +168,7 @@ More details in the comment of this program.
 7. Run python `hello-sensor.py`
 Open a new terminal (or tab)
 ``` 
-cd $HOME/repositories/rtt4ssa/dependencies/openzen
-mamba activate rtt4ssa
+cd $HOME/repositories/sentient/dependencies/openzen
 export PYTHONPATH=$HOME/repositories/openzen/build
 python hello-sensor.py
 ```
@@ -136,9 +177,8 @@ NB. You might need to keep your sensor disconnected from the bluetooth settings.
 8. `hello-multi-sensor.py`
 Open a new terminal (or tab)
 ``` 
-cd $HOME/repositories/rtt4ssa/dependencies/openzen
+cd $HOME/repositories/sentient/dependencies/openzen
 export PYTHONPATH=$HOME/repositories/openzen/build
-mamba activate rtt4ssa
 python hello-multi-sensors.py
 ```
 Notes by Yab from LP-RESEARCH:
@@ -180,8 +220,8 @@ You might need to download compressed files from latest version in https://bitbu
 ### Streaming motion data
 To run scripts activate your conda environment and run hello-sensor.py and press Ctrl+C to stop the program.
 ``` 
-cd $HOME/repositories/rtt4ssa/dependencies/openzen
-mamba activate rtt4ssa
+cd $HOME/repositories/sentient/dependencies/openzen
+mamba activate sentient
 python hello-sensor.py
 ```
 
@@ -192,3 +232,7 @@ python hello-sensor.py
 * https://lpresearch.bitbucket.io/openzen/latest/setup.html
 * https://lp-research.atlassian.net/wiki/spaces/LKB/pages/1100611599/LPMS+User+Manual
 * For windows: https://lpresearch.bitbucket.io/openzen/latest/setup.html 
+* https://www.baeldung.com/linux/bluetooth-via-terminal
+
+
+

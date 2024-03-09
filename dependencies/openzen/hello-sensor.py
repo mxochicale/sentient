@@ -56,9 +56,10 @@ if sensor_desc_connect is None:
 # error, sensor = client.obtain_sensor(sensor_desc_connect)
 
 # or connect to a sensor by name
-# error, sensor = client.obtain_sensor_by_name("LinuxDevice", "LPMSCU2000003")
-# error, sensor = client.obtain_sensor_by_name("Bluetooth", "00:04:3E:53:ED:5B", 921600)
-error, sensor = client.obtain_sensor_by_name("Bluetooth", "00:04:3E:6F:37:95", 921600)
+#error, sensor = client.obtain_sensor_by_name("LinuxDevice", "LPMSCU2000003")
+#error, sensor = client.obtain_sensor_by_name("Bluetooth", "00:04:3E:53:ED:5B", 921600)
+#error, sensor = client.obtain_sensor_by_name("Bluetooth", "00:04:3E:6F:37:95", 921600)
+error, sensor = client.obtain_sensor_by_name("Bluetooth", "00:04:3E:6F:37:7E", 921600) #LPMSB2-6F377E
 
 if not error == openzen.ZenSensorInitError.NoError:
     print("Error connecting to sensor")
@@ -118,7 +119,7 @@ print("Stored alignment {} to sensor".format(accAlignment))
 ##############################################################
 # start streaming data
 runSome = 0
-total_number_of_samples = 5
+total_number_of_samples = 500
 
 while True:
     zenEvent = client.wait_for_next_event()
