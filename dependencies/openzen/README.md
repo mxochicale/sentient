@@ -225,6 +225,12 @@ mamba activate sentient
 python hello-sensor.py
 ```
 
+## Troubleshooting
+### how-to-manually-stop-a-python-script-that-runs-continuously-on-linux
+```
+ps -ef | grep "python" | awk '{print $2}'
+ps -ef | grep "python" | awk '{print $2}' | xargs sudo kill 
+```
 ## References
 * https://www.lp-research.com/9-axis-bluetooth-imu-lpmsb2-series/
 * https://bitbucket.org/lpresearch/openzen/src/master/   
