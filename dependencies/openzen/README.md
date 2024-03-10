@@ -207,6 +207,9 @@ See further details: [LpmsB2HardwareManual.pdf](https://lp-research.com/wp-conte
 ![fig](lpms-b2-coordinates.png)
 
 
+## CPP scripts
+See [cpp_examples](cpp_examples)
+
 ## Windows OS (not fully tested)
 
 ### Requirements

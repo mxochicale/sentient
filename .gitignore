@@ -1,9 +1,10 @@
 ## pycharm project path
 **.idea
 
-## temporal md files or others
+## temporal files and paths
 **/*.md.swp
 **/*.swp
+**/build
 
 ## temporal data files
 **/test**.avi
