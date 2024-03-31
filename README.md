@@ -16,14 +16,34 @@ You can run [notebooks](sentient/data_analysis) for data analysis.
 See AI-enabled [models](sentient/models) (work in progress). 
 If interested in cada collection, please see [sensor fusion](sentient/sensor_fusion) and [video_devices](sentient/video_devices).   
 
+
+## Installation
+```
+conda create -n "sentientVE" python=3.10 pip
+conda activate sentientVE
+pip install --editable . # Install the package in editable mode
+pip install .[test]
+```
+
 ### Testing sensor data
 Just test default local camera id 0.   
 ```
-mamba activate sentientVE
-mamba activate sentientbasicVE
-export PYTHONPATH=$HOME/repositories/sentient
+cd $HOME/repositories/sentient
+conda activate sentientVE
+conda activate sentientbasicVE
+#export PYTHONPATH=$HOME/repositories/sentient
+#export PYTHONPATH="${PYTHONPATH}:$HOME/repositories/sentient"
 python -m pytest -v -s tests/
+python -m pytest -v -s tests/test_video_capture.py::test_simple_list_of_available_video_devices
 python -m pytest -v -s tests/test_video_capture.py::test_capture_video
+```
+
+## Notebooks
+```
+conda activate sentientVE
+cd $HOME/repositories/sentient/notebooks
+#export PYTHONPATH="${PYTHONPATH}:$HOME/repositories/sentient"
+jupyter notebook --browser=firefox
 ```
 
 ## Clone repository
