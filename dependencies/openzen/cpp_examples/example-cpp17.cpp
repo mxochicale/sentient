@@ -139,4 +139,3 @@ int main(int argc, char* argv[])
     std::cout << "Sensor connection closed" << std::endl;
     return 0;
 }
-

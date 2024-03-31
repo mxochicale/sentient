@@ -8,9 +8,10 @@ repos:
         exclude: ^data/
         exclude: ^docs/
         exclude_types: [markdown]
-#    -   id: end-of-file-fixer
-#        exclude: ^data/
-#        exclude_types: [markdown]
+    -   id: end-of-file-fixer
+        exclude: ^data/
+        exclude: ^docs/
+        exclude_types: [markdown]
 #    -   id: check-yaml
 #    -   id: check-added-large-files
 #  - repo: local

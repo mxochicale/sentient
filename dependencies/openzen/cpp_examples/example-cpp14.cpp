@@ -144,4 +144,3 @@ int main(int argc, char* argv[])
     std::cout << "OpenZen client closed successfully" << std::endl;
     return 0;
 }
-
