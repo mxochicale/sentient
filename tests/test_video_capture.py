@@ -15,20 +15,20 @@ def test_simple_list_of_available_video_devices():
         ids.append(camera)
 
     print(ids)
-    assert len(ids)>0
+    assert len(ids) > 0
 
 
 def test_capture_video():
     """
     Testing captured frames
     """
-    vfn = 'video_capturevideotest.mp4'
+    vfn = "video_capturevideotest.mp4"
     idFG = 0
     fW = 480
     fH = 640
-    FPS = 30 #120
+    FPS = 30  # 120
     buffer_size = 1
 
     last_captured_frame = CaptureVideo(vfn, idFG, fW, fH, FPS, buffer_size)
     print(last_captured_frame.shape)
-    assert (last_captured_frame.shape[1] > 0 )
+    assert last_captured_frame.shape[1] > 0
