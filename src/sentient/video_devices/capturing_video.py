@@ -38,7 +38,7 @@ def CaptureVideo(
     if not cap.isOpened():
         raise IOError("Cannot open video source {}".format(id_framegrabber))
 
-    # print properties of te capture
+    # print properties of the capture
     fps = cap.get(cv2.CAP_PROP_FPS)
     w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))

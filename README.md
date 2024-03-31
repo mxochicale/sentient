@@ -4,7 +4,7 @@
 
 [![GitHub Discussions](https://img.shields.io/github/discussions/mxochicale/sentient)](https://github.com/mxochicale/sentient/discussions)
 
-The aim of this repository is to develop S.E.N.T.I.E.N.T. libray (Sensor Enhanced Network Technology Integrating Evolving Neural Tools).
+The aim of this repository is to develop S.E.N.T.I.E.N.T. library (Sensor Enhanced Network Technology Integrating Evolving Neural Tools).
 `sentient` library includes multi-sensor data methods using SOTA (State-Of-The-Art) AI models for skills assessment in surgery, sports, and robotics.
 Hence, this repository contains sentient's related material with dependencies, sample-data, scripts, unit tests, docs and references. 
 
