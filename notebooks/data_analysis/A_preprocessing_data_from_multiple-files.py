@@ -1,16 +1,18 @@
-from sentient.utils.utils import video_to_tensor, compute_texture_array_and_plot
-from sentient.utils.utils import data_frame_of_texture_analysis
-from sentient.utils.utils import get_and_plot_imu_data_analysis
-
 import os
 import time
-import pandas as pd
-import numpy as np
-import torch
-import matplotlib.pyplot as plt
+from typing import List, Tuple
+
 import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 import skimage
-from typing import Tuple, List
+import torch
+
+from sentient.utils.utils import (compute_texture_array_and_plot,
+                                  data_frame_of_texture_analysis,
+                                  get_and_plot_imu_data_analysis,
+                                  video_to_tensor)
 
 HOME_PATH = os.path.expanduser(f'~')
 USERNAME = os.path.split(HOME_PATH)[1]

@@ -1,8 +1,8 @@
 # conda activate *VE
 # python package_versions.py
 import sys
+
 import cv2
-import torch
 #import h5py
 #import albumentations
 #import sklearn
@@ -10,6 +10,7 @@ import torch
 import PIL
 #import pandas
 import tensorflow as tf
+import torch
 
 print(f'python: {sys.version}')
 print(f'opencv: {cv2.__version__}')

@@ -1,6 +1,9 @@
+import glob
+
+import cv2
+
 from sentient.video_devices.capturing_video import CaptureVideo
 
-import cv2, glob
 
 def test_simple_list_of_available_video_devices():
     """

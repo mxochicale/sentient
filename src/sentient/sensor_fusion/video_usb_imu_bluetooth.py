@@ -6,9 +6,9 @@ from threading import Thread
 from timeit import default_timer as timer
 
 import cv2
+import matplotlib.pyplot as plt
 import numpy as np
 import openzen
-import matplotlib.pyplot as plt
 
 
 class VideoStreamWidget(object):

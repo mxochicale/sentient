@@ -12,8 +12,8 @@ repos:
         exclude_types: [markdown]
     -   id: check-yaml
     -   id: check-added-large-files
-#  - repo: local
-#    hooks:
+  - repo: local
+    hooks:
 #      - id: pylint
 #        name: pylint
 #        entry: pylint
@@ -28,11 +28,11 @@ repos:
 #        entry: black
 #        language: system
 #        types: [python]
-#      - id: isort
-#        name: isort
-#        entry: isort
-#        language: system
-#        types: [python]
+      - id: isort
+        name: isort
+        entry: isort
+        language: system
+        types: [python]
 #      - id: codespell
 #        name: codespell
 #        description: Checks for common misspellings in text files.

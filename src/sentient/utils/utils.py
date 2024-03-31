@@ -1,10 +1,11 @@
+from typing import Tuple
+
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
 from skimage.feature import graycomatrix, graycoprops
-from typing import Tuple
 
 
 def msec_to_timestamp(current_timestamp: float) -> Tuple[float]:
