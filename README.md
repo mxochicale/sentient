@@ -24,6 +24,11 @@ conda activate sentientVE
 pip install --editable . # Install the package in editable mode
 pip install .[test]
 ```
+## Pre-commmit
+```
+conda activate sentientVE
+pre-commit run -a
+```
 
 ### Testing sensor data
 Just test default local camera id 0.   
