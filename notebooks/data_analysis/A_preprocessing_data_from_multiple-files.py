@@ -18,14 +18,14 @@ REPOSITORY_PATH='repositories/sentient'
 
 ###########################
 ###SETTING DATA_PATHS
-#DATA_PATH='repositories/datasets/in2research2023/Thu-27-Jul-2023' 
+#DATA_PATH='repositories/datasets/in2research2023/Thu-27-Jul-2023'
 
 RAW_DATA_PATH='repositories/datasets/in2research2023/Thu-24-Aug-2023'
 PREPROCESSED_DATA_PATH='repositories/datasets/in2research2023/Thu-24-Aug-2023-preprocessed'
 
 FULL_REPO_DATA_PATH = HOME_PATH +'/' + RAW_DATA_PATH
 FULL_REPO_PREPROCESSED_DATA_PATH = HOME_PATH +'/' + PREPROCESSED_DATA_PATH +'/'
-os.makedirs(FULL_REPO_PREPROCESSED_DATA_PATH, exist_ok=True) 
+os.makedirs(FULL_REPO_PREPROCESSED_DATA_PATH, exist_ok=True)
 
 ## Printing Versions and paths
 #print(FULL_REPO_DATA_PATH)
@@ -90,7 +90,7 @@ df_a = df_texture_analysis[['frame_i', 'Contrast_normalised', 'Correlation_norma
 df_b = df[['q0', 'q1', 'q2', 'q3']]
 dff = pd.concat([df_a, df_b], axis=1)
 
-dff.to_csv(FULL_REPO_PREPROCESSED_DATA_PATH+PARTICIPANTNN_TESTNN+'_normalised_quaternions'+'.csv', index=False) 
+dff.to_csv(FULL_REPO_PREPROCESSED_DATA_PATH+PARTICIPANTNN_TESTNN+'_normalised_quaternions'+'.csv', index=False)
 
 
 end_time = time.time()

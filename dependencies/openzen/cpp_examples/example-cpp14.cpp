@@ -94,7 +94,7 @@ int main(int argc, char* argv[])
                 << "\t y = " << event.second.data.imuData.r[1]
                 << "\t z = " << event.second.data.imuData.r[2] << std::endl;
 
-            std::cout << "> Quaternions \t\t\t q0 = " << event.second.data.imuData.q[0] 
+            std::cout << "> Quaternions \t\t\t q0 = " << event.second.data.imuData.q[0]
                 << "\t q1 = " << event.second.data.imuData.q[1]
                 << "\t q2 = " << event.second.data.imuData.q[2]
                 << "\t q3 = " << event.second.data.imuData.q[3] << std::endl;

@@ -24,7 +24,7 @@ def CaptureVideo(video_filename, id_framegrabber, frame_width, frame_height, fra
     cap.set(cv2.CAP_PROP_FPS, frames_per_second)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)
- 
+
     # Check if the device is opened correctly
     if not cap.isOpened():
         raise IOError("Cannot open video source {}".format(id_framegrabber))
@@ -54,7 +54,7 @@ def CaptureVideo(video_filename, id_framegrabber, frame_width, frame_height, fra
         # frame = cv2.cvtColor(frame, cv2.COLOR_YUV2RGB_NV12) # Invalid number of channels in input image:
         # frame = cv2.cvtColor(frame, cv2.COLOR_YUV2RGB_UYVY) # Invalid number of channels in input image:
         out_video.write(frame)
-    
+
         if frame is not None:
             cv2.imshow('frame', frame)
         else:
@@ -62,7 +62,7 @@ def CaptureVideo(video_filename, id_framegrabber, frame_width, frame_height, fra
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-    
+
     cap.release()
     out_video.release()
 

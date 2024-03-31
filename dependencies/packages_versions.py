@@ -2,7 +2,7 @@
 # python package_versions.py
 import sys
 import cv2
-import torch 
+import torch
 #import h5py
 #import albumentations
 #import sklearn
