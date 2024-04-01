@@ -12,7 +12,7 @@ def decode_fourcc(cc):
     return "".join([chr((int(cc) >> 8 * i) & 0xFF) for i in range(4)])
 
 
-def CaptureVideo(
+def capture_video(
     video_filename,
     id_framegrabber,
     frame_width,
@@ -111,7 +111,7 @@ def main():
     )
     args = parser.parse_args()
 
-    CaptureVideo(args.vfn, args.idFG, args.fW, args.fH, args.FPS, args.buffer_size)
+    capture_video(args.vfn, args.idFG, args.fW, args.fH, args.FPS, args.buffer_size)
 
 
 if __name__ == "__main__":
