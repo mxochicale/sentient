@@ -19,10 +19,10 @@ repos:
         entry: pylint
         language: system
         types: [python]
-        #args:
-        #  [
-        #   "--rcfile=tests/.pylintrc" #Link to config file. Create: pylint --generate-rcfile > .pylintrc
-        #  ]
+        args:
+          [
+           "--rcfile=tests/.pylintrc" #Link to config file > `pylint --generate-rcfile > tests/.pylintrc`
+          ]
         exclude: 'data/.*|docs/.*|notebooks/.*|dependencies/.*|src/sentient/utils/.*|src/sentient/sensor_fusion/.*'
       - id: black
         name: black
