@@ -22,8 +22,6 @@ repos:
     rev: 24.2.0
     hooks:
       - id: black  
-        name: black
-        entry: black
         language: system
         types: [python]
 - repo: local
