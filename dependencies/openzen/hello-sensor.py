@@ -12,12 +12,13 @@
 ###########################################################################
 
 import sys
+
 import openzen
 
 ### FOR GNU/LINUX OS
 ## set PYTHONPATH to find OpenZen python module
 ## export PYTHONPATH=$HOME/repositories/openzen/build
-#from libOpenZen import openzen
+# from libOpenZen import openzen
 ### FOR WINDOWS OS
 ## sys.path.append("C:/Users/$MACHINE/$USERNAME/$PATH_OF_THE_REPO/$PATH_OF_THE_SCRIPT")
 
@@ -36,8 +37,11 @@ while True:
     zenEvent = client.wait_for_next_event()
 
     if zenEvent.event_type == openzen.ZenEventType.SensorFound:
-        print("Found sensor {} on IoType {}".format(zenEvent.data.sensor_found.name,
-                                                    zenEvent.data.sensor_found.io_type))
+        print(
+            "Found sensor {} on IoType {}".format(
+                zenEvent.data.sensor_found.name, zenEvent.data.sensor_found.io_type
+            )
+        )
         if sensor_desc_connect is None:
             sensor_desc_connect = zenEvent.data.sensor_found
 
@@ -56,10 +60,12 @@ if sensor_desc_connect is None:
 # error, sensor = client.obtain_sensor(sensor_desc_connect)
 
 # or connect to a sensor by name
-#error, sensor = client.obtain_sensor_by_name("LinuxDevice", "LPMSCU2000003")
-#error, sensor = client.obtain_sensor_by_name("Bluetooth", "00:04:3E:53:ED:5B", 921600)
-#error, sensor = client.obtain_sensor_by_name("Bluetooth", "00:04:3E:6F:37:95", 921600)
-error, sensor = client.obtain_sensor_by_name("Bluetooth", "00:04:3E:6F:37:7E", 921600) #LPMSB2-6F377E
+# error, sensor = client.obtain_sensor_by_name("LinuxDevice", "LPMSCU2000003")
+# error, sensor = client.obtain_sensor_by_name("Bluetooth", "00:04:3E:53:ED:5B", 921600)
+# error, sensor = client.obtain_sensor_by_name("Bluetooth", "00:04:3E:6F:37:95", 921600)
+error, sensor = client.obtain_sensor_by_name(
+    "Bluetooth", "00:04:3E:6F:37:7E", 921600
+)  # LPMSB2-6F377E
 
 if not error == openzen.ZenSensorInitError.NoError:
     print("Error connecting to sensor")
@@ -83,35 +89,35 @@ print("Sensor is streaming data: {}".format(is_streaming))
 print("\n>> Set and get IMU settings")
 
 ##############################################################
-print(f'\nSet and get IMU settings')
+print(f"\nSet and get IMU settings")
 error = imu.set_int32_property(openzen.ZenImuProperty.Id, 6)
 error, imu_id = imu.get_int32_property(openzen.ZenImuProperty.Id)
 print("IMU ID: {}".format(imu_id))
 
-print(f'\n Test to set freq')
+print(f"\n Test to set freq")
 error = imu.set_int32_property(openzen.ZenImuProperty.SamplingRate, 400)
 error, freq = imu.get_int32_property(openzen.ZenImuProperty.SamplingRate)
 print("Sampling rate: {}".format(freq))
 
 ##############################################################
-print(f'\n Load the alignment matrix from the sensor')
+print(f"\n Load the alignment matrix from the sensor")
 error, accAlignment = imu.get_array_property_float(openzen.ZenImuProperty.AccAlignment)
 if not error == openzen.ZenError.NoError:
-   print ("Can't load alignment")
-   sys.exit(1)
+    print("Can't load alignment")
+    sys.exit(1)
 
 if not len(accAlignment) == 9:
-   print ("Loaded Alignment has incosistent size")
-   sys.exit(1)
+    print("Loaded Alignment has incosistent size")
+    sys.exit(1)
 
-print ("Alignment loaded: {}".format(accAlignment))
+print("Alignment loaded: {}".format(accAlignment))
 
 ## store float array
 error = imu.set_array_property_float(openzen.ZenImuProperty.AccAlignment, accAlignment)
 
 if not error == openzen.ZenError.NoError:
-   print ("Can't store alignment")
-   sys.exit(1)
+    print("Can't store alignment")
+    sys.exit(1)
 
 print("Stored alignment {} to sensor".format(accAlignment))
 
@@ -126,16 +132,18 @@ while True:
 
     # check if its an IMU sample event and if it
     # comes from our IMU and sensor component
-    if zenEvent.event_type == openzen.ZenEventType.ImuData and \
-            zenEvent.sensor == imu.sensor and \
-            zenEvent.component.handle == imu.component.handle:
+    if (
+        zenEvent.event_type == openzen.ZenEventType.ImuData
+        and zenEvent.sensor == imu.sensor
+        and zenEvent.component.handle == imu.component.handle
+    ):
         imu_data = zenEvent.data.imu_data
-        print(f'    --------------------------------------------')
-        print(f'        Timestamp [s]: {imu_data.timestamp}')
-        print(f'            A [m/s^2]: {imu_data.a}')
-        print(f' Quaternion [no unit]: {imu_data.q}')
-        print(f'        Euler [deg/s]: {imu_data.r}')
-        print(f'            G [deg/s]: {imu_data.g1} ')
+        print(f"    --------------------------------------------")
+        print(f"        Timestamp [s]: {imu_data.timestamp}")
+        print(f"            A [m/s^2]: {imu_data.a}")
+        print(f" Quaternion [no unit]: {imu_data.q}")
+        print(f"        Euler [deg/s]: {imu_data.r}")
+        print(f"            G [deg/s]: {imu_data.g1} ")
         # See more data descriptions
         # https://lpresearch.bitbucket.io/openzen/latest/data.html
 

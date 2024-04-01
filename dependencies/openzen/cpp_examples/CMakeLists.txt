@@ -13,4 +13,3 @@ set_target_properties(${CMAKE_PROJECT_NAME}17 PROPERTIES CXX_STANDARD 17)
 
 target_link_libraries(${CMAKE_PROJECT_NAME}14 OpenZen::OpenZen)
 target_link_libraries(${CMAKE_PROJECT_NAME}17 OpenZen::OpenZen)
-

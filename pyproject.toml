@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sentient"
+dynamic = ["version", "readme"]
+requires-python = ">=3.10"
+keywords = ["AI"]
+authors = [
+  {name = "Miguel Xochicale", email = "add@email.com"},
+  {name = "Sujon Hekim", email = "add@email.com"},
+]
+maintainers = [
+  {name = "Add maintener", email = "add@email.com"}
+]
+description = "Package example!"
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python"
+]
+dependencies = [
+    "numpy",
+    "opencv-python",
+    "notebook",
+    "jupytext",
+    "matplotlib",
+    "pandas",
+    "seaborn",
+    "scikit-image",
+    "typing",
+    "thread6",
+    #"pydot",
+    # ...
+]
+[project.optional-dependencies]
+# development dependency groups
+test = [
+    "pytest",
+    "pylint",
+    "black",
+    "isort",
+    "codespell",
+    "pre-commit"
+    #'pytest-cov',
+    # ...
+]
+learning = [
+    #"pytorch",
+    #"cudatoolkit",
+    #"scikit-learn",
+    #"tensorflow",
+    # ...
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "sentient.__version__"}
+readme = {file = ["README.md"]}
+
+[tool.setuptools.packages.find]
+where = ["src"]  # list of folders that contain the packages (["."] by default)
+include = ["sentient"]  # package names should match these glob patterns (["*"] by default)
+#exclude = ["my_package.tests*"]  # exclude packages matching these glob patterns (empty by default)
+namespaces = false  # to disable scanning PEP 420 namespaces (true by default)

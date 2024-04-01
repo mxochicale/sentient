@@ -1,6 +1,9 @@
-from sentient.video_devices.capturing_video import CaptureVideo
+"""Test video capture"""
 
-import cv2, glob
+import glob
+
+from sentient.video_devices.capturing_video import capture_video
+
 
 def test_simple_list_of_available_video_devices():
     """
@@ -12,20 +15,22 @@ def test_simple_list_of_available_video_devices():
         ids.append(camera)
 
     print(ids)
-    assert len(ids)>0
+    assert len(ids) > 0
 
 
 def test_capture_video():
     """
     Testing captured frames
     """
-    vfn = 'video_capturevideotest.mp4'
-    idFG = 0
-    fW = 480
-    fH = 640
-    FPS = 30 #120
+    vfn = "video_capturevideotest.mp4"
+    id_framegrabber = 0
+    fwidth = 480
+    fheigth = 640
+    frame_per_second = 30  # 120
     buffer_size = 1
 
-    last_captured_frame = CaptureVideo(vfn, idFG, fW, fH, FPS, buffer_size)
-    print(last_captured_frame.shape)
-    assert (last_captured_frame.shape[1] > 0 )
+    last_captured_frame = capture_video(
+        vfn, id_framegrabber, fwidth, fheigth, frame_per_second, buffer_size
+    )
+    print(f"  Test: Shape of last capture frame {last_captured_frame.shape}")
+    assert last_captured_frame.shape[1] > 0

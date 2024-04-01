@@ -74,7 +74,7 @@ int main(int argc, char* argv[])
             std::cout << "> Acceleration [g] \t\t x = " << event->data.imuData.a[0]
                 << "\t y = " << event->data.imuData.a[1]
                 << "\t z = " << event->data.imuData.a[2] << std::endl;
-            
+
             // depending on sensor, gyro data is outputted to g1, g2 or both
             // read more on https://lpresearch.bitbucket.io/openzen/latest/getting_started.html#id1
             std::cout << "> Gyro 1 [deg/seg] \t\t x = " << event->data.imuData.g1[0]
@@ -89,7 +89,7 @@ int main(int argc, char* argv[])
                 << "\t y = " << event->data.imuData.r[1]
                 << "\t z = " << event->data.imuData.r[2] << std::endl;
 
-            std::cout << "> Quaternions [nounit] \t\t q0 = " << event->data.imuData.q[0] 
+            std::cout << "> Quaternions [nounit] \t\t q0 = " << event->data.imuData.q[0]
                 << "\t q1 = " << event->data.imuData.q[1]
                 << "\t q2 = " << event->data.imuData.q[2]
                 << "\t q3 = " << event->data.imuData.q[3] << std::endl;
@@ -139,4 +139,3 @@ int main(int argc, char* argv[])
     std::cout << "Sensor connection closed" << std::endl;
     return 0;
 }
-
