@@ -4,8 +4,8 @@ on:
   pull_request:
   push:
     branches:
-      - main
-      - 44-pyproject-precommit
+      #- main
+      #- 44-pyproject-precommit
 
 jobs:
   pre-commit:
