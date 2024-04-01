@@ -18,7 +18,15 @@ repos:
       - id: isort
         exclude: doc/data/messages/
         exclude: 'data/.*|docs/.*|notebooks/.*|dependencies/.*'
-  - repo: local
+  - repo: https://github.com/psf/black
+    rev: 24.2.0
+    hooks:
+      - id: black  
+        name: black
+        entry: black
+        language: system
+        types: [python]
+- repo: local
     hooks:
       - id: pylint
         name: pylint
