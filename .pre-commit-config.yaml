@@ -14,15 +14,16 @@ repos:
     -   id: check-added-large-files
   - repo: local
     hooks:
-#      - id: pylint
-#        name: pylint
-#        entry: pylint
-#        language: system
-#        types: [python]
-#        #args:
-#        #  [
-#        #   "--rcfile=tests/pylintrc" #Link to config file
-#        #  ]
+      - id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        types: [python]
+        #args:
+        #  [
+        #   "--rcfile=tests/.pylintrc" #Link to config file. Create: pylint --generate-rcfile > .pylintrc
+        #  ]
+        exclude: 'data/.*|docs/.*|notebooks/.*|dependencies/.*|src/sentient/utils/.*|src/sentient/sensor_fusion/.*'
       - id: black
         name: black
         entry: black
