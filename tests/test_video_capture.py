@@ -25,12 +25,14 @@ def test_capture_video():
     Testing captured frames
     """
     vfn = "video_capturevideotest.mp4"
-    idFG = 0
-    fW = 480
-    fH = 640
-    FPS = 30  # 120
+    id_framegrabber = 0
+    fwidth = 480
+    fheigth = 640
+    frame_per_second = 30  # 120
     buffer_size = 1
 
-    last_captured_frame = CaptureVideo(vfn, idFG, fW, fH, FPS, buffer_size)
+    last_captured_frame = CaptureVideo(
+        vfn, id_framegrabber, fwidth, fheigth, frame_per_second, buffer_size
+    )
     print(last_captured_frame.shape)
     assert last_captured_frame.shape[1] > 0
