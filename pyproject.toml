@@ -20,6 +20,7 @@ classifiers = [
   "Programming Language :: Python"
 ]
 dependencies = [
+    "numpy",
     "opencv-python",
     "notebook",
     "jupytext",
@@ -28,13 +29,9 @@ dependencies = [
     "seaborn",
     "scikit-image",
     "typing",
-    "numpy",
-    #"pytorch",
-    #"cudatoolkit",
-    #"scikit-learn",
-    #"tensorflow",
-    #"thread6",
+    "thread6",
     #"pydot",
+    # ...
 ]
 [project.optional-dependencies]
 # development dependency groups
@@ -46,6 +43,13 @@ test = [
     "codespell",
     "pre-commit"
     #'pytest-cov',
+    # ...
+]
+learning = [
+    #"pytorch",
+    #"cudatoolkit",
+    #"scikit-learn",
+    #"tensorflow",
     # ...
 ]
 

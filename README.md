@@ -16,13 +16,17 @@ You can run [notebooks](sentient/data_analysis) for data analysis.
 See AI-enabled [models](sentient/models) (work in progress). 
 If interested in cada collection, please see [sensor fusion](sentient/sensor_fusion) and [video_devices](sentient/video_devices).   
 
-
 ## Installation
 ```
 conda create -n "sentientVE" python=3.10 pip
 conda activate sentientVE
 pip install --editable . # Install the package in editable mode
 pip install .[test]
+pip install .[learning]
+#pip uninstall sentient
+#conda deactivate
+#conda remove -n sentientVE --all
+
 ```
 ## Pre-commmit
 ```
@@ -35,7 +39,6 @@ Just test default local camera id 0.
 ```
 cd $HOME/repositories/sentient
 conda activate sentientVE
-conda activate sentientbasicVE
 #export PYTHONPATH=$HOME/repositories/sentient
 #export PYTHONPATH="${PYTHONPATH}:$HOME/repositories/sentient"
 python -m pytest -v -s tests/
