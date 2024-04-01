@@ -1,3 +1,5 @@
+"""Test video capture"""
+
 import glob
 
 import cv2
