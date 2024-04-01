@@ -12,6 +12,12 @@ repos:
         exclude_types: [markdown]
     -   id: check-yaml
     -   id: check-added-large-files
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        exclude: doc/data/messages/
+        exclude: 'data/.*|docs/.*|notebooks/.*|dependencies/.*'
   - repo: local
     hooks:
       - id: pylint
