@@ -21,14 +21,14 @@ def CaptureVideo(
     # fourcc = cv2.VideoWriter_fourcc('X', 'V', 'I', 'D')
     # fourcc = cv2.VideoWriter_fourcc(*'DIVX') #decoded as YUYV
     fourcc = cv2.VideoWriter_fourcc("m", "p", "4", "v")  # decoded as YUYV
-    # fourcc = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G') #ffmeg -i yuvj420p(pc, bt470bg/un/un)
+    # fourcc = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
     # fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-    # fourcc = cv2.VideoWriter_fourcc('Y', 'U', 'Y', 'V') #codec not currently supported in container
-    # fourcc = cv2.VideoWriter_fourcc(*'YUYV') #codec not currently supported in container
-    # fourcc = cv2.VideoWriter_fourcc('a', 'v', 'c', '1') #Encoder not found
-    # fourcc = cv2.VideoWriter_fourcc('H','2','6','4') #Encoder not found
-    # fourcc = cv2.VideoWriter_fourcc('I','4','2','0') #codec not currently supported in container
-    # fourcc = cv2.VideoWriter_fourcc('B', 'G', 'R', '3') #don't work
+    # fourcc = cv2.VideoWriter_fourcc('Y', 'U', 'Y', 'V')
+    # fourcc = cv2.VideoWriter_fourcc(*'YUYV') 
+    # fourcc = cv2.VideoWriter_fourcc('a', 'v', 'c', '1') 
+    # fourcc = cv2.VideoWriter_fourcc('H','2','6','4') 
+    # fourcc = cv2.VideoWriter_fourcc('I','4','2','0') 
+    # fourcc = cv2.VideoWriter_fourcc('B', 'G', 'R', '3') 
     cap.set(cv2.CAP_PROP_FOURCC, fourcc)
     cap.set(cv2.CAP_PROP_FPS, frames_per_second)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)
@@ -60,8 +60,8 @@ def CaptureVideo(
         # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         # frame = cv2.cvtColor(frame, cv2.COLOR_YUV2RGB)
-        # frame = cv2.cvtColor(frame, cv2.COLOR_YUV2RGB_NV12) # Invalid number of channels in input image:
-        # frame = cv2.cvtColor(frame, cv2.COLOR_YUV2RGB_UYVY) # Invalid number of channels in input image:
+        # frame = cv2.cvtColor(frame, cv2.COLOR_YUV2RGB_NV12) # Invalid number of chs 
+        # frame = cv2.cvtColor(frame, cv2.COLOR_YUV2RGB_UYVY) # Invalid number of chs
         out_video.write(frame)
 
         if frame is not None:
