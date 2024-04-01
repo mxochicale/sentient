@@ -44,7 +44,7 @@ def capture_video(
 
     # Check if the device is opened correctly
     if not cap.isOpened():
-        raise IOError("Cannot open video source {}".format(id_framegrabber))
+        raise IOError(f"Cannot open video source {id_framegrabber}")
 
     # print properties of the capture
     fps = cap.get(cv2.CAP_PROP_FPS)
@@ -53,9 +53,7 @@ def capture_video(
     fcc = int(cap.get(cv2.CAP_PROP_FOURCC))
     bs = cap.get(cv2.CAP_PROP_BUFFERSIZE)
 
-    print(f"    ")
-    print(f"  Video properties:")
-    print(f"     fps: {fps}")
+    print(f" Video properties: > fps: {fps}")
     print(f"     resolution: W{w}xH{h}")
     print(f"     fcc: {fcc}")
     print(f"     decode_fourcc: {decode_fourcc(fcc)}")
