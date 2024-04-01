@@ -2,8 +2,6 @@
 
 import glob
 
-import cv2
-
 from sentient.video_devices.capturing_video import CaptureVideo
 
 
@@ -31,8 +29,11 @@ def test_capture_video():
     frame_per_second = 30  # 120
     buffer_size = 1
 
-    last_captured_frame = CaptureVideo(
-        vfn, id_framegrabber, fwidth, fheigth, frame_per_second, buffer_size
-    )
+    last_captured_frame = CaptureVideo(vfn, 
+                                        id_framegrabber, 
+                                        fwidth, 
+                                        fheigth, 
+                                        frame_per_second, 
+                                        buffer_size)
     print(last_captured_frame.shape)
     assert last_captured_frame.shape[1] > 0
