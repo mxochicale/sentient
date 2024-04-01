@@ -62,6 +62,11 @@ def capture_video(
 
     while True:
         ret, frame = cap.read()
+
+        if not ret:
+            print(f"Can't receive {frame} (stream end?). Exiting ...")
+            break
+
         frame = cv2.cvtColor(frame, cv2.COLOR_RGBA2RGB)
         # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)

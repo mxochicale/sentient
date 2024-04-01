@@ -32,5 +32,5 @@ def test_capture_video():
     last_captured_frame = capture_video(
         vfn, id_framegrabber, fwidth, fheigth, frame_per_second, buffer_size
     )
-    print(last_captured_frame.shape)
+    print(f"  Test: Shape of last capture frame {last_captured_frame.shape}")
     assert last_captured_frame.shape[1] > 0
