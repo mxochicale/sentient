@@ -2,10 +2,10 @@ name: pre-commit
 
 on:
   pull_request:
-  push:
-    branches:
-      #- main
-      #- 44-pyproject-precommit
+#  push:
+#    branches:
+#      - main
+#      - 44-pyproject-precommit
 
 jobs:
   pre-commit:
