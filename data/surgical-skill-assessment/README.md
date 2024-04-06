@@ -100,5 +100,10 @@ $ tree -s
 2 directories, 20 files
 ```
 
+## Surgical-skill-assessment data
+```
+git clone git@github.com:mxochicale/demo-data-for-sentient.git
+```
+
 ## Citations 
 Hekim, Sujon, and Miguel Xochicale. ‘Demo Dataset for Multimodal Real-time Ai V.1.0.0’. Zenodo, 3 March 2024. https://doi.org/10.5281/zenodo.10775099.

@@ -5,6 +5,8 @@
 **/*.md.swp
 **/*.swp
 **/build
+**/demo-data-for-sentient
+**/*_normalised_quaternions.csv
 
 ## temporal data files
 **/test**.avi
