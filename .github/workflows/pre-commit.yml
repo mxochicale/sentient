@@ -1,11 +1,11 @@
 name: pre-commit
 
-#on:
-#  pull_request:
-#  push:
-#    branches:
-#      - main
-#      - 44-pyproject-precommit
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 46-ci-pre-commit
 
 jobs:
   pre-commit:
