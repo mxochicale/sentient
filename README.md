@@ -3,6 +3,7 @@
 </p>
 
 [![GitHub Discussions](https://img.shields.io/github/discussions/mxochicale/sentient)](https://github.com/mxochicale/sentient/discussions)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
 
 The aim of this repository is to develop S.E.N.T.I.E.N.T. library (Sensor Enhanced Network Technology Integrating Evolving Neural Tools).
 `sentient` library includes multi-sensor data methods using SOTA (State-Of-The-Art) AI models for skills assessment in surgery, sports, and robotics.
