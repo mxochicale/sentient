@@ -54,7 +54,7 @@ sed -i 's|OpenZenTargets\.cmake|OpenZenConfigTargets.cmake|' OpenZenConfig.cmake
 ```bash
 cd /workspace/dependencies/openzen/cpp_examples
 rm -rf build && cmake -S . -B build && cmake --build build -j$(nproc)
-./build/example-cpp17
+./build/example-cpp17 00:04:3E:53:ED:5B 100 921600 # custom MAC + rate + baud
 ```
 
 * clean

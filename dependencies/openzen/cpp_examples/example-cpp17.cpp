@@ -2,11 +2,46 @@
 #include <OpenZen.h>
 
 #include <iostream>
+#include <cstdlib>
+#include <cstring>
 
 using namespace zen;
 
 int main(int argc, char* argv[])
 {
+    // Default values
+    const char* macAddress = "00:04:3E:53:ED:5B";
+    int samplingRate = 50;
+    int baudRate = 921600;
+
+    // Parse command line arguments
+    // Usage: program [MAC_ADDRESS] [SAMPLING_RATE] [BAUD_RATE]
+    if (argc > 1) {
+        macAddress = argv[1];
+    }
+    if (argc > 2) {
+        char* endptr = nullptr;
+        long val = std::strtol(argv[2], &endptr, 10);
+        if (endptr == argv[2] || *endptr != '\0' || val <= 0) {
+            std::cout << "Invalid sampling rate: " << argv[2] << std::endl;
+            return 1;
+        }
+        samplingRate = static_cast<int>(val);
+    }
+    if (argc > 3) {
+        char* endptr = nullptr;
+        long val = std::strtol(argv[3], &endptr, 10);
+        if (endptr == argv[3] || *endptr != '\0' || val <= 0) {
+            std::cout << "Invalid baud rate: " << argv[3] << std::endl;
+            return 1;
+        }
+        baudRate = static_cast<int>(val);
+    }
+
+    std::cout << "Using MAC address: " << macAddress << std::endl;
+    std::cout << "Using sampling rate: " << samplingRate << " Hz" << std::endl;
+    std::cout << "Using baud rate: " << baudRate << std::endl;
+
     // enable resonable log output for OpenZen
     ZenSetLogLevel(ZenLogLevel_Info);
 
@@ -19,7 +54,7 @@ int main(int argc, char* argv[])
     }
 
     // connect to sensor on IO System by the sensor name
-    auto [obtainError, sensor] = client.obtainSensorByName("Bluetooth", "00:04:3E:53:ED:5B", 921600);
+    auto [obtainError, sensor] = client.obtainSensorByName("Bluetooth", macAddress, baudRate);
     if (obtainError)
     {
         std::cout << "Cannot connect to sensor" << std::endl;
@@ -38,7 +73,7 @@ int main(int argc, char* argv[])
     }
 
     // set and get current streaming frequency
-    auto error = imu->setInt32Property(ZenImuProperty_SamplingRate, 50);
+    auto error = imu->setInt32Property(ZenImuProperty_SamplingRate, samplingRate);
     if (error) {
         std::cout << "Error setting streaming frequency" << std::endl;
         client.close();
