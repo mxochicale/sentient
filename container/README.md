@@ -104,12 +104,14 @@ rm -rf build && cmake -S . -B build \
 #IMU UTILS
 cd /root/sentient/dependencies/openzen/imu_utils/
 # clean and build
-rm -rf build && cmake -S . -B build \
-  -DCMAKE_PREFIX_PATH=/root/openzen/build/build/Release \
+rm -rf build && cmake -S . -B build -DCMAKE_PREFIX_PATH=/root/openzen/build/build/Release \
   && cmake --build build -j$(nproc)
 #run example  
 ./build/imu_utils17 --verbose 00:04:3E:53:ED:5B 100 921600
 ./build/imu_utils17 00:04:3E:53:ED:5B 100 921600
+
+# TESTS > # need to add libgtest-dev into openzen/Dockerfile
+./build/test_imu_utils
 ```
 
 
