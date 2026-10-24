@@ -8,15 +8,10 @@ mkdir -p $HOME/repositories && cd $HOME/repositories && sudo rm -rf openzen
 git clone --branch 1.3.1 --single-branch --recurse-submodules https://bitbucket.org/lpresearch/openzen.git
 ```
 
-
-## Set up
-* Versions
+## Set up and build
 ```bash
-IMAGE=ubuntu VER=v0.0.1
-```
-* Build
-```bash
-# cd repo root
+cd $HOME/repositories/sentient
+IMAGE=ubuntu VER=v0.0.1 #Versions
 docker build -t "${IMAGE}:${VER}" -f Dockerfile .
 ```
 
@@ -47,6 +42,7 @@ cmake -S . -DZEN_BLUETOOTH=ON -B build
 cmake --build build -j$(nproc)
 cd /workspace/openzen/build
 sed -i 's|OpenZenTargets\.cmake|OpenZenConfigTargets.cmake|' OpenZenConfig.cmake
+cat OpenZenConfig.cmake
 ```
 
 ## Build and run openzen examples
