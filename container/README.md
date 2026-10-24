@@ -33,7 +33,11 @@ docker run -it --rm \
 
 ```
 
-NOTE. hcitool is a deprecated tool, and some newer distributions have already removed it from the bluez package and placed it in bluez-utils-compat. It's recommended to primarily use bluetoothctl for scanning and pairing
+## Discover devices
+```bash
+bluetoothctl devices
+bluetoothctl pair 00:04:3E:53:ED:5B
+```
 
 ## Build openzen
 
