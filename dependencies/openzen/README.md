@@ -117,6 +117,7 @@ Device 00:04:3E:6F:37:7E LPMSB2-6F377E
 ```
 * pair
 ```
+bluetoothctl pair 00:04:3E:53:ED:5B
 bluetoothctl pair 00:04:3E:6F:37:95
 Attempting to pair with 00:04:3E:6F:37:95
 [CHG] Device 00:04:3E:6F:37:95 Connected: yes

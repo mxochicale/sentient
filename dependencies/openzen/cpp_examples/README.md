@@ -1,9 +1,9 @@
 # Examples for C++ API 
 
 ## Preparing building
-Once openzen is built, please add the following line in `$HOME/repositories/openzen/build/OpenZenConfig.cmake`
-```
-include("${CMAKE_CURRENT_LIST_DIR}/OpenZenConfigTargets.cmake")
+Once openzen is built, run this to add OpenZenConfigTargets in OpenZenConfig.cmake
+```bash
+sed -i 's|OpenZenTargets\.cmake|OpenZenConfigTargets.cmake|' OpenZenConfig.cmake
 ```
 
 ## Files
@@ -12,10 +12,10 @@ include("${CMAKE_CURRENT_LIST_DIR}/OpenZenConfigTargets.cmake")
 * CMake file to test the usage of a installed cmake package of OpenZen
 
 ## Build
-```
-cd $HOME/repositories/sentient/dependencies/openzen/cpp_examples && mkdir -p build && cd build
-cd .. && rm -rf build && mkdir build && cd build && cmake .. && cmake --build .
-./example-cpp* 
+```bash
+cd ../openzen/cpp_examples
+rm -rf build && cmake -S . -B build && cmake --build build -j$(nproc)
+./build/example-cpp17
 ```
 
 ## References

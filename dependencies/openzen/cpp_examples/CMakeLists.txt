@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(example-cpp VERSION 0.1.0 LANGUAGES CXX;C)
 
-set (CMAKE_PREFIX_PATH $ENV{HOME}/repositories/openzen/build)
+set(CMAKE_PREFIX_PATH "/workspace/openzen/build")
 
 find_package(OpenZen REQUIRED)
 
