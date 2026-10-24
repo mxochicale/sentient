@@ -112,6 +112,14 @@ rm -rf build && cmake -S . -B build -DCMAKE_PREFIX_PATH=/root/openzen/build/buil
 
 # TESTS > # need to add libgtest-dev into openzen/Dockerfile
 ./build/test_imu_utils
+
+#TWOIMUS
+cd /root/sentient/dependencies/openzen/twoimus
+rm -rf build && cmake -S . -B build -DCMAKE_PREFIX_PATH=/root/openzen/build/build/Release \
+  && cmake --build build -j$(nproc)
+#run
+./build/twoimus17 00:04:3E:6F:37:7E 00:04:3E:53:ED:5B 100 921600
+./build/twoimus17 --verbose 00:04:3E:6F:37:7E 00:04:3E:53:ED:5B 100 921600
 ```
 
 
