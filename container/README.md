@@ -2,8 +2,8 @@
 
 ## Clone Openzen
 
-Clone openzen 
-```
+## Openzen v1.3.1
+```bash
 mkdir -p $HOME/repositories && cd $HOME/repositories && sudo rm -rf openzen
 git clone --branch 1.3.1 --single-branch --recurse-submodules https://bitbucket.org/lpresearch/openzen.git
 ```
@@ -49,7 +49,9 @@ cat OpenZenConfig.cmake
 * Build and run
 ```bash
 cd /workspace/dependencies/openzen/cpp_examples
-rm -rf build && cmake -S . -B build && cmake --build build -j$(nproc)
+rm -rf build && cmake -S . -B build \
+  -DCMAKE_PREFIX_PATH=/workspace/openzen/build \
+  && cmake --build build -j$(nproc)
 ./build/example-cpp17 --verbose 00:04:3E:53:ED:5B 100 921600 # custom MAC + rate + baud # --verbose
 ./build/example-cpp17 00:04:3E:53:ED:5B 100 921600 # custom MAC + rate + baud # just dots per sample
 ```
@@ -60,6 +62,45 @@ cmake --build build --target clean
 rm -rf build
 ```
 
+
+## openzen v1.3.4
+* Clone openzen
+```bash
+mkdir -p $HOME/repositories && cd $HOME/repositories && sudo rm -rf openzen
+git clone https://bitbucket.org/lpresearch/openzen.git
+cd $HOME/repositories/openzen
+git checkout release/1.3.4
+#BUILD
+docker build -t openzen-buildbox -f docker/Dockerfile .
+#RUN
+docker run -it --rm \
+  --net=host \
+  --privileged \
+  -v "$HOME/repositories/openzen:/root/openzen" \
+  -v "$HOME/repositories/sentient:/root/sentient" \
+  openzen-buildbox:latest
+
+#BUILD OPENZEN
+cd /root/openzen
+#Remove build output folder (Conan + CMake artifacts)
+rm -rf build/
+# Optional: clear Conan local cache for this project's deps
+conan remove "*" -c 
+# install create relse and build
+conan install . --output-folder=build --build=missing
+cmake --preset conan-release
+cmake --build --preset conan-release
+cd /root/openzen/build/build/Release
+sed -i 's|OpenZenTargets\.cmake|OpenZenConfigTargets.cmake|' OpenZenConfig.cmake
+
+#BUILD SENTIENT EXAMPLE
+cd /root/sentient/dependencies/openzen/cpp_examples
+rm -rf build && cmake -S . -B build \
+  -DCMAKE_PREFIX_PATH=/root/openzen/build/build/Release \
+  && cmake --build build -j$(nproc)
+./build/example-cpp17 --verbose 00:04:3E:53:ED:5B 100 921600 # custom MAC + rate + baud # --verbose
+./build/example-cpp17 00:04:3E:53:ED:5B 100 921600 # custom MAC + rate + baud # just dots per sample
+```
 
 
 ## Docker commands

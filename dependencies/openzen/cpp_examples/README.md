@@ -14,7 +14,15 @@ sed -i 's|OpenZenTargets\.cmake|OpenZenConfigTargets.cmake|' OpenZenConfig.cmake
 ## Build
 ```bash
 cd ../openzen/cpp_examples
-rm -rf build && cmake -S . -B build && cmake --build build -j$(nproc)
+# openzen 1.3.1
+rm -rf build && cmake -S . -B build \
+  -DCMAKE_PREFIX_PATH=/workspace/openzen/build \
+  && cmake --build build -j$(nproc)
+# openzen 1.3.4
+rm -rf build && cmake -S . -B build \
+  -DCMAKE_PREFIX_PATH=/root/openzen/build/build/Release \
+  && cmake --build build -j$(nproc)
+# run  
 ./build/example-cpp17 --verbose 00:04:3E:53:ED:5B 100 921600 # custom MAC + rate + baud # --verbose
 ./build/example-cpp17 00:04:3E:53:ED:5B 100 921600 # custom MAC + rate + baud # just dots per sample
 ```
