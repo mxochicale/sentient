@@ -5,6 +5,10 @@
 #include <cstdlib>
 #include <cstring>
 #include <vector>
+#include <chrono>     // for steady_clock
+#include <algorithm>  // for std::min_element / std::max_element
+#include <numeric>    // for std::accumulate
+#include <cmath>      // for std::sqrt
 
 using namespace zen;
 
@@ -110,14 +114,34 @@ int main(int argc, char* argv[])
         return error;
     }
 
+    // ------------------------------------------------------------------
+    // NEW: timing instrumentation
+    // ------------------------------------------------------------------
+    using Clock = std::chrono::steady_clock;
+    std::vector<double> intervalsMs;  // wall-clock delta between IMU events
+    intervalsMs.reserve(128);
+
+    Clock::time_point prevEventTime{};
+    Clock::time_point firstEventTime{};
+    bool havePrev = false;
+
     // readout up to 100 samples from the IMU
-    // note that there are 2 gyro fields in the IMU data structure (ZenImuData struct in include/ZenTypes.h)
-    // please refer to your sensor's manual for correct retrieval of gyro data
     int samples = 0;
     while (samples < 100) {
         auto event = client.waitForNextEvent();
         if (!event) break;
         if (event->component.handle != imu->component().handle) continue;
+
+        // NEW: timestamp arrival of this IMU sample
+        auto now = Clock::now();
+        if (!havePrev) {
+            firstEventTime = now;
+            havePrev = true;
+        } else {
+            double dtMs = std::chrono::duration<double, std::milli>(now - prevEventTime).count();
+            intervalsMs.push_back(dtMs);
+        }
+        prevEventTime = now;
 
         // ... process
         if (verbose) {
@@ -193,6 +217,40 @@ int main(int argc, char* argv[])
     }
 
     if (!verbose) std::cout << std::endl;
+
+    // ------------------------------------------------------------------
+    // NEW: timing summary
+    // ------------------------------------------------------------------
+    if (samples > 1 && !intervalsMs.empty()) {
+        double totalMs = std::chrono::duration<double, std::milli>(
+            prevEventTime - firstEventTime).count();
+
+        double minMs = *std::min_element(intervalsMs.begin(), intervalsMs.end());
+        double maxMs = *std::max_element(intervalsMs.begin(), intervalsMs.end());
+        double sumMs = std::accumulate(intervalsMs.begin(), intervalsMs.end(), 0.0);
+        double meanMs = sumMs / static_cast<double>(intervalsMs.size());
+
+        // Observed rate from wall clock over the whole window
+        double observedHz = (samples - 1) * 1000.0 / totalMs;
+
+        // RMS jitter around the mean interval
+        double sq = 0.0;
+        for (double v : intervalsMs) {
+            double d = v - meanMs;
+            sq += d * d;
+        }
+        double rmsJitterMs = std::sqrt(sq / static_cast<double>(intervalsMs.size()));
+
+        std::cout << "\n--- Timing summary (wall clock) ---\n";
+        std::cout << "Samples:               " << samples << "\n";
+        std::cout << "Elapsed:               " << totalMs << " ms\n";
+        std::cout << "Observed rate:         " << observedHz << " Hz"
+                  << "  (requested " << samplingRate << " Hz)\n";
+        std::cout << "Mean interval:         " << meanMs << " ms  ("
+                  << (meanMs > 0.0 ? 1000.0 / meanMs : 0.0) << " Hz)\n";
+        std::cout << "Min / Max interval:    " << minMs << " / " << maxMs << " ms\n";
+        std::cout << "RMS jitter:            " << rmsJitterMs << " ms\n";
+    }
 
     client.close();
     std::cout << "Sensor connection closed" << std::endl;
