@@ -79,7 +79,7 @@ RUN set -eux && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # ---------------------------------------------------------------------------
-# 9. Core build tools and developer utilities
+# Core build tools and developer utilities
 #    (own layer so a later ROS/rqt failure can't roll them back)
 # ---------------------------------------------------------------------------
 RUN set -eux && \
@@ -105,8 +105,59 @@ RUN set -eux && \
         udev \
         openssh-client \
         net-tools \
-        iputils-ping && \
+        iputils-ping \
+        ninja-build \
+        pipx \
+        software-properties-common \
+        ca-certificates \
+        gpg \
+        curl \
+        wget && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# ---------------------------------------------------------------------------
+# GCC 14 toolchain via PPA
+# Uses update-alternatives so system GCC 13 stays available.
+# ---------------------------------------------------------------------------
+RUN set -eux && \
+    add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        gcc-14 \
+        g++-14 && \
+    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100 \
+        --slave /usr/bin/g++ g++ /usr/bin/g++-14 \
+        --slave /usr/bin/gcov gcov /usr/bin/gcov-14 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# ---------------------------------------------------------------------------
+# Kitware CMake (latest 3.x from Kitware apt repo)
+# Unpinned to avoid brittle version-suffix breakage.
+# ---------------------------------------------------------------------------
+RUN set -eux && \
+    curl -fsSL https://apt.kitware.com/keys/kitware-archive-latest.asc \
+        | gpg --dearmor -o /usr/share/keyrings/kitware-archive-keyring.gpg && \
+    echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ noble main' \
+        > /etc/apt/sources.list.d/kitware.list && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        kitware-archive-keyring \
+        cmake \
+        cmake-data && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# ---------------------------------------------------------------------------
+# Conan 2 via pipx, installed globally so all users see it.
+# PIPX_BIN_DIR=/usr/local/bin makes the conan shim land on the system
+# PATH, which rosuser inherits.
+# ---------------------------------------------------------------------------
+RUN set -eux && \
+    PIPX_BIN_DIR=/usr/local/bin PIPX_HOME=/opt/pipx pipx install conan && \
+    conan --version
+
+# Expose pipx/Conan bins system-wide and point Conan at a per-user home
+ENV PATH=/usr/local/bin:$PATH \
+    CONAN_HOME=/home/rosuser/.conan2
 
 # ---------------------------------------------------------------------------
 # 10. GUI / rendering libraries (rviz, rqt, gazebo)
@@ -215,6 +266,7 @@ RUN set -eux && \
     chmod 0440 /etc/sudoers.d/${USERNAME} && \
     mkdir -p /home/${USERNAME}/.local/bin && \
     mkdir -p /home/${USERNAME}/ros2_ws/src && \
+    mkdir -p /home/${USERNAME}/.conan2 && \
     chown -R ${USER_UID}:${USER_GID} /home/${USERNAME}
 
 # ---------------------------------------------------------------------------
@@ -233,6 +285,11 @@ fi
 
 if command -v register-python-argcomplete &> /dev/null; then
     eval "$(register-python-argcomplete colcon)"
+fi
+
+# Conan home (keeps ~/.conan2 under the user's home)
+if command -v conan &> /dev/null; then
+    export CONAN_HOME="${CONAN_HOME:-$HOME/.conan2}"
 fi
 
 export PS1='\[\e[1;32m\][\u@\h:\w]\[\e[1;36m\][${ROS_DISTRO}]\[\e[0m\]\$ '

@@ -1,16 +1,14 @@
+# ROS2 container
 
-# Second steps build conianter with foxiy ros2
-
-* build container with ros2
+## build 
 ```bash
 cd $HOME/repositories/sentient/ros2
 IMAGE=ubunturos2focalfoxy VER=v0.0.1 #Versions
 docker build -t "${IMAGE}:${VER}" -f DockerfileFocalFoxy .
 #ros2 noble
-IMAGE=ubunturos2noblejazzy VER=v0.0.1 #Versions
+IMAGE=ubunturos2noblejazzy VER=v0.0.2 #Versions
 docker build -t "${IMAGE}:${VER}" -f DockerfileNobleJazzy .
 ```
-
 
 NOTE.
 Change the DDS Middleware (RMW Implementation)
@@ -24,7 +22,7 @@ export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 ros2 run rqt_plot rqt_plot /openzen/data/linear_acceleration
                            
 
-* Launch container
+## Launch container
 ```bash
 #?xhost +local:docker
 
@@ -39,18 +37,10 @@ docker run -it --rm \
   -v "$HOME/repositories/openzen:/home/rosuser/ros2_ws/src/openzenros2/openzen" \
   ${IMAGE}:${VER}
 
-
 ```
 
 
-
-
-# First Stesp build container for openzen and chenck the bin file can stream data from snenoser via bluetoht
-
-
-
-
-## Openzen v1.3.1
+## Build and use ppenzen v1.3.1
 ```bash
 mkdir -p $HOME/repositories && cd $HOME/repositories && sudo rm -rf openzen
 git clone --branch 1.3.1 --single-branch --recurse-submodules https://bitbucket.org/lpresearch/openzen.git
@@ -108,5 +98,3 @@ rm -rf build && cmake -S . -B build  -DCMAKE_PREFIX_PATH=/workspace/openzen/buil
 cmake --build build --target clean
 rm -rf build
 ```
-
-

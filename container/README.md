@@ -9,6 +9,10 @@ mkdir -p $HOME/repositories && cd $HOME/repositories && sudo rm -rf openzen
 git clone https://bitbucket.org/lpresearch/openzen.git
 cd $HOME/repositories/openzen
 git checkout release/1.3.4
+# 1) Add the import directly after the copy import line
+sed -i.bak 's|^from conan.tools.files import copy$|from conan.tools.files import copy\nfrom conan.tools.ros import ROSEnv|' conanfile.py
+# 2) After the "tc.generate()" line inside generate(), insert the ROSEnv block
+sed -i.bak 's|^        tc.generate()$|        tc.generate()\n\n        # Add ROSEnv generation\n        ros_env = ROSEnv(self)\n        ros_env.generate()|' conanfile.py
 #BUILD
 docker build -t openzen-buildbox -f docker/Dockerfile .
 #RUN

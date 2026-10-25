@@ -9,7 +9,7 @@ See [ros2README.md](../ros2/ros2README.md) to build container and further inform
 
 ```bash
 cd $HOME/repositories/sentient/ros2
-IMAGE=ubunturos2noblejazzy VER=v0.0.1 #Versions
+IMAGE=ubunturos2noblejazzy VER=v0.0.2 #Versions
 
 # xhost +local:docker
 
@@ -29,11 +29,34 @@ docker run -it --rm \
 
 ## Compile ros2 package
 
-To compile this driver in your ROS2 setup
+To compile this driver in your ROS2 setup using openzen v1.3.4
+```bash
+cd /home/rosuser/ros2_ws/src/openzenros2/openzen
+rm -rf build/
+conan profile detect
+mkdir -p ~/.conan2/profiles
+cp docker/conan_profile_linux ~/.conan2/profiles/linux
+# clear Conan local cache for this project's deps
+conan remove "*" -c 
+# install create relse and build
+conan install . --output-folder=build --build=missing
+conan install --requires=expected-lite/0.9.0 --build=missing
+cmake --preset conan-release
+cmake --build --preset conan-release
+cd /home/rosuser/ros2_ws/src/openzenros2/openzen/build/build/Release
+sed -i 's|OpenZenTargets\.cmake|OpenZenConfigTargets.cmake|' OpenZenConfig.cmake
+#build ros2 package
+cd /home/rosuser/ros2_ws
+rm -rf build log install
+colcon build --cmake-force-configure --cmake-args "-DCMAKE_BUILD_TYPE=Release" "-DCMAKE_TOOLCHAIN_FILE=/home/rosuser/ros2_ws/src/openzenros2/openzen/build/build/Release/generators/conan_toolchain.cmake"
+source install/setup.bash
+```
+
+* build ros2 package with openzen v1.3.1
 ```bash
 cd /home/rosuser/ros2_ws
 rm -rf build log install
-colcon build
+colcon build --cmake-args -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 source install/setup.bash
 ```
 
