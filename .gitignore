@@ -46,3 +46,6 @@
 **/__pycache__
 *.egg-info
 .bash_history
+
+#ros2
+/ros2/openzen

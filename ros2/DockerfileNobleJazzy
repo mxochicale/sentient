@@ -1,0 +1,312 @@
+# syntax=docker/dockerfile:1.4
+
+ARG UBUNTU_RELEASE_YEAR=24
+ARG UBUNTU_RELEASE_MONTH=04
+
+FROM ubuntu:${UBUNTU_RELEASE_YEAR}.${UBUNTU_RELEASE_MONTH}
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    DEBCONF_NOWARNINGS=yes \
+    ACCEPT_EULA=Y \
+    PRIVACY_CONSENT=Y \
+    LANG=en_GB.UTF-8 \
+    LC_ALL=en_GB.UTF-8 \
+    TZ=Europe/London \
+    ROS_DISTRO=jazzy \
+    ROS_VERSION=2 \
+    ROS_PYTHON_VERSION=3 \
+    RMW_IMPLEMENTATION=rmw_cyclonedds_cpp \
+    SHELL=/bin/bash
+
+RUN set -eux && \
+    ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && \
+    echo ${TZ} > /etc/timezone && \
+    echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/99translations && \
+    echo 'Acquire::GzipIndexes "true";' > /etc/apt/apt.conf.d/99gzipindexes && \
+    echo 'Acquire::CompressionTypes::Order:: "gz";' > /etc/apt/apt.conf.d/99compressbydefault && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        locales \
+        tzdata \
+        ca-certificates && \
+    locale-gen en_GB.UTF-8 && \
+    update-locale LC_ALL=${LC_ALL} LANG=${LANG} && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN set -eux && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        apt-utils \
+        curl \
+        gnupg \
+        lsb-release \
+        software-properties-common \
+        wget \
+        dirmngr \
+        bluez \
+        libbluetooth-dev \
+        gpg \
+        gpg-agent && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# ---------------------------------------------------------------------------
+# ROS 2 apt repository
+# ---------------------------------------------------------------------------
+RUN set -eux && \
+    mkdir -p /usr/share/keyrings && \
+    curl -fsSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /tmp/ros.key && \
+    gpg --dearmor < /tmp/ros.key > /usr/share/keyrings/ros-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2.list && \
+    rm -f /tmp/ros.key
+
+# ---------------------------------------------------------------------------
+# Gazebo apt repository (Harmonic on Noble, useful for Jazzy)
+# ---------------------------------------------------------------------------
+RUN set -eux && \
+    curl -fsSL https://packages.osrfoundation.org/gazebo.key | gpg --dearmor > /usr/share/keyrings/gazebo-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/gazebo-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" > /etc/apt/sources.list.d/gazebo-stable.list
+
+# ---------------------------------------------------------------------------
+# colcon
+# ---------------------------------------------------------------------------
+RUN set -eux && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        python3-colcon-common-extensions \
+        python3-colcon-cmake && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# ---------------------------------------------------------------------------
+# 9. Core build tools and developer utilities
+#    (own layer so a later ROS/rqt failure can't roll them back)
+# ---------------------------------------------------------------------------
+RUN set -eux && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        cmake \
+        git \
+        sudo \
+        file \
+        less \
+        tree \
+        vim \
+        nano \
+        htop \
+        bash-completion \
+        python3-pip \
+        python3-dev \
+        python3-setuptools \
+        python3-wheel \
+        python3-argcomplete \
+        python3-vcstool \
+        udev \
+        openssh-client \
+        net-tools \
+        iputils-ping && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# ---------------------------------------------------------------------------
+# 10. GUI / rendering libraries (rviz, rqt, gazebo)
+#     NOTE: on Ubuntu 24.04 (Noble) libgl1-mesa-glx was removed.
+#     Use libgl1 instead.
+# ---------------------------------------------------------------------------
+RUN set -eux && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        libgl1 \
+        libglib2.0-0 \
+        libgomp1 \
+        libsm6 \
+        libxext6 \
+        libxrender-dev \
+        libpng-dev \
+        libegl1 \
+        libgtk-3-0 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# ---------------------------------------------------------------------------
+# ROS 2 Jazzy desktop (includes ros-base, ros-core, rqt, rqt-common-plugins)
+# ---------------------------------------------------------------------------
+RUN set -eux && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        ros-${ROS_DISTRO}-desktop \
+        ros-${ROS_DISTRO}-turtlesim \
+        ros-${ROS_DISTRO}-xacro && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# ---------------------------------------------------------------------------
+# Extra rqt plugins: optional, own layer, failure only warns.
+# ---------------------------------------------------------------------------
+RUN set -eux && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        ros-${ROS_DISTRO}-rqt-graph \
+        ros-${ROS_DISTRO}-rqt-topic \
+        ros-${ROS_DISTRO}-rqt-service-caller \
+        ros-${ROS_DISTRO}-rqt-console \
+        ros-${ROS_DISTRO}-rqt-shell && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* || \
+    echo "WARNING: optional rqt plugins not available on this distro — continuing"
+
+
+# ---------------------------------------------------------------------------
+# CycloneDDS RMW middleware
+# Faster DDS backend for rqt_plot / high-rate topic visualization.
+# ---------------------------------------------------------------------------
+RUN set -eux && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        ros-${ROS_DISTRO}-rmw-cyclonedds-cpp && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# ---------------------------------------------------------------------------
+# python3-colcon-cd. optional, own layer, failure only warns.
+# ---------------------------------------------------------------------------
+RUN set -eux && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends python3-colcon-cd && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* || \
+    echo "WARNING: python3-colcon-cd not available — continuing"
+
+# ---------------------------------------------------------------------------
+# Additional Python packages
+# ---------------------------------------------------------------------------
+RUN set -eux && \
+    pip3 install --no-cache-dir --upgrade \
+        pip \
+        setuptools \
+        wheel && \
+    pip3 install --no-cache-dir \
+        argcomplete \
+        catkin_pkg \
+        empy \
+        lark \
+        pre-commit \
+        pytest \
+        pytest-cov \
+        pytest-html \
+        ipython \
+        numpy \
+        rosdep \
+        rosinstall_generator \
+        vcstool && \
+    rosdep init 2>/dev/null || true && \
+    rm -rf /root/.cache/pip
+
+# ---------------------------------------------------------------------------
+# Non-root user
+# ---------------------------------------------------------------------------
+ARG USERNAME=rosuser
+ARG USER_UID=1000
+ARG USER_GID=1000
+
+RUN set -eux && \
+    userdel -r ubuntu 2>/dev/null || true && \
+    if ! getent group ${USER_GID} >/dev/null; then \
+        groupadd --gid ${USER_GID} ${USERNAME}; \
+    fi && \
+    useradd --uid ${USER_UID} --gid ${USER_GID} --shell /bin/bash -m ${USERNAME} && \
+    mkdir -p /etc/sudoers.d && \
+    echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} && \
+    chmod 0440 /etc/sudoers.d/${USERNAME} && \
+    mkdir -p /home/${USERNAME}/.local/bin && \
+    mkdir -p /home/${USERNAME}/ros2_ws/src && \
+    chown -R ${USER_UID}:${USER_GID} /home/${USERNAME}
+
+# ---------------------------------------------------------------------------
+# Global bash environment
+# ---------------------------------------------------------------------------
+RUN cat > /etc/bash.bashrc <<'EOF'
+# ROS2 Environment
+if [ -f /opt/ros/${ROS_DISTRO}/setup.bash ]; then
+    source /opt/ros/${ROS_DISTRO}/setup.bash
+fi
+
+# Colcon bash completion
+if [ -f /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash ]; then
+    source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
+fi
+
+if command -v register-python-argcomplete &> /dev/null; then
+    eval "$(register-python-argcomplete colcon)"
+fi
+
+export PS1='\[\e[1;32m\][\u@\h:\w]\[\e[1;36m\][${ROS_DISTRO}]\[\e[0m\]\$ '
+export EDITOR=vim
+
+srcws() {
+    if [ -f "install/setup.bash" ]; then
+        source install/setup.bash
+        echo "Sourced current workspace"
+    elif [ -f "../install/setup.bash" ]; then
+        source ../install/setup.bash
+        echo "Sourced parent workspace"
+    elif [ -f "../../install/setup.bash" ]; then
+        source ../../install/setup.bash
+        echo "Sourced grandparent workspace"
+    else
+        echo "No install/setup.bash found in current or parent directories"
+    fi
+}
+
+wscheck() {
+    if [ -n "$COLCON_PREFIX_PATH" ]; then
+        echo "Workspace is sourced: $COLCON_PREFIX_PATH"
+    else
+        echo "No workspace is currently sourced"
+    fi
+}
+EOF
+
+# ---------------------------------------------------------------------------
+# Entrypoint script
+# ---------------------------------------------------------------------------
+RUN cat > /entrypoint.sh <<'EOF'
+#!/bin/bash
+set -e
+if [ -f /opt/ros/${ROS_DISTRO}/setup.bash ]; then
+    source /opt/ros/${ROS_DISTRO}/setup.bash
+fi
+if [ -f "/home/${USERNAME}/ros2_ws/install/setup.bash" ]; then
+    source "/home/${USERNAME}/ros2_ws/install/setup.bash"
+fi
+if [ $# -eq 0 ]; then
+    exec /bin/bash
+else
+    exec "$@"
+fi
+EOF
+
+RUN chmod +x /entrypoint.sh && \
+    cp /etc/bash.bashrc /home/${USERNAME}/.bashrc && \
+    chown ${USER_UID}:${USER_GID} /home/${USERNAME}/.bashrc && \
+    chown ${USER_UID}:${USER_GID} /entrypoint.sh
+
+# ---------------------------------------------------------------------------
+# User .profile
+# ---------------------------------------------------------------------------
+RUN cat > /home/${USERNAME}/.profile <<'EOF'
+if [ -f "$HOME/.bashrc" ]; then
+    . "$HOME/.bashrc"
+fi
+EOF
+
+RUN chown ${USER_UID}:${USER_GID} /home/${USERNAME}/.profile
+
+# ---------------------------------------------------------------------------
+# Runtime
+# ---------------------------------------------------------------------------
+USER ${USERNAME}
+WORKDIR /home/${USERNAME}
+
+VOLUME ["/home/${USERNAME}/ros2_ws"]
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+    CMD bash -c 'source /opt/ros/'"${ROS_DISTRO}"'/setup.bash && ros2 pkg list | grep -q rclpy' || exit 1
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["bash"]
