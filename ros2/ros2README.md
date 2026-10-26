@@ -32,6 +32,7 @@ docker run -it --rm \
   -e DISPLAY=$DISPLAY \
   -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
   -v /run/dbus:/run/dbus:ro \
+  -v /dev:/dev \
   -v "$HOME/repositories/sentient:/home/rosuser/sentient" \
   -v "$HOME/repositories/sentient/ros2:/home/rosuser/ros2_ws/src/openzenros2" \
   -v "$HOME/repositories/openzen:/home/rosuser/ros2_ws/src/openzenros2/openzen" \

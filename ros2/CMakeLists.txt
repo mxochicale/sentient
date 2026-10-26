@@ -10,6 +10,9 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
+find_package(image_transport REQUIRED)
+find_package(cv_bridge REQUIRED)
+find_package(OpenCV REQUIRED)
 
 option(OPENZEN_ROS_BINARY_LIBRARIES "Download binary dependencies" OFF)
 
@@ -32,7 +35,10 @@ ament_target_dependencies(openzen_node
   rclcpp
   std_msgs
   std_srvs
-  sensor_msgs)
+  sensor_msgs
+  image_transport
+  cv_bridge
+  OpenCV)
 
 install(TARGETS openzen_node
   DESTINATION lib/${PROJECT_NAME})

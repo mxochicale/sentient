@@ -1,13 +1,3 @@
-//===========================================================================//
-//
-// Copyright (C) 2021 LP-Research Inc.
-//
-// This file is part of OpenZenRos driver, under the MIT License.
-// See the LICENSE file in the top-most folder for details
-// SPDX-License-Identifier: MIT
-//
-//===========================================================================//
-
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/imu.hpp"
 #include "sensor_msgs/msg/magnetic_field.hpp"
@@ -22,6 +12,12 @@
 #include "ManagedThread.h"
 #include <OpenZen.h>
 
+#include <image_transport/image_transport.hpp>
+#include <cv_bridge/cv_bridge.hpp>
+#include <opencv2/opencv.hpp>
+#include <thread>
+#include <atomic>
+
 #include <memory>
 #include <string>
 #include <iostream>
@@ -30,6 +26,10 @@
 class OpenZenSensor : public rclcpp::Node
 {
 public:
+    void init()
+    {
+        startCamera();
+    }
     // Parameters
     std::string m_sensorName;
     std::string m_sensorInterface;
@@ -217,6 +217,7 @@ public:
             std::bind(&OpenZenSensor::handleService_calibrateGyroscope, this, std::placeholders::_1, std::placeholders::_2,
                 std::placeholders::_3));
 
+
         auto clientPair = zen::make_client();
         m_zenClient = std::unique_ptr<zen::ZenClient>(new zen::ZenClient(std::move(clientPair.second)));
 
@@ -340,6 +341,14 @@ public:
         }
     }
 
+    ~OpenZenSensor() override
+    {
+        m_cameraRunning = false;
+        if (m_cameraThread.joinable()) {
+            m_cameraThread.join();
+        }
+    }
+
   bool startStreaming() {
         if (!m_zenClient)
         {
@@ -429,6 +438,54 @@ public:
 
         return true;    
   }
+
+    // USB camera capture + publish
+    void startCamera()
+    {
+        image_transport::ImageTransport it(shared_from_this());
+        m_cameraPub = it.advertise("camera/image_raw", 1);
+
+        m_cameraRunning = true;
+        m_cameraThread = std::thread([this]() {
+            int deviceIndex = 0;
+            cv::VideoCapture cap(deviceIndex, cv::CAP_V4L2);
+            if (!cap.isOpened()) {
+                RCLCPP_ERROR(get_logger(), "Cannot open USB camera (device %d)", deviceIndex);
+                m_cameraRunning = false;
+                return;
+            }
+
+            // Lower resolution to reduce USB bandwidth pressure
+            cap.set(cv::CAP_PROP_FRAME_WIDTH, 320);
+            cap.set(cv::CAP_PROP_FRAME_HEIGHT, 240);
+            cap.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'));
+
+            RCLCPP_INFO(get_logger(), "USB camera started on device %d", deviceIndex);
+
+            cv::Mat frame;
+            std_msgs::msg::Header hdr;
+            hdr.frame_id = "usb_cam";
+
+            rclcpp::WallRate rate(30);  // ~30 FPS
+
+            while (rclcpp::ok() && m_cameraRunning) {
+                cap >> frame;
+                if (frame.empty()) {
+                    // No frame; maybe camera unplugged or still warming up
+                    rate.sleep();
+                    continue;
+                }
+
+                hdr.stamp = this->now();
+                auto msg = cv_bridge::CvImage(hdr, "bgr8", frame).toImageMsg();
+                m_cameraPub.publish(*msg);
+                rate.sleep();
+            }
+
+            cap.release();
+            RCLCPP_INFO(get_logger(), "USB camera capture thread stopped");
+        });
+    }
 
     // Service callbacks
     void publishIsAutocalibrationActive()
@@ -567,6 +624,11 @@ public:
     rclcpp::Publisher<sensor_msgs::msg::NavSatFix>::SharedPtr m_nav_pub;
     rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr m_autocalibration_status_pub;
 
+    // camera members
+    std::thread m_cameraThread;
+    std::atomic<bool> m_cameraRunning{false};
+    image_transport::Publisher m_cameraPub;
+
     bool m_openzenVerbose;
     bool m_useLpmsAccelerationConvention;
 
@@ -590,6 +652,7 @@ int main(int argc, char **argv)
 {
     rclcpp::init(argc, argv);
     auto node = std::make_shared<OpenZenSensor>();
+    node->init();
     rclcpp::spin(node);
     rclcpp::shutdown();
 
