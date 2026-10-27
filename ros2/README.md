@@ -36,25 +36,20 @@ v4l2-ctl --list-devices
 
 To compile this driver in your ROS2 setup using openzen v1.3.4
 ```bash
-cd /home/rosuser/ros2_ws/src/openzenros2/openzen && rm -rf build/
-conan profile detect
-mkdir -p ~/.conan2/profiles
-cp docker/conan_profile_linux ~/.conan2/profiles/linux
-# clear Conan local cache for this project's deps
-conan remove "*" -c 
-# install create relse and build
-conan install . --output-folder=build --build=missing
-conan install --requires=expected-lite/0.9.0 --build=missing
-cmake --preset conan-release
-cmake --build --preset conan-release
-cd /home/rosuser/ros2_ws/src/openzenros2/openzen/build/build/Release
-sed -i 's|OpenZenTargets\.cmake|OpenZenConfigTargets.cmake|' OpenZenConfig.cmake
+#
+# Compile openzen
+#
+cd /home/rosuser/sentient/dependencies
+bash compile-ros2-package.bash
+#
 #build ros2 package
-cd /home/rosuser/ros2_ws
-rm -rf build log install
+#
+cd /home/rosuser/ros2_ws && rm -rf build log install
+
 colcon build --cmake-force-configure \
   --cmake-args "-DCMAKE_BUILD_TYPE=Release" \
   "-DCMAKE_TOOLCHAIN_FILE=/home/rosuser/ros2_ws/src/openzenros2/openzen/build/build/Release/generators/conan_toolchain.cmake"
+
 source install/setup.bash
 ```
 
@@ -75,7 +70,8 @@ ros2 launch openzen_driver usb_camera.launch.py
 
 * OpenZen ROS2 driver
 ```bash
-ros2 run openzen_driver openzen_node --ros-args --remap __ns:=/openzen
+ros2 run openzen_driver openzen_node --ros-args --remap __ns:=/openzen #sampling_rate:=50
+ros2 run openzen_driver openzen_node --ros-args --remap __ns:=/openzen  -p sampling_rate:=100
 ```
 
 By default, it will connect to the first available sensor. If you want to connect to

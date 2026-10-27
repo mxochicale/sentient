@@ -13,6 +13,7 @@ find_package(std_srvs REQUIRED)
 find_package(image_transport REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(message_filters REQUIRED)
 
 option(OPENZEN_ROS_BINARY_LIBRARIES "Download binary dependencies" OFF)
 

@@ -12,16 +12,20 @@
 #include "ManagedThread.h"
 #include <OpenZen.h>
 
+#include <memory>
+#include <string>
+#include <iostream>
+#include <array>
+
 #include <image_transport/image_transport.hpp>
 #include <cv_bridge/cv_bridge.hpp>
 #include <opencv2/opencv.hpp>
 #include <thread>
 #include <atomic>
 
-#include <memory>
-#include <string>
-#include <iostream>
-#include <array>
+#include "message_filters/subscriber.hpp"
+#include "message_filters/synchronizer.hpp"
+#include "message_filters/sync_policies/approximate_time.hpp"
 
 class OpenZenSensor : public rclcpp::Node
 {
@@ -29,6 +33,7 @@ public:
     void init()
     {
         startCamera();
+        initSync();
     }
     // Parameters
     std::string m_sensorName;
@@ -201,6 +206,9 @@ public:
         m_useLpmsAccelerationConvention = this->declare_parameter<bool>("use_lpms_acceleration_convention", false);
         frame_id = this->declare_parameter<std::string>("frame_id", "imu");
         frame_id_gnss = this->declare_parameter<std::string>("frame_id_gnss", "gnss");
+
+        // IMU streaming frequency in Hz (configurable via ROS parameter, default 50)
+        m_samplingRate = this->declare_parameter<int>("sampling_rate", 50);
 
         m_autocalibration_serv = this->create_service<std_srvs::srv::SetBool>
             ("enable_gyro_autocalibration",
@@ -387,6 +395,29 @@ public:
             m_zenImu = std::unique_ptr<zen::ZenSensorComponent>( new zen::ZenSensorComponent(std::move(imu_component.value())));
             zen_imu_component = m_zenImu->component();
 
+            // ---- Set and verify streaming frequency (configurable via ROS parameter) ----
+            RCLCPP_INFO(get_logger(), "Requesting IMU sampling rate: %d Hz", m_samplingRate);
+
+            auto error = m_zenImu->setInt32Property(ZenImuProperty_SamplingRate, m_samplingRate);
+            if (error) {
+                RCLCPP_ERROR(get_logger(), "Error setting streaming frequency to %d Hz", m_samplingRate);
+                return false;
+            }
+
+            auto freqPair = m_zenImu->getInt32Property(ZenImuProperty_SamplingRate);
+            if (freqPair.first) {
+                RCLCPP_ERROR(get_logger(), "Error fetching streaming frequency");
+                return false;
+            }
+            RCLCPP_INFO(get_logger(), "Streaming frequency: %d Hz", freqPair.second);
+
+            if (freqPair.second != m_samplingRate) {
+                RCLCPP_WARN(get_logger(),
+                    "Requested %d Hz but sensor reports %d Hz (sensor rounded to nearest supported rate)",
+                    m_samplingRate, freqPair.second);
+            }
+            // -----------------------------------------------------------------------------------
+
             // Automatic output flag settings for IMU not done atm because this
             // depends on the sensor model (legacy protocol or IG1 which output fields)
             // need to be enable and this is not exposed by OpenZen at the moment
@@ -486,6 +517,45 @@ public:
             RCLCPP_INFO(get_logger(), "USB camera capture thread stopped");
         });
     }
+
+    void initSync()
+    {
+        // QoS must be compatible with the publishers (RELIABLE, depth 10)
+        rclcpp::QoS qos(10);
+
+        m_syncImuSub.subscribe(this, "data", qos.get_rmw_qos_profile());
+        m_syncImgSub.subscribe(this, "camera/image_raw", qos.get_rmw_qos_profile());
+
+        m_sync = std::make_shared<message_filters::Synchronizer<SyncPolicy>>(
+            SyncPolicy(10), m_syncImuSub, m_syncImgSub);
+
+        // Drop pairs whose timestamps differ by more than 50 ms
+        m_sync->setMaxIntervalDuration(rclcpp::Duration::from_seconds(0.05));
+        // Slightly favour earlier output when many candidates exist
+        m_sync->setAgePenalty(0.50);
+
+        m_sync->registerCallback(
+            std::bind(&OpenZenSensor::syncCallback, this,
+                      std::placeholders::_1, std::placeholders::_2));
+
+        RCLCPP_INFO(get_logger(), "IMU/Image approximate time synchronization started");
+    }
+
+    void syncCallback(const sensor_msgs::msg::Imu::ConstSharedPtr& imu,
+                      const sensor_msgs::msg::Image::ConstSharedPtr& image)
+    {
+        const double dt =
+            (rclcpp::Time(imu->header.stamp) - rclcpp::Time(image->header.stamp)).seconds();
+
+        RCLCPP_INFO(get_logger(),
+            "Synced IMU+Image: IMU=%u.%09u Image=%u.%09u dt=%.6f s",
+            imu->header.stamp.sec, imu->header.stamp.nanosec,
+            image->header.stamp.sec, image->header.stamp.nanosec,
+            dt);
+
+        // Put your fused processing here (e.g. visual-inertial odometry input).
+    }
+    // ==================
 
     // Service callbacks
     void publishIsAutocalibrationActive()
@@ -629,8 +699,21 @@ public:
     std::atomic<bool> m_cameraRunning{false};
     image_transport::Publisher m_cameraPub;
 
+    // sensor sync
+    using ImuMsg   = sensor_msgs::msg::Imu;
+    using ImageMsg = sensor_msgs::msg::Image;
+    using SyncPolicy =
+        message_filters::sync_policies::ApproximateTime<ImuMsg, ImageMsg>;
+
+    message_filters::Subscriber<ImuMsg>   m_syncImuSub;
+    message_filters::Subscriber<ImageMsg> m_syncImgSub;
+    std::shared_ptr<message_filters::Synchronizer<SyncPolicy>> m_sync;
+
     bool m_openzenVerbose;
     bool m_useLpmsAccelerationConvention;
+
+    // IMU streaming frequency (Hz), configurable via ROS parameter "sampling_rate"
+    int m_samplingRate { 50 };
 
     struct SensorThreadParams
     {

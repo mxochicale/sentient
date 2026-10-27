@@ -27,6 +27,8 @@
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>std_srvs</exec_depend>
   <exec_depend>rqt_plot</exec_depend>
+  <exec_depend>message_filters</exec_depend>
+  <exec_depend>geometry</exec_depend>
   <test_depend>launch</test_depend>
   <test_depend>launch_testing</test_depend>
 
