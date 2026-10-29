@@ -520,7 +520,7 @@ public:
 
     void initSync()
     {
-        // QoS must be compatible with the publishers (RELIABLE, depth 10)
+        // Quality of Service (QoS) must be compatible with the publishers (RELIABLE, depth 10)
         rclcpp::QoS qos(10);
 
         m_syncImuSub.subscribe(this, "data", qos.get_rmw_qos_profile());
