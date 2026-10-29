@@ -1,0 +1,320 @@
+# syntax=docker/dockerfile:1.4
+
+# 1. First, the ARG instructions
+ARG UBUNTU_RELEASE_YEAR=20
+ARG UBUNTU_RELEASE_MONTH=04
+
+# 2. Then, the FROM instruction (this MUST come before ENV, RUN, etc.)
+FROM ubuntu:${UBUNTU_RELEASE_YEAR}.${UBUNTU_RELEASE_MONTH}
+#
+# Or use the CUDA base image if you need it:
+# ARG CUDA_MAJOR=12
+# ARG CUDA_MINOR=6
+# ARG CUDA_PATCH=3
+# FROM nvidia/cuda:${CUDA_MAJOR}.${CUDA_MINOR}.${CUDA_PATCH}-base-ubuntu${UBUNTU_RELEASE_YEAR}.${UBUNTU_RELEASE_MONTH}
+
+# 3. Now you can set your ENV variables
+ENV DEBIAN_FRONTEND=noninteractive \
+    ACCEPT_EULA=Y \
+    PRIVACY_CONSENT=Y \
+    LANG=en_GB.UTF-8 \
+    LC_ALL=en_GB.UTF-8 \
+    TZ=Europe/London \
+    ROS_DISTRO=foxy \
+    ROS_VERSION=2 \
+    ROS_PYTHON_VERSION=3 \
+    SHELL=/bin/bash
+
+# Ubuntu versions
+##  Ubuntu 20.04 Focal  (required for ROS2 Foxy)
+##  Ubuntu 22.04 Jammy
+##  Ubuntu 24.04 Noble
+
+# General ROS2 environment variables
+# Define the container image(s) associated with each ROS distribution.
+# Platforms are defined in REP 2000: https://ros.org/reps/rep-2000.html
+##  Foxy Fitzroy (June 2020 - May 2023); Ubuntu 20.04; python3.8
+##  Humble Hawksbill (May 2022 - May 2027); Ubuntu 22.04; python3.10
+##  Iron Irwini (May 2023 - November 2024)
+##  Jazzy Jalisco (May 2024 - May 2029);  Ubuntu 24.04; python3.12
+
+# Set non-interactive for tzdata
+ENV DEBCONF_NOWARNINGS=yes
+
+# Configure timezone, locales, and install minimal packages in a single RUN layer
+RUN set -eux && \
+    ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && \
+    echo ${TZ} > /etc/timezone && \
+    # Configure apt for better caching and faster downloads
+    echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/99translations && \
+    echo 'Acquire::GzipIndexes "true";' > /etc/apt/apt.conf.d/99gzipindexes && \
+    echo 'Acquire::CompressionTypes::Order:: "gz";' > /etc/apt/apt.conf.d/99compressbydefault && \
+    # Install locales and tzdata
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        locales \
+        tzdata \
+        ca-certificates && \
+    locale-gen en_GB.UTF-8 && \
+    update-locale LC_ALL=${LC_ALL} LANG=${LANG} && \
+    # Clean up
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Install essential system packages and dependencies
+RUN set -eux && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        apt-utils \
+        curl \
+        gnupg \
+        lsb-release \
+        software-properties-common \
+        wget \
+        dirmngr \
+        bluez \
+        libbluetooth-dev \
+        # Add gpg for key management
+        gpg \
+        gpg-agent && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Setup ROS2 repository with proper key handling
+RUN set -eux && \
+    # Create directory for keys
+    mkdir -p /usr/share/keyrings && \
+    # Download and install ROS key
+    curl -fsSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /tmp/ros.key && \
+    gpg --dearmor < /tmp/ros.key > /usr/share/keyrings/ros-archive-keyring.gpg && \
+    # Add ROS repository
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2.list && \
+    rm -f /tmp/ros.key
+
+# Setup Gazebo transport repository (Gazebo Classic ships with Foxy; keep repo for tooling)
+RUN set -eux && \
+    # Download and install Gazebo key
+    curl -fsSL https://packages.osrfoundation.org/gazebo.key | gpg --dearmor > /usr/share/keyrings/gazebo-archive-keyring.gpg && \
+    # Add Gazebo repository
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/gazebo-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" > /etc/apt/sources.list.d/gazebo-stable.list
+
+# Install ROS2 desktop and development tools
+RUN set -eux && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        # ROS2 core and desktop
+        ros-${ROS_DISTRO}-desktop \
+        # Essential ROS2 packages
+        ros-${ROS_DISTRO}-ros-core \
+        ros-${ROS_DISTRO}-turtlesim \
+        ros-${ROS_DISTRO}-xacro \
+        # RQT core tools
+        ros-${ROS_DISTRO}-rqt \
+        ros-${ROS_DISTRO}-rqt-common-plugins \
+        # Build and development tools
+        python3-colcon-common-extensions \
+        python3-colcon-cmake \
+        build-essential \
+        cmake \
+        git \
+        python3-pip \
+        python3-dev \
+        # Python development
+        python3-setuptools \
+        python3-wheel \
+        # System utilities
+        bash-completion \
+        file \
+        less \
+        sudo \
+        tree \
+        vim \
+        nano \
+        htop \
+        # Graphics dependencies
+        libgl1-mesa-glx \
+        libglib2.0-0 \
+        libgomp1 \
+        libsm6 \
+        libxext6 \
+        libxrender-dev \
+        libpng-dev \
+        libegl1 \
+        libgtk-3-0 \
+        # Network and USB
+        udev \
+        openssh-client \
+        net-tools \
+        iputils-ping \
+        # Python packages
+        python3-argcomplete \
+        python3-vcstool && \
+    # Optional colcon-cd (may not be packaged on 20.04)
+    apt-get install -y --no-install-recommends python3-colcon-cd 2>/dev/null || true && \
+    # Install additional RQT tools that are commonly useful for Foxy
+    apt-get install -y --no-install-recommends \
+        ros-${ROS_DISTRO}-rqt-graph \
+        ros-${ROS_DISTRO}-rqt-topic \
+        ros-${ROS_DISTRO}-rqt-service-caller \
+        ros-${ROS_DISTRO}-rqt-console \
+        ros-${ROS_DISTRO}-rqt-shell \
+        2>/dev/null || true && \
+    # Clean up
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Install additional Python packages
+RUN set -eux && \
+    pip3 install --no-cache-dir --upgrade \
+        pip \
+        setuptools \
+        wheel && \
+    pip3 install --no-cache-dir \
+        argcomplete \
+        catkin_pkg \
+        empy \
+        lark \
+        # Development tools
+        pre-commit \
+        # Testing
+        pytest \
+        pytest-cov \
+        pytest-html \
+        # Utilities
+        ipython \
+        numpy \
+        # ROS tools
+        rosdep \
+        rosinstall_generator \
+        vcstool && \
+    # Initialize rosdep
+    rosdep init 2>/dev/null || true && \
+    rm -rf /root/.cache/pip
+
+# Create a non-root user with proper UID/GID handling
+ARG USERNAME=rosuser
+ARG USER_UID=1000
+ARG USER_GID=1000
+
+RUN set -eux && \
+    # Create group if it doesn't exist
+    if ! getent group ${USER_GID} >/dev/null; then \
+        groupadd --gid ${USER_GID} ${USERNAME}; \
+    fi && \
+    # Create user
+    useradd --uid ${USER_UID} --gid ${USER_GID} --shell /bin/bash -m ${USERNAME} && \
+    # Add to sudoers without password for convenience in development
+    echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} && \
+    chmod 0440 /etc/sudoers.d/${USERNAME} && \
+    # Create common directories
+    mkdir -p /home/${USERNAME}/.local/bin && \
+    mkdir -p /home/${USERNAME}/ros2_ws/src && \
+    chown -R ${USER_UID}:${USER_GID} /home/${USERNAME}
+
+# Setup bash environment (Docker heredoc syntax: RUN <<'EOF' cat > file)
+RUN <<'EOF' cat > /etc/bash.bashrc
+
+# ROS2 Environment
+if [ -f /opt/ros/${ROS_DISTRO}/setup.bash ]; then
+    source /opt/ros/${ROS_DISTRO}/setup.bash
+fi
+
+# Colcon bash completion
+if [ -f /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash ]; then
+    source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
+fi
+
+# Python argcomplete
+if command -v register-python-argcomplete &> /dev/null; then
+    eval "$(register-python-argcomplete colcon)"
+fi
+
+# Color prompt with ROS distro info
+export PS1='\[\e[1;32m\][\u@\h:\w]\[\e[1;36m\][${ROS_DISTRO}]\[\e[0m\]\$ '
+
+# Set default editor
+export EDITOR=vim
+
+# Function to source workspace
+srcws() {
+    if [ -f "install/setup.bash" ]; then
+        source install/setup.bash
+        echo "Sourced current workspace"
+    elif [ -f "../install/setup.bash" ]; then
+        source ../install/setup.bash
+        echo "Sourced parent workspace"
+    elif [ -f "../../install/setup.bash" ]; then
+        source ../../install/setup.bash
+        echo "Sourced grandparent workspace"
+    else
+        echo "No install/setup.bash found in current or parent directories"
+    fi
+}
+
+# Check if workspace is sourced
+wscheck() {
+    if [ -n "$COLCON_PREFIX_PATH" ]; then
+        echo "Workspace is sourced: $COLCON_PREFIX_PATH"
+    else
+        echo "No workspace is currently sourced"
+    fi
+}
+EOF
+
+# Create entrypoint script
+RUN <<'EOF' cat > /entrypoint.sh
+#!/bin/bash
+set -e
+
+# Source ROS environment
+if [ -f /opt/ros/${ROS_DISTRO}/setup.bash ]; then
+    source /opt/ros/${ROS_DISTRO}/setup.bash
+fi
+
+# Source workspace if it exists
+if [ -f "/home/${USERNAME}/ros2_ws/install/setup.bash" ]; then
+    source "/home/${USERNAME}/ros2_ws/install/setup.bash"
+fi
+
+# If no command is provided, start bash
+if [ $# -eq 0 ]; then
+    exec /bin/bash
+else
+    # Execute the command passed to the container
+    exec "$@"
+fi
+EOF
+
+RUN chmod +x /entrypoint.sh
+
+# Copy bashrc to user's home and set proper permissions
+RUN cp /etc/bash.bashrc /home/${USERNAME}/.bashrc && \
+    chown ${USER_UID}:${USER_GID} /home/${USERNAME}/.bashrc && \
+    chown ${USER_UID}:${USER_GID} /entrypoint.sh
+
+# Create a .profile for login shells
+RUN <<'EOF' cat > /home/${USERNAME}/.profile
+
+# Include .bashrc if it exists
+if [ -f "$HOME/.bashrc" ]; then
+    . "$HOME/.bashrc"
+fi
+EOF
+
+RUN chown ${USER_UID}:${USER_GID} /home/${USERNAME}/.profile
+
+# Switch to non-root user
+USER ${USERNAME}
+WORKDIR /home/${USERNAME}
+
+# Set up volume for persistent workspace
+VOLUME ["/home/${USERNAME}/ros2_ws"]
+
+# Health check to ensure ROS is working (Foxy's `ros2 doctor` output differs,
+# so we just verify the CLI runs and ROS env is sourced)
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+    CMD bash -c 'source /opt/ros/foxy/setup.bash && ros2 pkg list | grep -q rclpy' || exit 1
+
+# Set entrypoint and default command
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["bash"]

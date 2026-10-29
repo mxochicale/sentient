@@ -1,0 +1,8 @@
+.git
+**/.git
+build/
+*.o
+*.a
+*.so
+*.log
+.bash_history

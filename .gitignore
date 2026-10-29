@@ -45,3 +45,8 @@
 *.ipynb_checkpoints
 **/__pycache__
 *.egg-info
+.bash_history
+
+#ros2
+/ros2/openzen
+/ros2/external

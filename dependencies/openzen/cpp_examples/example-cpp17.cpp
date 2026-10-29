@@ -2,11 +2,64 @@
 #include <OpenZen.h>
 
 #include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <vector>
+#include <chrono>     // for steady_clock
+#include <algorithm>  // for std::min_element / std::max_element
+#include <numeric>    // for std::accumulate
+#include <cmath>      // for std::sqrt
 
 using namespace zen;
 
 int main(int argc, char* argv[])
 {
+    // Default values
+    const char* macAddress = "00:04:3E:53:ED:5B";
+    int samplingRate = 50;
+    int baudRate = 921600;
+    bool verbose = false;
+
+    // Collect positional arguments, consuming any --verbose flags
+    // Usage: program [--verbose] [MAC_ADDRESS] [SAMPLING_RATE] [BAUD_RATE]
+    std::vector<const char*> positional;
+    positional.reserve(static_cast<size_t>(argc));
+    positional.push_back(argv[0]); // program name (unused for parsing)
+    for (int i = 1; i < argc; ++i) {
+        if (std::strcmp(argv[i], "--verbose") == 0) {
+            verbose = true;
+        } else {
+            positional.push_back(argv[i]);
+        }
+    }
+
+    if (positional.size() > 1) {
+        macAddress = positional[1];
+    }
+    if (positional.size() > 2) {
+        char* endptr = nullptr;
+        long val = std::strtol(positional[2], &endptr, 10);
+        if (endptr == positional[2] || *endptr != '\0' || val <= 0) {
+            std::cout << "Invalid sampling rate: " << positional[2] << std::endl;
+            return 1;
+        }
+        samplingRate = static_cast<int>(val);
+    }
+    if (positional.size() > 3) {
+        char* endptr = nullptr;
+        long val = std::strtol(positional[3], &endptr, 10);
+        if (endptr == positional[3] || *endptr != '\0' || val <= 0) {
+            std::cout << "Invalid baud rate: " << positional[3] << std::endl;
+            return 1;
+        }
+        baudRate = static_cast<int>(val);
+    }
+
+    std::cout << "Using MAC address: " << macAddress << std::endl;
+    std::cout << "Using sampling rate: " << samplingRate << " Hz" << std::endl;
+    std::cout << "Using baud rate: " << baudRate << std::endl;
+    std::cout << "Verbose output: " << (verbose ? "on" : "off") << std::endl;
+
     // enable resonable log output for OpenZen
     ZenSetLogLevel(ZenLogLevel_Info);
 
@@ -19,7 +72,7 @@ int main(int argc, char* argv[])
     }
 
     // connect to sensor on IO System by the sensor name
-    auto [obtainError, sensor] = client.obtainSensorByName("Bluetooth", "00:04:3E:53:ED:5B", 921600);
+    auto [obtainError, sensor] = client.obtainSensorByName("Bluetooth", macAddress, baudRate);
     if (obtainError)
     {
         std::cout << "Cannot connect to sensor" << std::endl;
@@ -38,7 +91,7 @@ int main(int argc, char* argv[])
     }
 
     // set and get current streaming frequency
-    auto error = imu->setInt32Property(ZenImuProperty_SamplingRate, 50);
+    auto error = imu->setInt32Property(ZenImuProperty_SamplingRate, samplingRate);
     if (error) {
         std::cout << "Error setting streaming frequency" << std::endl;
         client.close();
@@ -61,13 +114,37 @@ int main(int argc, char* argv[])
         return error;
     }
 
-    // readout up to 100 samples from the IMU
-    // note that there are 2 gyro fields in the IMU data structure (ZenImuData struct in include/ZenTypes.h)
-    // please refer to your sensor's manual for correct retrieval of gyro data
-    for (int i = 0; i < 100; i++) {
-        auto event = client.waitForNextEvent();
-        if (event->component.handle == imu->component().handle) {
+    // ------------------------------------------------------------------
+    // NEW: timing instrumentation
+    // ------------------------------------------------------------------
+    using Clock = std::chrono::steady_clock;
+    std::vector<double> intervalsMs;  // wall-clock delta between IMU events
+    intervalsMs.reserve(128);
 
+    Clock::time_point prevEventTime{};
+    Clock::time_point firstEventTime{};
+    bool havePrev = false;
+
+    // readout up to 100 samples from the IMU
+    int samples = 0;
+    while (samples < 100) {
+        auto event = client.waitForNextEvent();
+        if (!event) break;
+        if (event->component.handle != imu->component().handle) continue;
+
+        // NEW: timestamp arrival of this IMU sample
+        auto now = Clock::now();
+        if (!havePrev) {
+            firstEventTime = now;
+            havePrev = true;
+        } else {
+            double dtMs = std::chrono::duration<double, std::milli>(now - prevEventTime).count();
+            intervalsMs.push_back(dtMs);
+        }
+        prevEventTime = now;
+
+        // ... process
+        if (verbose) {
             std::cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " << std::endl;
             std::cout << "> Timestamp [s] \t\t " << event->data.imuData.timestamp << std::endl;
 
@@ -131,11 +208,52 @@ int main(int argc, char* argv[])
                 << "\t roM[15] = " << event->data.imuData.rotOffsetM[15]
                 << "\t roM[16] = " << event->data.imuData.rotOffsetM[16]
                 << "\t roM[17] = " << event->data.imuData.rotOffsetM[17] << std::endl;
-
+        } else {
+            // lightweight progress indicator for non-verbose runs
+            std::cout << '.' << std::flush;
         }
+
+        ++samples;
+    }
+
+    if (!verbose) std::cout << std::endl;
+
+    // ------------------------------------------------------------------
+    // NEW: timing summary
+    // ------------------------------------------------------------------
+    if (samples > 1 && !intervalsMs.empty()) {
+        double totalMs = std::chrono::duration<double, std::milli>(
+            prevEventTime - firstEventTime).count();
+
+        double minMs = *std::min_element(intervalsMs.begin(), intervalsMs.end());
+        double maxMs = *std::max_element(intervalsMs.begin(), intervalsMs.end());
+        double sumMs = std::accumulate(intervalsMs.begin(), intervalsMs.end(), 0.0);
+        double meanMs = sumMs / static_cast<double>(intervalsMs.size());
+
+        // Observed rate from wall clock over the whole window
+        double observedHz = (samples - 1) * 1000.0 / totalMs;
+
+        // RMS jitter around the mean interval
+        double sq = 0.0;
+        for (double v : intervalsMs) {
+            double d = v - meanMs;
+            sq += d * d;
+        }
+        double rmsJitterMs = std::sqrt(sq / static_cast<double>(intervalsMs.size()));
+
+        std::cout << "\n--- Timing summary (wall clock) ---\n";
+        std::cout << "Samples:               " << samples << "\n";
+        std::cout << "Elapsed:               " << totalMs << " ms\n";
+        std::cout << "Observed rate:         " << observedHz << " Hz"
+                  << "  (requested " << samplingRate << " Hz)\n";
+        std::cout << "Mean interval:         " << meanMs << " ms  ("
+                  << (meanMs > 0.0 ? 1000.0 / meanMs : 0.0) << " Hz)\n";
+        std::cout << "Min / Max interval:    " << minMs << " / " << maxMs << " ms\n";
+        std::cout << "RMS jitter:            " << rmsJitterMs << " ms\n";
     }
 
     client.close();
     std::cout << "Sensor connection closed" << std::endl;
+    std::cout << "Received " << samples << " IMU samples\n";
     return 0;
 }
