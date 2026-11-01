@@ -13,15 +13,7 @@ docker build -t "${IMAGE}:${VER}" -f DockerfileNobleJazzy .
 NOTE.
 Change the DDS Middleware (RMW Implementation)
 The default ROS 2 middleware in Jazzy (rmw_fastrtps_cpp) has been reported to cause "choppy" visualization in rqt for high-bandwidth or high-frequency data streams like camera feeds or IMU topics. Users have found that switching to rmw_cyclonedds_cpp or rmw_zenoh_cpp makes the visualization "smooth" or "super smooth" .
-
-You can test this by changing the environment variable before launching your node and rqt_plot:
-
-sudo apt update
-sudo apt install ros-jazzy-rmw-cyclonedds-cpp
-export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-ros2 run rqt_plot rqt_plot /openzen/data/linear_acceleration
                            
-
 ## Launch container
 ```bash
 #?xhost +local:docker

@@ -53,20 +53,7 @@ colcon build --cmake-force-configure \
 source install/setup.bash
 ```
 
-* build ros2 package with openzen v1.3.1
-```bash
-cd /home/rosuser/ros2_ws
-rm -rf build log install
-colcon build --cmake-args -DCMAKE_POLICY_VERSION_MINIMUM=3.5
-source install/setup.bash
-```
-
 ## Launch and run ros2 to stream data from sensors
-
-* Camera
-```bash
-ros2 launch openzen_driver usb_camera.launch.py
-```
 
 * OpenZen ROS2 driver
 ```bash
@@ -79,6 +66,12 @@ a specific sensor and different baudrate, you can use the serial name and the ba
 ```bash
 ros2 run openzen_driver openzen_node --ros-args --remap __ns:=/openzen -p sensor_name:="LPMSB2-53ED5B" -p baudrate:=115200
 ```
+
+* Camera
+```bash
+ros2 launch openzen_driver usb_camera.launch.py
+```
+
 
 Open a new terminal to run same image
 ```bash
@@ -123,6 +116,12 @@ ros2 service call /calibrate_gyroscope std_srvs/Trigger
 ```
 
 ## Reference
-
 https://bitbucket.org/lpresearch/openzenros2/src/master/
 
+## build ros2 package with openzen v1.3.1
+```bash
+cd /home/rosuser/ros2_ws
+rm -rf build log install
+colcon build --cmake-args -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+source install/setup.bash
+```

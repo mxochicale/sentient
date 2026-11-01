@@ -87,3 +87,4 @@ docker exec -it -u root <ID> bash #ID $(docker ps -aq)
 
 docker stop $(docker ps -a -q)
 docker system prune -f --volumes #clean unused systems
+```
