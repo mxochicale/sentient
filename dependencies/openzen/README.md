@@ -1,5 +1,5 @@
 # OpenZen 
-> The LP-RESEARCH Motion Sensor (LPMS) is a miniature, multi-purpose inertial measurement unit. [LpmsB2HardwareManual.pdf](https://lp-research.com/wp-content/uploads/2020/03/20200310LpmsB2HardwareManual.pdf)
+> The LP-RESEARCH Motion Sensor (LPMS) is a miniature, multi-purpose inertial measurement unit. [LpmsB2HardwareManual.pdf](LpmsB2HardwareManual_2020-03-10.pdf)
 
 ## GNU/Linux Ubuntu
 
@@ -203,7 +203,7 @@ following:
 • X positive when pointing to the magnetic north
 • Y positive when pointing to the magnetic west
 • Z positive when pointing up (gravity points vertically down with -1g)
-See further details: [LpmsB2HardwareManual.pdf](https://lp-research.com/wp-content/uploads/2020/03/20200310LpmsB2HardwareManual.pdf).
+See further details: [LpmsB2HardwareManual.pdf](LpmsB2HardwareManual_2020-03-10.pdf).
  
 ![fig](lpms-b2-coordinates.png)
 
@@ -243,6 +243,3 @@ ps -ef | grep "python" | awk '{print $2}' | xargs sudo kill
 * https://lp-research.atlassian.net/wiki/spaces/LKB/pages/1100611599/LPMS+User+Manual
 * For windows: https://lpresearch.bitbucket.io/openzen/latest/setup.html 
 * https://www.baeldung.com/linux/bluetooth-via-terminal
-
-
-
