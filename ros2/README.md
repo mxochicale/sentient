@@ -42,14 +42,53 @@ To compile this driver in your ROS2 setup using openzen v1.3.4
 cd /home/rosuser/sentient/dependencies
 bash compile-ros2-package.bash
 #
-#build ros2 package
-#
-cd /home/rosuser/ros2_ws && rm -rf build log install
+# Eigen v3.4.9
+cd /home/rosuser/
+wget -O eigen-3.4.1.tar.gz https://gitlab.com/libeigen/eigen/-/archive/3.4.1/eigen-3.4.1.tar.gz
+tar zxf eigen-3.4.1.tar.gz
+cd ~/eigen-3.4.1 && mkdir build && cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local && sudo make install -j $(nproc)
+# 
+# Ceres solver v2.1.0
+cd /home/rosuser/
+wget -O ceres-solver-2.1.0.tar.gz https://github.com/ceres-solver/ceres-solver/archive/refs/tags/2.1.0.tar.gz
+tar zxf ceres-solver-2.1.0.tar.gz
+cd ceres-solver-2.1.0
+mkdir build && cd build
+cmake -DEXPORT_BUILD_DIR=ON -DMINIGLOG=ON -DEigen3_DIR=/usr/local/share/eigen3/cmake .. \
+        -DCMAKE_INSTALL_PREFIX=/usr/local \
+        ../
+make -j $(nproc) # number of cores
+sudo make install -j $(nproc)
+# 
+# VINS-fusion-ROS2
+cd /home/rosuser/ros2_ws/src
+git clone https://github.com/dongbo19/VINS-MONO-ROS2.git
+cd VINS-MONO-ROS2
+git checkout ros2_jazzy
+sudo apt update
+sudo apt install -y libgoogle-glog-dev
 
+#
+#?Jazzy, the header file was changed from cv_bridge.h to cv_bridge.hpp 
+#?cd ~/ros2_ws/src/VINS-Fusion-ROS2/loop_fusion
+#?grep -rl "cv_bridge/cv_bridge.h" . | xargs sed -i 's|cv_bridge/cv_bridge.h|cv_bridge/cv_bridge.hpp|g'
+#
+# expected-lite
+cd ~
+wget -O expected-lite-0.10.0.tar.gz https://github.com/martinmoene/expected-lite/archive/refs/tags/v0.10.0.tar.gz
+tar -xzf expected-lite-0.10.0.tar.gz
+cd expected-lite-0.10.0 && mkdir build && cd build
+cmake .. -DEXPECTED_LITE_OPT_BUILD_TESTS=OFF -DEXPECTED_LITE_OPT_BUILD_EXAMPLES=OFF
+sudo make install -j $(nproc)
+# build ros2 packages
+cd /home/rosuser/ros2_ws && rm -rf build log install
 colcon build --cmake-force-configure \
   --cmake-args "-DCMAKE_BUILD_TYPE=Release" \
+  "-DCMAKE_POLICY_VERSION_MINIMUM=3.5" \
+  "-Dexpected-lite_DIR=/usr/local/lib/cmake/expected-lite" \
   "-DCMAKE_TOOLCHAIN_FILE=/home/rosuser/ros2_ws/src/openzenros2/openzen/build/build/Release/generators/conan_toolchain.cmake"
-
+#
 source install/setup.bash
 ```
 
@@ -72,6 +111,22 @@ ros2 run openzen_driver openzen_node --ros-args --remap __ns:=/openzen -p sensor
 ros2 launch openzen_driver usb_camera.launch.py
 ```
 
+* ar_demo 3dm_bag
+```bash
+ros2 launch ar_demo 3dm_bag.launch.py # for featuer tracking, backend optimization, ar demo and rviz2.
+ros2 bag play /home/rosuser/ros2_ws/src/openzenros2/ar_box/ar_box_ros2
+
+```
+* convert ros1 to ros2 format
+```
+cd 
+wget "https://www.dropbox.com/scl/fi/q18lot4bfs1fqrctclz7b/ar_box.bag?rlkey=16yrxnwnt2fcutwwzwhlevd1n&e=2&dl=1" -O ar_box.bag
+sudo apt install pipx
+pipx ensurepath
+pipx install rosbags
+source  ~/.bashrc
+rosbags-convert --src /home/rosuser/ros2_ws/src/openzenros2/ar_box/ar_box.bag --dst /home/rosuser/ros2_ws/src/openzenros2/ar_box/ar_box_ros2
+```
 
 Open a new terminal to run same image
 ```bash
