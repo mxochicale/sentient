@@ -5,6 +5,19 @@ ARG UBUNTU_RELEASE_MONTH=04
 
 FROM ubuntu:${UBUNTU_RELEASE_YEAR}.${UBUNTU_RELEASE_MONTH}
 
+# Ubuntu versions
+##  Ubuntu 20.04 Focal  (required for ROS2 Foxy)
+##  Ubuntu 22.04 Jammy
+##  Ubuntu 24.04 Noble
+
+# General ROS2 environment variables
+# Define the container image(s) associated with each ROS distribution.
+# Platforms are defined in REP 2000: https://ros.org/reps/rep-2000.html
+##  Foxy Fitzroy (June 2020 - May 2023); Ubuntu 20.04; python3.8
+##  Humble Hawksbill (May 2022 - May 2027); Ubuntu 22.04; python3.10
+##  Iron Irwini (May 2023 - November 2024)
+##  Jazzy Jalisco (May 2024 - May 2029);  Ubuntu 24.04; python3.12
+
 ENV DEBIAN_FRONTEND=noninteractive \
     DEBCONF_NOWARNINGS=yes \
     ACCEPT_EULA=Y \

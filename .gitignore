@@ -48,6 +48,6 @@
 .bash_history
 
 #ros2
-/ros2/openzen
-/ros2/external
-/ros2/ar_box
+/dependencies/ros2/openzen
+/dependencies/ros2/external
+/dependencies/ros2/ar_box
