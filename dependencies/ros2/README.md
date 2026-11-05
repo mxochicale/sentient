@@ -10,7 +10,7 @@ Otherwise you can launch container
 
 ```bash
 cd $HOME/repositories/sentient/dependencies/ros2
-IMAGE=ubunturos2noblejazzy VER=v0.0.2
+IMAGE=ubunturos2noblejazzy VER=v0.0.3
 #?xhost +local:docker
 
 docker run -it --rm \
@@ -60,13 +60,13 @@ cmake -DEXPORT_BUILD_DIR=ON -DMINIGLOG=ON -DEigen3_DIR=/usr/local/share/eigen3/c
         ../
 make -j $(nproc) && sudo make install -j $(nproc)
 # 
-# VINS-fusion-ROS2:ros2_jazzy
-cd /home/rosuser/ros2_ws/src
-git clone https://github.com/dongbo19/VINS-MONO-ROS2.git
-cd VINS-MONO-ROS2
-git checkout ros2_jazzy
-sudo apt update
-sudo apt install -y libgoogle-glog-dev
+# VINS-fusion-ROS2:ros2_jazzy (already as submodule)
+#cd /home/rosuser/ros2_ws/src
+#git clone https://github.com/dongbo19/VINS-MONO-ROS2.git
+#cd VINS-MONO-ROS2
+#git checkout ros2_jazzy
+# sudo apt update
+# sudo apt install -y libgoogle-glog-dev
 #
 # expected-lite-0.10.0
 cd /home/rosuser/
@@ -85,7 +85,7 @@ colcon build --cmake-force-configure \
   "-DCMAKE_TOOLCHAIN_FILE=/home/rosuser/ros2_ws/src/openzenros2/openzen/build/build/Release/generators/conan_toolchain.cmake"
 #
 # source installation
-source install/setup.bash
+source ~/ros2_ws/install/setup.bash
 ```
 
 ## Launch and run ros2 to stream data from sensors
@@ -114,6 +114,7 @@ ros2 launch openzen_driver usb_camera.launch.py
 Open a new terminal to run same image
 ```bash
 docker exec -it $(docker ps -aq) bash 
+source ~/ros2_ws/install/setup.bash
 ```
 
 Now you can see variables, topic type (`sensor_msgs/msg/Imu`), and print values:
@@ -159,11 +160,6 @@ ros2 service call /calibrate_gyroscope std_srvs/Trigger
 ```bash
 cd /home/rosuser/ && mkdir -p bags && cd bags
 wget "https://www.dropbox.com/scl/fi/q18lot4bfs1fqrctclz7b/ar_box.bag?rlkey=16yrxnwnt2fcutwwzwhlevd1n&e=2&dl=1" -O ar_box.bag
-# install depedencies
-sudo apt install pipx
-pipx ensurepath
-pipx install rosbags
-source  ~/.bashrc
 #
 # conver files
 rosbags-convert --src /home/rosuser/bags/ar_box.bag --dst /home/rosuser/bags/ar_box
@@ -175,7 +171,7 @@ rosbags-convert --src /home/rosuser/bags/ar_box.bag --dst /home/rosuser/bags/ar_
 #Terminal 1
 ros2 launch ar_demo 3dm_bag.launch.py # for featuer tracking, backend optimization, ar demo and rviz2.
 #Terminal 2
-ros2 bag play /home/rosuser/rosbags/ar_box
+ros2 bag play /home/rosuser/bags/ar_box
 ```
 
 ## Reference

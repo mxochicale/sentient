@@ -126,7 +126,8 @@ RUN set -eux && \
         ca-certificates \
         gpg \
         curl \
-        wget && \
+        wget \
+        libgoogle-glog-dev && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # ---------------------------------------------------------------------------
@@ -167,7 +168,9 @@ RUN set -eux && \
 # ---------------------------------------------------------------------------
 RUN set -eux && \
     PIPX_BIN_DIR=/usr/local/bin PIPX_HOME=/opt/pipx pipx install conan && \
-    conan --version
+    conan --version && \
+    PIPX_BIN_DIR=/usr/local/bin PIPX_HOME=/opt/pipx pipx ensurepath && \
+    PIPX_BIN_DIR=/usr/local/bin PIPX_HOME=/opt/pipx pipx install rosbags
 
 # Expose pipx/Conan bins system-wide and point Conan at a per-user home
 ENV PATH=/usr/local/bin:$PATH \
