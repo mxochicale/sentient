@@ -1,6 +1,14 @@
 # Dependencies
 
 
+## add VINS-MONO-ROS2.git as submodule (just do it once)
+```bash
+git submodule add -b ros2_jazzy https://github.com/mxochicale/VINS-MONO-ROS2.git dependencies/VINS-MONO-ROS2
+#IF NEEDED remove index
+# git rm --cached dependencies/VINS-MONO-ROS2
+# rm -rf .git/modules/dependencies/VINS-MONO-ROS2
+```
+
 ## OS
 ```
 $ hostnamectl

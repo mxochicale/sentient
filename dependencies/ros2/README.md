@@ -23,6 +23,7 @@ docker run -it --rm \
   -v "$HOME/repositories/sentient:/home/rosuser/sentient" \
   -v "$HOME/repositories/sentient/dependencies/ros2:/home/rosuser/ros2_ws/src/openzenros2" \
   -v "$HOME/repositories/openzen:/home/rosuser/ros2_ws/src/openzenros2/openzen" \
+  -v "$HOME/repositories/sentient/dependencies/VINS-MONO-ROS2:/home/rosuser/ros2_ws/src/VINS-MONO-ROS2" \
   ${IMAGE}:${VER}
 
 ```
