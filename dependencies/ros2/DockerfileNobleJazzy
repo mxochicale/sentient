@@ -108,6 +108,7 @@ RUN set -eux && \
         tree \
         vim \
         nano \
+        tmux \
         htop \
         bash-completion \
         python3-pip \
