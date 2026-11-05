@@ -4,9 +4,17 @@
 ## add VINS-MONO-ROS2.git as submodule (just do it once)
 ```bash
 git submodule add -b ros2_jazzy https://github.com/mxochicale/VINS-MONO-ROS2.git dependencies/VINS-MONO-ROS2
+# Sync and Pull Latest from Remote Branch
+git submodule update --remote dependencies/VINS-MONO-ROS2
 #IF NEEDED remove index
 # git rm --cached dependencies/VINS-MONO-ROS2
 # rm -rf .git/modules/dependencies/VINS-MONO-ROS2
+```
+
+## data 
+```bash
+mkdir -p $HOME/datasets/sentient/bags && cd $HOME/datasets/sentient/bags
+wget "https://www.dropbox.com/scl/fi/q18lot4bfs1fqrctclz7b/ar_box.bag?rlkey=16yrxnwnt2fcutwwzwhlevd1n&e=2&dl=1" -O ar_box.bag
 ```
 
 ## OS

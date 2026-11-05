@@ -24,8 +24,10 @@ docker run -it --rm \
   -v "$HOME/repositories/sentient/dependencies/ros2:/home/rosuser/ros2_ws/src/openzenros2" \
   -v "$HOME/repositories/openzen:/home/rosuser/ros2_ws/src/openzenros2/openzen" \
   -v "$HOME/repositories/sentient/dependencies/VINS-MONO-ROS2:/home/rosuser/ros2_ws/src/VINS-MONO-ROS2" \
+  -v "$HOME/datasets/sentient/bags:/home/rosuser/bags" \
   ${IMAGE}:${VER}
 
+#todo bind /home/rosuser/ros2_ws/vins_mono_ws/output
 ```
 
 * Once in the container, you can check devices
@@ -41,7 +43,7 @@ To compile this driver in your ROS2 setup using openzen v1.3.4
 # Compile openzen
 #
 cd /home/rosuser/sentient/dependencies/ros2
-bash compile-ros2-package.bash
+bash compile-openzenros2-package.bash
 #
 # Eigen v3.4.9
 cd /home/rosuser/
@@ -61,18 +63,13 @@ cmake -DEXPORT_BUILD_DIR=ON -DMINIGLOG=ON -DEigen3_DIR=/usr/local/share/eigen3/c
 make -j $(nproc) && sudo make install -j $(nproc)
 # 
 # VINS-fusion-ROS2:ros2_jazzy (already as submodule)
-#cd /home/rosuser/ros2_ws/src
-#git clone https://github.com/dongbo19/VINS-MONO-ROS2.git
-#cd VINS-MONO-ROS2
-#git checkout ros2_jazzy
-# sudo apt update
-# sudo apt install -y libgoogle-glog-dev
+#
+mkdir -p $HOME/ros2_ws/vins_mono_ws/output
 #
 # expected-lite-0.10.0
 cd /home/rosuser/
 wget -O expected-lite-0.10.0.tar.gz https://github.com/martinmoene/expected-lite/archive/refs/tags/v0.10.0.tar.gz
-tar -xzf expected-lite-0.10.0.tar.gz
-cd expected-lite-0.10.0 && mkdir build && cd build
+tar -xzf expected-lite-0.10.0.tar.gz && cd expected-lite-0.10.0 && mkdir build && cd build
 cmake .. -DEXPECTED_LITE_OPT_BUILD_TESTS=OFF -DEXPECTED_LITE_OPT_BUILD_EXAMPLES=OFF
 make -j $(nproc) && sudo make install -j $(nproc)
 #
@@ -156,10 +153,9 @@ ros2 service call /calibrate_gyroscope std_srvs/Trigger
 
 ## VOI
 
-* Download `ar_box.bag` and convert from ros1 to ros2 format
+* Downloaded already locally `ar_box.bag` and convert from ros1 to ros2 format
 ```bash
 cd /home/rosuser/ && mkdir -p bags && cd bags
-wget "https://www.dropbox.com/scl/fi/q18lot4bfs1fqrctclz7b/ar_box.bag?rlkey=16yrxnwnt2fcutwwzwhlevd1n&e=2&dl=1" -O ar_box.bag
 #
 # conver files
 rosbags-convert --src /home/rosuser/bags/ar_box.bag --dst /home/rosuser/bags/ar_box
@@ -172,6 +168,17 @@ rosbags-convert --src /home/rosuser/bags/ar_box.bag --dst /home/rosuser/bags/ar_
 ros2 launch ar_demo 3dm_bag.launch.py # for featuer tracking, backend optimization, ar demo and rviz2.
 #Terminal 2
 ros2 bag play /home/rosuser/bags/ar_box
+```
+
+* Visual-inertial odometry and loop closure
+```bash
+#Terminal 1
+ros2 launch feature_tracker vins_feature_tracker.launch.py      
+#Terminal 2
+# for feature tracking and rviz2
+ros2 launch vins_estimator euroc.launch.py # for backend optimization and loop closure
+#Terminal 3
+ros2 bag play /home/rosuser/bags/MH_01_easy # for ros2 bag
 ```
 
 ## Reference
