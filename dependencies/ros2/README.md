@@ -125,10 +125,16 @@ ros2 topic echo /openzen/data
 Camera `sensor_msgs/msg/CameraInfo`
 ```bash
 ros2 topic info /openzen/camera/image_raw --verbose
-ros2 run rqt_image_view rqt_image_view /openzen/camera/image_raw
-rviz2 #In RViz2, click Add -> select Image -> set Image Topic to /camera/image_raw. 
+# Terminal 2
+# If you want to keep using map as your Fixed Frame 
+# (for example, to later combine the camera with other robot data), 
+# you need to provide the missing transform. 
+ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 map usb_cam
+
+# rviz2 #In RViz2, click Add -> select Image -> set Image Topic to /camera/image_raw. 
 ```
-Or plot some values (for example linear acceleration) with 
+
+Plot some values (for example linear acceleration) with 
 
 ```bash
 ros2 run rqt_plot rqt_plot /openzen/data/linear_acceleration

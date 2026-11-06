@@ -3,6 +3,8 @@
 #include "sensor_msgs/msg/magnetic_field.hpp"
 #include "sensor_msgs/msg/nav_sat_fix.hpp"
 #include "sensor_msgs/msg/nav_sat_status.hpp"
+#include "sensor_msgs/msg/camera_info.hpp"
+#include "sensor_msgs/msg/image.hpp"
 
 #include "std_msgs/msg/bool.hpp"
 
@@ -358,7 +360,7 @@ public:
         // m_cameraPub and m_imageTransport are released automatically.
         // The ImageTransport member must NOT be destroyed before the
         // publisher and the camera thread have been joined.
-        m_cameraPub = image_transport::Publisher();
+        m_cameraPub = image_transport::CameraPublisher();
         m_imageTransport.reset();
     }
 
@@ -475,7 +477,7 @@ public:
         return true;
   }
 
-    // USB camera capture + publish
+    // USB camera capture + publish (Image + CameraInfo together)
     void startCamera()
     {
         // Create the transport ONCE and keep it as a member so the publisher
@@ -489,7 +491,9 @@ public:
         img_qos.history     = RMW_QOS_POLICY_HISTORY_KEEP_LAST;
         img_qos.depth       = 10;
 
-        m_cameraPub = m_imageTransport->advertise("camera/image_raw", img_qos);
+        // advertiseCamera publishes the image on "camera/image_raw" and
+        // the CameraInfo on "camera/camera_info" (sibling topics).
+        m_cameraPub = m_imageTransport->advertiseCamera("camera/image_raw", 10);
 
         m_cameraRunning = true;
         m_cameraThread = std::thread([this]() {
@@ -528,8 +532,44 @@ public:
                 hdr.stamp = this->now();
 
                 try {
-                    auto msg = cv_bridge::CvImage(hdr, "bgr8", frame).toImageMsg();
-                    m_cameraPub.publish(*msg);
+                    // Build the image message
+                    auto img_msg = cv_bridge::CvImage(hdr, "bgr8", frame).toImageMsg();
+
+                    // Build a matching CameraInfo message.
+                    // Replace these values with your real calibration if available.
+                    sensor_msgs::msg::CameraInfo info_msg;
+                    info_msg.header = hdr;
+                    info_msg.width  = static_cast<uint32_t>(frame.cols);
+                    info_msg.height = static_cast<uint32_t>(frame.rows);
+
+                    // Simple pinhole model: f ≈ width. Tune to your lens.
+                    const double fx = frame.cols;
+                    const double fy = frame.cols;
+                    const double cx = frame.cols / 2.0;
+                    const double cy = frame.rows / 2.0;
+
+                    info_msg.distortion_model = "plumb_bob";
+                    info_msg.d = {0.0, 0.0, 0.0, 0.0, 0.0}; // assume no distortion
+                    info_msg.k = {
+                        fx, 0.0, cx,
+                        0.0, fy, cy,
+                        0.0, 0.0, 1.0
+                    };
+                    info_msg.r = {
+                        1.0, 0.0, 0.0,
+                        0.0, 1.0, 0.0,
+                        0.0, 0.0, 1.0
+                    };
+                    info_msg.p = {
+                        fx, 0.0, cx, 0.0,
+                        0.0, fy, cy, 0.0,
+                        0.0, 0.0, 1.0, 0.0
+                    };
+
+                    // Publish image + info together.
+                    // The second argument is the CameraInfo publisher that
+                    // image_transport::CameraPublisher keeps internally.
+                    m_cameraPub.publish(*img_msg, info_msg);
                     ++published;
                 } catch (const std::exception & e) {
                     RCLCPP_ERROR_THROTTLE(get_logger(), *get_clock(), 2000,
@@ -540,8 +580,9 @@ public:
                 auto now = std::chrono::steady_clock::now();
                 if (std::chrono::duration_cast<std::chrono::seconds>(now - lastLog).count() >= 5) {
                     RCLCPP_INFO(get_logger(),
-                                "Camera published %lu frames total (subscribers: %zu)",
+                                "Camera published %lu frames total (image subs: %zu, info subs: %zu)",
                                 (unsigned long)published,
+                                m_cameraPub.getNumSubscribers(),
                                 m_cameraPub.getNumSubscribers());
                     lastLog = now;
                 }
@@ -741,7 +782,10 @@ public:
     // If this is a local variable, m_cameraPub becomes invalid after the
     // function returns and nothing is ever published.
     std::unique_ptr<image_transport::ImageTransport> m_imageTransport;
-    image_transport::Publisher m_cameraPub;
+
+    // CameraPublisher publishes Image on "camera/image_raw" and
+    // CameraInfo on "camera/camera_info" as a synchronized pair.
+    image_transport::CameraPublisher m_cameraPub;
 
     // sensor sync
     using ImuMsg   = sensor_msgs::msg::Imu;
