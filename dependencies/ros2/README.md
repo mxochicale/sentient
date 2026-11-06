@@ -11,7 +11,7 @@ Otherwise you can launch container
 
 ```bash
 cd $HOME/repositories/sentient/dependencies/ros2
-IMAGE=ubunturos2noblejazzy VER=v0.0.3
+IMAGE=ubunturos2noblejazzy VER=v0.0.4
 #?xhost +local:docker
 
 docker run -it --rm \
