@@ -109,6 +109,7 @@ RUN set -eux && \
         vim \
         nano \
         tmux \
+        xclip \
         htop \
         bash-completion \
         python3-pip \
@@ -287,6 +288,17 @@ RUN set -eux && \
     mkdir -p /home/${USERNAME}/ros2_ws/src && \
     mkdir -p /home/${USERNAME}/.conan2 && \
     chown -R ${USER_UID}:${USER_GID} /home/${USERNAME}
+
+# ---------------------------------------------------------------------------
+# tmux configuration for rosuser
+# ---------------------------------------------------------------------------
+RUN cat > /home/${USERNAME}/.tmux.conf <<'EOF'
+set -g mouse on
+bind -T copy-mode-vi y send -X copy-pipe-and-cancel "xclip -in -selection clipboard"
+setw -g mode-keys vi
+EOF
+
+RUN chown ${USER_UID}:${USER_GID} /home/${USERNAME}/.tmux.conf
 
 # ---------------------------------------------------------------------------
 # Global bash environment

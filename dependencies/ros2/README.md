@@ -1,6 +1,7 @@
 # OpenZen Node for ROS 2
 
-This software allows to forward sensor data from [OpenZen](https://bitbucket.org/lpresearch/openzen/) sensors connected via OpenZen to ROS version 2.
+This software allows to forward sensor data from [OpenZen](https://bitbucket.org/lpresearch/openzen/) 
+sensors connected via OpenZen to ROS version 2.
 
 ## Requirements
 
