@@ -209,6 +209,16 @@ public:
         frame_id = this->declare_parameter<std::string>("frame_id", "imu");
         frame_id_gnss = this->declare_parameter<std::string>("frame_id_gnss", "gnss");
 
+        // Camera frame id, configurable via ROS parameter "camera_frame_id".
+        // Must match the child frame of the static_transform_publisher.
+        m_cameraFrameId = this->declare_parameter<std::string>("camera_frame_id", "usb_cam");
+        if (m_cameraFrameId.empty()) {
+            RCLCPP_WARN(get_logger(),
+                "camera_frame_id is empty, falling back to 'usb_cam'");
+            m_cameraFrameId = "usb_cam";
+        }
+        RCLCPP_INFO_STREAM(get_logger(), "Camera frame_id: " << m_cameraFrameId);
+
         // IMU streaming frequency in Hz (configurable via ROS parameter, default 50)
         m_samplingRate = this->declare_parameter<int>("sampling_rate", 50);
 
@@ -514,7 +524,7 @@ public:
 
             cv::Mat frame;
             std_msgs::msg::Header hdr;
-            hdr.frame_id = "usb_cam";
+            hdr.frame_id = m_cameraFrameId;   // configured via "camera_frame_id"
 
             rclcpp::WallRate rate(30);  // ~30 FPS
             uint64_t published = 0;
@@ -777,6 +787,9 @@ public:
     // camera members
     std::thread m_cameraThread;
     std::atomic<bool> m_cameraRunning{false};
+
+    // Camera frame id, configurable via ROS parameter "camera_frame_id"
+    std::string m_cameraFrameId;
 
     // Keep ImageTransport alive for the lifetime of the node — REQUIRED.
     // If this is a local variable, m_cameraPub becomes invalid after the
