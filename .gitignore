@@ -48,5 +48,14 @@
 .bash_history
 
 #ros2
-/ros2/openzen
-/ros2/external
+dependencies/ros2/openzen
+dependencies/ros2/external
+.bash_history
+.idea/
+dependencies/openzen/cpp_examples/build/
+dependencies/openzen/imu_utils/build/
+dependencies/openzen/threeimus/build/
+dependencies/openzen/twoimus/build/
+tests/__pycache__/
+
+dependencies/VINS-MONO-ROS2

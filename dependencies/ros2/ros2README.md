@@ -1,12 +1,9 @@
 # ROS2 container
 
-## build 
+## build ubunturos2noblejazzy
 ```bash
-cd $HOME/repositories/sentient/ros2
-IMAGE=ubunturos2focalfoxy VER=v0.0.1 #Versions
-docker build -t "${IMAGE}:${VER}" -f DockerfileFocalFoxy .
-#ros2 noble
-IMAGE=ubunturos2noblejazzy VER=v0.0.2 #Versions
+cd $HOME/repositories/sentient/dependencies/ros2
+IMAGE=ubunturos2noblejazzy VER=v0.0.4
 docker build -t "${IMAGE}:${VER}" -f DockerfileNobleJazzy .
 ```
 
@@ -17,7 +14,6 @@ The default ROS 2 middleware in Jazzy (rmw_fastrtps_cpp) has been reported to ca
 ## Launch container
 ```bash
 #?xhost +local:docker
-
 docker run -it --rm \
   --net=host \
   --privileged \
@@ -90,4 +86,13 @@ rm -rf build && cmake -S . -B build  -DCMAKE_PREFIX_PATH=/workspace/openzen/buil
 ```bash
 cmake --build build --target clean
 rm -rf build
+```
+
+
+
+## Build Foxy Fitzroy (June 2020 - May 2023); Ubuntu 20.04
+```bash
+cd $HOME/repositories/sentient/dependencies/ros2
+IMAGE=ubunturos2focalfoxy VER=v0.0.1 #Versions
+docker build -t "${IMAGE}:${VER}" -f DockerfileFocalFoxy .
 ```

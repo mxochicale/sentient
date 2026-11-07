@@ -3,6 +3,8 @@
 #include "sensor_msgs/msg/magnetic_field.hpp"
 #include "sensor_msgs/msg/nav_sat_fix.hpp"
 #include "sensor_msgs/msg/nav_sat_status.hpp"
+#include "sensor_msgs/msg/camera_info.hpp"
+#include "sensor_msgs/msg/image.hpp"
 
 #include "std_msgs/msg/bool.hpp"
 
@@ -110,8 +112,8 @@ public:
 
                     // Set angular velocity covariance for IG1 sensors
                     if (m_isIg1) {
-                        std::copy(IG1_ANGULAR_VELOCITY_COVARIANCE.begin(), 
-                                IG1_ANGULAR_VELOCITY_COVARIANCE.end(), 
+                        std::copy(IG1_ANGULAR_VELOCITY_COVARIANCE.begin(),
+                                IG1_ANGULAR_VELOCITY_COVARIANCE.end(),
                                 imu_msg.angular_velocity_covariance.begin());
                     }
 
@@ -182,7 +184,7 @@ public:
                     param.nav_pub->publish(nav_msg);
                 }
             }
-                
+
             return true;
         }) {
 
@@ -194,7 +196,7 @@ public:
         m_sensorName = this->declare_parameter<std::string>("sensor_name", "");
         m_sensorInterface = this->declare_parameter<std::string>("sensor_interface", "LinuxDevice");
         m_openzenVerbose = this->declare_parameter<bool>("openzen_verbose", false);
-        
+
         // Using 0 as default will tell OpenZen to use the defaul baudrate for a respective sensor
         m_baudrate = this->declare_parameter<int>("baudrate", 0);
         m_configureGnssOutput = this->declare_parameter<int>("configure_gnss_output", true);
@@ -206,6 +208,16 @@ public:
         m_useLpmsAccelerationConvention = this->declare_parameter<bool>("use_lpms_acceleration_convention", false);
         frame_id = this->declare_parameter<std::string>("frame_id", "imu");
         frame_id_gnss = this->declare_parameter<std::string>("frame_id_gnss", "gnss");
+
+        // Camera frame id, configurable via ROS parameter "camera_frame_id".
+        // Must match the child frame of the static_transform_publisher.
+        m_cameraFrameId = this->declare_parameter<std::string>("camera_frame_id", "usb_cam");
+        if (m_cameraFrameId.empty()) {
+            RCLCPP_WARN(get_logger(),
+                "camera_frame_id is empty, falling back to 'usb_cam'");
+            m_cameraFrameId = "usb_cam";
+        }
+        RCLCPP_INFO_STREAM(get_logger(), "Camera frame_id: " << m_cameraFrameId);
 
         // IMU streaming frequency in Hz (configurable via ROS parameter, default 50)
         m_samplingRate = this->declare_parameter<int>("sampling_rate", 50);
@@ -238,14 +250,14 @@ public:
         if (m_openzenVerbose)
         {
             ZenSetLogLevel(ZenLogLevel_Debug);
-        } 
+        }
         else
         {
             ZenSetLogLevel(ZenLogLevel_Off);
         }
 
         // No sensor name given, auto-discovery
-        if (m_sensorName.size() == 0) 
+        if (m_sensorName.size() == 0)
         {
             RCLCPP_INFO(get_logger(),"OpenZen sensors will be listed");
             ZenError listError = m_zenClient->listSensorsAsync();
@@ -255,7 +267,7 @@ public:
                 RCLCPP_ERROR(get_logger(),"Cannot list sensors");
                 return;
             }
-            
+
             bool listingDone = false;
             bool firstSensorFound = false;
             ZenSensorDesc foundSens;
@@ -285,7 +297,7 @@ public:
                         {
                             listingDone = true;
                         }
-                            
+
                         break;
                     }
                 }
@@ -298,7 +310,7 @@ public:
             }
 
             RCLCPP_INFO_STREAM(get_logger(), "Connecting to found sensor " << foundSens.serialNumber << " on IO system " << foundSens.ioType);
-            
+
             // If a baudRate has been set, override the default given by OpenZen listing
             if (m_baudrate > 0) {
                 foundSens.baudRate = m_baudrate;
@@ -312,7 +324,7 @@ public:
                 return;
             }
             m_zenSensor = std::unique_ptr<zen::ZenSensor>( new zen::ZenSensor(std::move(sensorObtainPair.second)));
-        } 
+        }
         else
         {
             // Directly connect to sensor
@@ -321,7 +333,7 @@ public:
             auto sensorObtainPair = m_zenClient->obtainSensorByName(
                 "Bluetooth",
                 "00:04:3E:53:ED:5B",
-                921600);            
+                921600);
 
             if (sensorObtainPair.first != ZenSensorInitError_None)
             {
@@ -355,6 +367,11 @@ public:
         if (m_cameraThread.joinable()) {
             m_cameraThread.join();
         }
+        // m_cameraPub and m_imageTransport are released automatically.
+        // The ImageTransport member must NOT be destroyed before the
+        // publisher and the camera thread have been joined.
+        m_cameraPub = image_transport::CameraPublisher();
+        m_imageTransport.reset();
     }
 
   bool startStreaming() {
@@ -467,14 +484,26 @@ public:
 
         RCLCPP_INFO(get_logger(), "Data streaming from sensor started");
 
-        return true;    
+        return true;
   }
 
-    // USB camera capture + publish
+    // USB camera capture + publish (Image + CameraInfo together)
     void startCamera()
     {
-        image_transport::ImageTransport it(shared_from_this());
-        m_cameraPub = it.advertise("camera/image_raw", 1);
+        // Create the transport ONCE and keep it as a member so the publisher
+        // stays valid for the whole node lifetime.
+        m_imageTransport = std::make_unique<image_transport::ImageTransport>(
+            shared_from_this());
+
+        // Match QoS with the sync subscriber below (RELIABLE, depth 10)
+        rmw_qos_profile_t img_qos = rmw_qos_profile_default;
+        img_qos.reliability = RMW_QOS_POLICY_RELIABILITY_RELIABLE;
+        img_qos.history     = RMW_QOS_POLICY_HISTORY_KEEP_LAST;
+        img_qos.depth       = 10;
+
+        // advertiseCamera publishes the image on "camera/image_raw" and
+        // the CameraInfo on "camera/camera_info" (sibling topics).
+        m_cameraPub = m_imageTransport->advertiseCamera("camera/image_raw", 10);
 
         m_cameraRunning = true;
         m_cameraThread = std::thread([this]() {
@@ -495,21 +524,79 @@ public:
 
             cv::Mat frame;
             std_msgs::msg::Header hdr;
-            hdr.frame_id = "usb_cam";
+            hdr.frame_id = m_cameraFrameId;   // configured via "camera_frame_id"
 
             rclcpp::WallRate rate(30);  // ~30 FPS
+            uint64_t published = 0;
+            auto lastLog = std::chrono::steady_clock::now();
 
             while (rclcpp::ok() && m_cameraRunning) {
                 cap >> frame;
                 if (frame.empty()) {
-                    // No frame; maybe camera unplugged or still warming up
+                    RCLCPP_WARN_THROTTLE(get_logger(), *get_clock(), 2000,
+                                         "Empty camera frame received");
                     rate.sleep();
                     continue;
                 }
 
                 hdr.stamp = this->now();
-                auto msg = cv_bridge::CvImage(hdr, "bgr8", frame).toImageMsg();
-                m_cameraPub.publish(*msg);
+
+                try {
+                    // Build the image message
+                    auto img_msg = cv_bridge::CvImage(hdr, "bgr8", frame).toImageMsg();
+
+                    // Build a matching CameraInfo message.
+                    // Replace these values with your real calibration if available.
+                    sensor_msgs::msg::CameraInfo info_msg;
+                    info_msg.header = hdr;
+                    info_msg.width  = static_cast<uint32_t>(frame.cols);
+                    info_msg.height = static_cast<uint32_t>(frame.rows);
+
+                    // Simple pinhole model: f ≈ width. Tune to your lens.
+                    const double fx = frame.cols;
+                    const double fy = frame.cols;
+                    const double cx = frame.cols / 2.0;
+                    const double cy = frame.rows / 2.0;
+
+                    info_msg.distortion_model = "plumb_bob";
+                    info_msg.d = {0.0, 0.0, 0.0, 0.0, 0.0}; // assume no distortion
+                    info_msg.k = {
+                        fx, 0.0, cx,
+                        0.0, fy, cy,
+                        0.0, 0.0, 1.0
+                    };
+                    info_msg.r = {
+                        1.0, 0.0, 0.0,
+                        0.0, 1.0, 0.0,
+                        0.0, 0.0, 1.0
+                    };
+                    info_msg.p = {
+                        fx, 0.0, cx, 0.0,
+                        0.0, fy, cy, 0.0,
+                        0.0, 0.0, 1.0, 0.0
+                    };
+
+                    // Publish image + info together.
+                    // The second argument is the CameraInfo publisher that
+                    // image_transport::CameraPublisher keeps internally.
+                    m_cameraPub.publish(*img_msg, info_msg);
+                    ++published;
+                } catch (const std::exception & e) {
+                    RCLCPP_ERROR_THROTTLE(get_logger(), *get_clock(), 2000,
+                                          "cv_bridge conversion failed: %s", e.what());
+                }
+
+                // Periodically report that frames are actually going out
+                auto now = std::chrono::steady_clock::now();
+                if (std::chrono::duration_cast<std::chrono::seconds>(now - lastLog).count() >= 5) {
+                    RCLCPP_INFO(get_logger(),
+                                "Camera published %lu frames total (image subs: %zu, info subs: %zu)",
+                                (unsigned long)published,
+                                m_cameraPub.getNumSubscribers(),
+                                m_cameraPub.getNumSubscribers());
+                    lastLog = now;
+                }
+
                 rate.sleep();
             }
 
@@ -520,11 +607,14 @@ public:
 
     void initSync()
     {
-        // Quality of Service (QoS) must be compatible with the publishers (RELIABLE, depth 10)
-        rclcpp::QoS qos(10);
+        // Use the same QoS as the camera publisher (RELIABLE, depth 10)
+        rmw_qos_profile_t qos = rmw_qos_profile_default;
+        qos.reliability = RMW_QOS_POLICY_RELIABILITY_RELIABLE;
+        qos.history     = RMW_QOS_POLICY_HISTORY_KEEP_LAST;
+        qos.depth       = 10;
 
-        m_syncImuSub.subscribe(this, "data", qos.get_rmw_qos_profile());
-        m_syncImgSub.subscribe(this, "camera/image_raw", qos.get_rmw_qos_profile());
+        m_syncImuSub.subscribe(this, "data", qos);
+        m_syncImgSub.subscribe(this, "camera/image_raw", qos);
 
         m_sync = std::make_shared<message_filters::Synchronizer<SyncPolicy>>(
             SyncPolicy(10), m_syncImuSub, m_syncImgSub);
@@ -570,14 +660,14 @@ public:
         auto resPair = m_zenImu->getBoolProperty(ZenImuProperty_GyrUseAutoCalibration);
         auto error = resPair.first;
         auto useAutoCalibration = resPair.second;
-        if (error) 
+        if (error)
         {
             RCLCPP_ERROR(get_logger(),"Cannot load autocalibration status from sensor");
         }
-        else 
+        else
         {
             msg.data = useAutoCalibration;
-            m_autocalibration_status_pub->publish(msg);   
+            m_autocalibration_status_pub->publish(msg);
         }
     }
 
@@ -598,9 +688,9 @@ public:
         if (auto error = m_zenImu->setBoolProperty(ZenImuProperty_GyrUseAutoCalibration, req->data))
         {
             RCLCPP_ERROR(get_logger(),"Error while setting auto-calibration");
-            res->success = false; 
+            res->success = false;
             msg.append(std::string("[Failed] current autocalibration status set to: ") + (req->data?"True":"False"));
-        
+
         }
         else
         {
@@ -608,7 +698,7 @@ public:
             msg.append(std::string("[Success] autocalibration status set to: ") + (req->data?"True":"False"));
         }
 
-        publishIsAutocalibrationActive();        
+        publishIsAutocalibrationActive();
         res->message = msg;
 
         return res->success;
@@ -625,18 +715,18 @@ public:
         }
 
         RCLCPP_INFO(get_logger(),"Resetting heading");
-        
+
         // Offset reset parameters:
         // 0: Object reset
         // 1: Heading reset
         // 2: Alignment reset
-        if (auto error = m_zenImu->setInt32Property( ZenImuProperty_OrientationOffsetMode, 1)) 
+        if (auto error = m_zenImu->setInt32Property( ZenImuProperty_OrientationOffsetMode, 1))
         {
             RCLCPP_ERROR(get_logger(),"Error while resetting heading");
             res->success = false;
             res->message = "[Failed] Heading reset";
-        } 
-        else 
+        }
+        else
         {
             res->success = true;
             res->message = "[Success] Heading reset";
@@ -697,7 +787,18 @@ public:
     // camera members
     std::thread m_cameraThread;
     std::atomic<bool> m_cameraRunning{false};
-    image_transport::Publisher m_cameraPub;
+
+    // Camera frame id, configurable via ROS parameter "camera_frame_id"
+    std::string m_cameraFrameId;
+
+    // Keep ImageTransport alive for the lifetime of the node — REQUIRED.
+    // If this is a local variable, m_cameraPub becomes invalid after the
+    // function returns and nothing is ever published.
+    std::unique_ptr<image_transport::ImageTransport> m_imageTransport;
+
+    // CameraPublisher publishes Image on "camera/image_raw" and
+    // CameraInfo on "camera/camera_info" as a synchronized pair.
+    image_transport::CameraPublisher m_cameraPub;
 
     // sensor sync
     using ImuMsg   = sensor_msgs::msg::Imu;
@@ -728,7 +829,7 @@ public:
         ZenComponentHandle_t zen_gnss_component;
     };
 
-    ManagedThread<SensorThreadParams> m_sensorThread;    
+    ManagedThread<SensorThreadParams> m_sensorThread;
 };
 
 int main(int argc, char **argv)
