@@ -1,4 +1,4 @@
 [submodule "dependencies/VINS-MONO-ROS2"]
 	path = dependencies/VINS-MONO-ROS2
 	url = https://github.com/mxochicale/VINS-MONO-ROS2.git
-	branch = ros2_jazzy
+	branch = ros2_lyrical

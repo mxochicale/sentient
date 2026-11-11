@@ -1,12 +1,15 @@
 # Dependencies
 
 ## add VINS-MONO-ROS2.git as submodule (just do it once)
+
 ```bash
-git submodule add -b ros2_jazzy https://github.com/mxochicale/VINS-MONO-ROS2.git dependencies/VINS-MONO-ROS2
+git submodule add -b ros2_lyrical https://github.com/mxochicale/VINS-MONO-ROS2.git dependencies/VINS-MONO-ROS2
+#git submodule add -b ros2_jazzy https://github.com/mxochicale/VINS-MONO-ROS2.git dependencies/VINS-MONO-ROS2
 # Sync and Pull Latest from Remote Branch
 git submodule update --remote dependencies/VINS-MONO-ROS2
 #IF NEEDED remove index
 # git rm --cached dependencies/VINS-MONO-ROS2
+# git rm --cached dependencies/ros2/external/expected-lite
 # rm -rf .git/modules/dependencies/VINS-MONO-ROS2
 ```
 
