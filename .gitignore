@@ -59,3 +59,5 @@ dependencies/openzen/twoimus/build/
 tests/__pycache__/
 
 dependencies/VINS-MONO-ROS2
+.bash_history
+

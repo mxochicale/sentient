@@ -23,7 +23,7 @@ SET(ZEN_EXAMPLES OFF CACHE BOOL "Don't build examples")
 SET(ZEN_USE_BINARY_LIBRARIES ${OPENZEN_ROS_BINARY_LIBRARIES} CACHE BOOL "Don't download binary dependencies (windows only)")
 add_subdirectory(openzen)
 
-## Build 
+## Build
 add_executable(openzen_node
   src/OpenZenNode.cpp
 )
@@ -32,14 +32,13 @@ target_link_libraries(openzen_node
   OpenZen
 )
 
-ament_target_dependencies(openzen_node
-  rclcpp
-  std_msgs
-  std_srvs
-  sensor_msgs
-  image_transport
-  cv_bridge
-  OpenCV)
+target_link_libraries(openzen_node
+  rclcpp::rclcpp
+  ${sensor_msgs_TARGETS}
+  ${std_srvs_TARGETS}
+  ${image_transport_TARGETS}
+  ${cv_bridge_TARGETS}
+  ${OpenCV_LIBS})
 
 install(TARGETS openzen_node
   DESTINATION lib/${PROJECT_NAME})

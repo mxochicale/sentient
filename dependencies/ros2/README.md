@@ -12,12 +12,15 @@ Otherwise you can launch container
 ```bash
 cd $HOME/repositories/sentient/dependencies/ros2
 IMAGE=ubunturos2noblejazzy VER=v0.0.4
-#?xhost +local:docker
+IMAGE=ubunturos2raccoonlyrical VER=v0.0.1
+
+#TOREMOVE xhost +local:docker
 
 docker run -it --rm \
   --net=host \
   --privileged \
   -e DISPLAY=$DISPLAY \
+  -e HOME=/home/rosuser \
   -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
   -v /run/dbus:/run/dbus:ro \
   -v /dev:/dev \
@@ -26,9 +29,10 @@ docker run -it --rm \
   -v "$HOME/repositories/openzen:/home/rosuser/ros2_ws/src/openzenros2/openzen" \
   -v "$HOME/repositories/sentient/dependencies/VINS-MONO-ROS2:/home/rosuser/ros2_ws/src/VINS-MONO-ROS2" \
   -v "$HOME/datasets/sentient/bags:/home/rosuser/bags" \
+  -v "$HOME/.tmux.conf:/home/rosuser/.tmux.conf:ro" \
   ${IMAGE}:${VER}
 
-#todo bind /home/rosuser/ros2_ws/vins_mono_ws/output
+#TODO bind /home/rosuser/ros2_ws/vins_mono_ws/output
 ```
 
 * Once in the container, you can check devices
@@ -61,9 +65,9 @@ cd ceres-solver-2.1.0 && mkdir build && cd build
 cmake -DEXPORT_BUILD_DIR=ON -DMINIGLOG=ON -DEigen3_DIR=/usr/local/share/eigen3/cmake .. \
         -DCMAKE_INSTALL_PREFIX=/usr/local \
         ../
-make -j $(nproc) && sudo make install -j $(nproc)
+make -j $(nproc) && sudo make install -j $(nproc) # take a few minutes
 # 
-# VINS-fusion-ROS2:ros2_jazzy (already as submodule)
+# VINS-fusion-ROS2:ros2_jazzy (already as submodule), just make an output path
 #
 mkdir -p $HOME/ros2_ws/vins_mono_ws/output
 #
@@ -76,12 +80,12 @@ make -j $(nproc) && sudo make install -j $(nproc)
 #
 # build ros2 packages
 cd /home/rosuser/ros2_ws && rm -rf build log install
-colcon build --cmake-force-configure \
+colcon build --packages-select openzen_driver --cmake-clean-cache \
   --cmake-args "-DCMAKE_BUILD_TYPE=Release" \
+  "-DCMAKE_CXX_FLAGS=-Wno-unused-result" \
   "-DCMAKE_POLICY_VERSION_MINIMUM=3.5" \
   "-Dexpected-lite_DIR=/usr/local/lib/cmake/expected-lite" \
-  "-DCMAKE_TOOLCHAIN_FILE=/home/rosuser/ros2_ws/src/openzenros2/openzen/build/build/Release/generators/conan_toolchain.cmake"
-#
+  "-DCMAKE_TOOLCHAIN_FILE=/home/rosuser/ros2_ws/src/openzenros2/openzen/build/build/Release/generators/conan_toolchain.cmake"  
 # source installation
 source ~/ros2_ws/install/setup.bash
 ```
@@ -124,14 +128,18 @@ ros2 topic echo /openzen/data
 
 Camera `sensor_msgs/msg/CameraInfo`
 ```bash
-ros2 topic info /openzen/camera/image_raw --verbose
 # Terminal 2
+ros2 topic info /openzen/camera/image_raw --verbose
+ros2 topic echo /openzen/camera/image_raw
 # If you want to keep using map as your Fixed Frame 
 # (for example, to later combine the camera with other robot data), 
 # you need to provide the missing transform. 
-ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 map usb_cam
-
+ros2 run tf2_ros static_transform_publisher --x 0 --y 0 --z 0 --roll 0 --pitch 0 --yaw 0 --frame-id map --child-frame-id usb_cam
 # rviz2 #In RViz2, click Add -> select Image -> set Image Topic to /camera/image_raw. 
+# Terminal 3
+ros2 run tf2_ros tf2_echo map usb_cam
+# Terminal 4
+rviz2
 ```
 
 Plot some values (for example linear acceleration) with 

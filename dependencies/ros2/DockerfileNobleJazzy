@@ -290,17 +290,6 @@ RUN set -eux && \
     chown -R ${USER_UID}:${USER_GID} /home/${USERNAME}
 
 # ---------------------------------------------------------------------------
-# tmux configuration for rosuser
-# ---------------------------------------------------------------------------
-RUN cat > /home/${USERNAME}/.tmux.conf <<'EOF'
-set -g mouse on
-bind -T copy-mode-vi y send -X copy-pipe-and-cancel "xclip -in -selection clipboard"
-setw -g mode-keys vi
-EOF
-
-RUN chown ${USER_UID}:${USER_GID} /home/${USERNAME}/.tmux.conf
-
-# ---------------------------------------------------------------------------
 # Global bash environment
 # ---------------------------------------------------------------------------
 RUN cat > /etc/bash.bashrc <<'EOF'

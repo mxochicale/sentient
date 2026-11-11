@@ -608,10 +608,9 @@ public:
     void initSync()
     {
         // Use the same QoS as the camera publisher (RELIABLE, depth 10)
-        rmw_qos_profile_t qos = rmw_qos_profile_default;
-        qos.reliability = RMW_QOS_POLICY_RELIABILITY_RELIABLE;
-        qos.history     = RMW_QOS_POLICY_HISTORY_KEEP_LAST;
-        qos.depth       = 10;
+        rclcpp::QoS qos(10);                    // depth 10
+        qos.reliability(RMW_QOS_POLICY_RELIABILITY_RELIABLE);
+        qos.history(RMW_QOS_POLICY_HISTORY_KEEP_LAST);
 
         m_syncImuSub.subscribe(this, "data", qos);
         m_syncImgSub.subscribe(this, "camera/image_raw", qos);

@@ -1,6 +1,5 @@
 # Dependencies
 
-
 ## add VINS-MONO-ROS2.git as submodule (just do it once)
 ```bash
 git submodule add -b ros2_jazzy https://github.com/mxochicale/VINS-MONO-ROS2.git dependencies/VINS-MONO-ROS2
@@ -26,8 +25,8 @@ $ hostnamectl
          Chassis: laptop
       Machine ID: --
          Boot ID: --
-Operating System: Ubuntu 22.04.1 LTS              
-          Kernel: Linux 5.15.0-56-generic
+Operating System: Ubuntu 23.04.1 LTS              
+          Kernel: Linux 5.16.0-56-generic
     Architecture: x86-64
  Hardware Vendor: --
 

@@ -3,8 +3,10 @@
 ## build ubunturos2noblejazzy
 ```bash
 cd $HOME/repositories/sentient/dependencies/ros2
-IMAGE=ubunturos2noblejazzy VER=v0.0.4
-docker build -t "${IMAGE}:${VER}" -f DockerfileNobleJazzy .
+DOCKERFILE=DockerfileNobleJazz IMAGE=ubunturos2noblejazzy VER=v0.0.4
+DOCKERFILE=DockerfileRaccoonLyrical IMAGE=ubunturos2raccoonlyrical VER=v0.0.1
+# build image
+docker build -t "${IMAGE}:${VER}" -f ${DOCKERFILE} .
 ```
 
 NOTE.
